@@ -1,0 +1,2 @@
+include ':app', ':prettygoodsdk'
+rootProject.name='PrettyPasswords'
