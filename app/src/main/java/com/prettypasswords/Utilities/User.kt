@@ -2,6 +2,7 @@ package com.prettypasswords.Utilities
 
 
 import android.content.Context
+import android.util.Log
 import com.prettypasswords.PrettyManager
 import java.util.*
 
@@ -18,7 +19,12 @@ fun createUser(context: Context, userName: String, password: String){
     PrettyManager.c = Credential(userName=userName,pk=pk,sk=sk,esk=esk)
 
 
-    // TODO create crypto file
+    // create crypto file
+    //https://developer.android.com/training/data-storage/app-specific#java
+    createCryptoFile(context)
+
+    Log.i("PrettyPassword", "Created user")
+
 }
 
 // use after user has credential
@@ -55,4 +61,28 @@ fun loginByPassword(context: Context, userName: String, password: String): Boole
 
     credential.setSk(decryptedSK)
     return true
+}
+
+fun logout(context: Context){
+
+    val credential = PrettyManager.c;
+    if (credential != null){
+        credential.clear(context)
+    }
+
+    PrettyManager.c = null
+}
+
+fun deleteUser(context: Context, userName: String){
+
+
+    val credential = PrettyManager.c;
+    if (credential != null){
+        credential.clear(context)
+    }
+    PrettyManager.c = null
+
+    deleteCryptoFile(context, userName)
+
+    Log.i("PrettyPassword", "Deleted user")
 }

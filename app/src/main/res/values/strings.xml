@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">PrettyPasswords</string>
+    <string name="app_name">Pretty Passwords</string>
+    <string name="cryptoFilePrefix">cryptoFile</string>
 </resources>

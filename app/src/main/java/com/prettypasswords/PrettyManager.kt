@@ -7,11 +7,9 @@ import com.prettypasswords.Utilities.Encryption
 // Singleton
 object PrettyManager {
 
-    val sharedPreferenceKey = "PrettyManagerUserCredential"
+    const val sharedPreferenceKey = "PrettyManagerUserCredential"
 
     val e: Encryption = Encryption()
     var c: Credential? = null
-
-
 
 }

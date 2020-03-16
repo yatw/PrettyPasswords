@@ -253,7 +253,6 @@ public class Encryption {
         byte[] pwSHA = md.digest(password);
 
         return pwSHA;
-
     }
 
 
