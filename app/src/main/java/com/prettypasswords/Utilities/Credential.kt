@@ -6,42 +6,26 @@ import com.prettypasswords.PrettyManager
 import org.json.JSONObject
 
 
-// try to create a credential from sharedpreference
-// or
-// if sharedpreference don't have, restore from cryptoFile
-fun restoreCredential(context: Context, userName: String): Credential?{
+fun restoreCredentialFromFile(context: Context, userName: String): Credential?{
 
+    val fileContent: JSONObject? = getFileContent(context, userName)
 
-    val sharedPref = context.getSharedPreferences(PrettyManager.sharedPreferenceKey, Context.MODE_PRIVATE)
+    if (fileContent != null){
 
-    val b64pk = sharedPref.getString("pk$userName", "")
-    val b64esk = sharedPref.getString("esk$userName", "")
+        val fileCredential = fileContent.getJSONObject("credential")
 
-    // if missing credential from disk
-    // try restore from cryptoFile
-    if (b64pk.equals("") || b64esk.equals("")){
-        return restoreCredentialFromFile(context, userName)
+        val b64esk = fileCredential.getString("b64esk")
+        val b64pk = fileCredential.getString("b64pk")
+
+        val pk: ByteArray = Base64.decode(b64pk, Base64.DEFAULT)
+        val esk: ByteArray = Base64.decode(b64esk, Base64.DEFAULT)
+
+        val credential = Credential(userName = userName, pk = pk, esk = esk)
+        PrettyManager.c = credential
     }
 
-    val pk: ByteArray = Base64.decode(b64pk, Base64.DEFAULT)
-    val esk: ByteArray = Base64.decode(b64esk, Base64.DEFAULT)
 
-    return Credential(userName = userName, pk = pk, esk = esk)
-
-}
-
-fun restoreCredentialFromFile(context: Context, userName: String): Credential{
-
-    val fileContent: JSONObject = getFileContent(context, userName)
-
-    val b64esk = fileContent.getString("b64esk");
-    val b64pk = fileContent.getString("b64pk");
-
-    val pk: ByteArray = Base64.decode(b64pk, Base64.DEFAULT)
-    val esk: ByteArray = Base64.decode(b64esk, Base64.DEFAULT)
-
-    return Credential(userName = userName, pk = pk, esk = esk)
-
+    return null
 }
 
 class Credential(
@@ -60,20 +44,14 @@ class Credential(
     }
 
 
-    fun save(context: Context){
+
+    // save the userName in sharedpreference on create and on login
+    fun saveUserName(context: Context){
 
         val sharedPref = context.getSharedPreferences(PrettyManager.sharedPreferenceKey, Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
 
-        if (pk != null){
-            val b64pk = Base64.encodeToString(pk, Base64.DEFAULT)
-            editor.putString("pk$userName", b64pk)
-        }
-
-        if (esk != null){
-            val b64esk  = Base64.encodeToString(esk, Base64.DEFAULT)
-            editor.putString("esk$userName", b64esk )
-        }
+        editor.putString("userName", userName)
 
         editor.commit()
     }

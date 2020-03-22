@@ -6,6 +6,25 @@ import android.util.Log
 import com.prettypasswords.PrettyManager
 import java.util.*
 
+
+fun getUserName(context: Context): String? {
+
+    val sharedPref = context.getSharedPreferences(PrettyManager.sharedPreferenceKey, Context.MODE_PRIVATE)
+
+    return sharedPref.getString("userName","")
+}
+
+fun hasCredential(context: Context, userName: String): Boolean{
+
+    if (PrettyManager.c == null){
+        restoreCredentialFromFile(context, userName)
+    }
+
+    val credential = PrettyManager.c
+    return credential != null && credential.userName.equals(userName)
+
+}
+
 // register, to create cryptoFile
 fun createUser(context: Context, userName: String, password: String){
 
@@ -16,12 +35,15 @@ fun createUser(context: Context, userName: String, password: String){
 
     val esk: ByteArray = PrettyManager.e.generateESKey(sk, password)
 
-    PrettyManager.c = Credential(userName=userName,pk=pk,sk=sk,esk=esk)
+    val credential = Credential(userName=userName,pk=pk,sk=sk,esk=esk)
+    PrettyManager.c = credential
+    credential.saveUserName(context)
 
 
     // create crypto file
     //https://developer.android.com/training/data-storage/app-specific#java
     createCryptoFile(context)
+
 
     Log.i("PrettyPassword", "Created user")
 
@@ -38,11 +60,9 @@ fun loginByPassword(context: Context, userName: String, password: String): Boole
     // so try to restore credential from disk
     if (credential == null){
 
-        credential = restoreCredential(context,userName)
+        credential = restoreCredentialFromFile(context,userName)
 
-        if (credential == null){
-            // Incorrect flow, should never have empty credential when calling this function
-            // new device should always retrieve credential before loginbypassword
+        if (credential == null){  // cryptfile not found
             throw AssertionError("New Device: No credential found")
         }
     }
@@ -60,6 +80,8 @@ fun loginByPassword(context: Context, userName: String, password: String): Boole
     }
 
     credential.setSk(decryptedSK)
+    credential.saveUserName(context)
+
     return true
 }
 

@@ -46,6 +46,8 @@ fun createCryptoFile(context: Context){
 
 }
 
+
+
 // When first create the cryptoFile, put in userName and esk
 fun initializeContent(c: Credential): String{
 
@@ -92,15 +94,15 @@ fun deleteCryptoFile(context: Context, userName: String){
 }
 
 
-fun getFileContent(context: Context, userName: String): JSONObject{
+fun getFileContent(context: Context, userName: String): JSONObject?{
 
     val fileName = context.resources.getString(R.string.cryptoFilePrefix) + userName;
 
-    val fis: FileInputStream = context.openFileInput(fileName)
-    val inputStreamReader = InputStreamReader(fis, StandardCharsets.UTF_8)
-    val stringBuilder = StringBuilder()
-
     try {
+
+        val fis: FileInputStream = context.openFileInput(fileName)
+        val inputStreamReader = InputStreamReader(fis, StandardCharsets.UTF_8)
+        val stringBuilder = StringBuilder()
 
         val reader = BufferedReader(inputStreamReader)
 
@@ -110,13 +112,20 @@ fun getFileContent(context: Context, userName: String): JSONObject{
             line = reader.readLine()
         }
 
-    } catch (e: IOException) { // Error occurred when opening raw file for reading.
+        val contents = stringBuilder.toString()
 
-        throw AssertionError("Error open file")
+        return JSONObject(contents);
+
+    } catch (e1: FileNotFoundException) {
+       // throw AssertionError("No Crypto File") // TODO alert instead
+
+        println("No Crypto file")
+
+    } catch (e2: IOException){
+        //throw AssertionError("Have Crypto File but Error open file")  //  TODO alert instead
+        println("Have Crypto File but Error open file")
     }
 
-    val contents = stringBuilder.toString()
-
-    return JSONObject(contents);
+    return null
 
 }
