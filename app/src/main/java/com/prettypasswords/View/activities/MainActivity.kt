@@ -1,4 +1,4 @@
-package com.prettypasswords.View.pages
+package com.prettypasswords.View.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,7 @@ import com.prettypasswords.R
 import com.prettypasswords.Utilities.*
 import com.prettypasswords.View.fragments.*
 
+// MainActivity is just a container for signin or signup fragment
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         val userName: String? = getUserName(this)
 
-        if (userName != null && hasCredential(this,userName)){
+        if (userName != null && !userName.equals("") && hasCredential(this,userName)){
             ft.replace(R.id.fragmentPlaceHolder, SignInFragment())
         }else{
             ft.replace(R.id.fragmentPlaceHolder, SignUpFragment())

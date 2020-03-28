@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Base64
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
 import java.nio.charset.StandardCharsets
@@ -15,13 +14,11 @@ import java.nio.charset.StandardCharsets
 
 fun createCryptoFile(context: Context){
 
-    val credential = PrettyManager.c
-
-    if (credential == null){
-        throw AssertionError("No userCredential at createCryptoFile")
-    }
+    val credential = PrettyManager.c!!
 
     val content = initializeContent(credential)
+
+    val eContent = encryptBody(content)
 
 
     val fileName = context.getResources().getString(R.string.cryptoFilePrefix) + credential.userName;
@@ -33,8 +30,10 @@ fun createCryptoFile(context: Context){
 
             // write content into file
             context.openFileOutput(fileName, Context.MODE_PRIVATE).use {
-                it.write(content.toByteArray())
+                it.write(eContent.toString().toByteArray())
             }
+
+            PrettyManager.cm = ContentManager(eContent)
 
         } else {
             println("File already exists.")
@@ -49,7 +48,7 @@ fun createCryptoFile(context: Context){
 
 
 // When first create the cryptoFile, put in userName and esk
-fun initializeContent(c: Credential): String{
+fun initializeContent(c: Credential): JSONObject{
 
     val content = JSONObject()
 
@@ -59,12 +58,13 @@ fun initializeContent(c: Credential): String{
 
     val b64pk = Base64.encodeToString(c.pk, Base64.DEFAULT)
     val b64esk = Base64.encodeToString(c.esk, Base64.DEFAULT)
+    val b64xesak = Base64.encodeToString(c.xesak, Base64.DEFAULT)
 
-    println("b64pk $b64pk")
-    println("b64esk $b64esk")
 
     credential.put("b64esk", b64esk)
     credential.put("b64pk", b64pk)
+    credential.put("b64xesak", b64xesak)
+
 
     content.put("credential", credential)
 
@@ -72,15 +72,12 @@ fun initializeContent(c: Credential): String{
     // body should contain xesak, count, and entries
     val body = JSONObject()
 
-    val xesak = PrettyManager.e.generateXESAK(c.pk, c.getSk())
-    val b64xesak = Base64.encodeToString(xesak, Base64.DEFAULT)
-    body.put("b64xesak", b64xesak)
     body.put("count", 0)
-    body.put("entries", JSONArray())
+    body.put("tags", JSONObject())
 
     content.put("body", body)
 
-    return content.toString()
+    return content
 }
 
 

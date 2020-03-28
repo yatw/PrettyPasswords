@@ -16,12 +16,15 @@ fun restoreCredentialFromFile(context: Context, userName: String): Credential?{
 
         val b64esk = fileCredential.getString("b64esk")
         val b64pk = fileCredential.getString("b64pk")
+        val b64xesak = fileCredential.getString("b64xesak")
 
         val pk: ByteArray = Base64.decode(b64pk, Base64.DEFAULT)
         val esk: ByteArray = Base64.decode(b64esk, Base64.DEFAULT)
+        val xesak: ByteArray = Base64.decode(b64xesak, Base64.DEFAULT)
 
-        val credential = Credential(userName = userName, pk = pk, esk = esk)
+        val credential = Credential(userName = userName, pk = pk, esk = esk, xesak=xesak)
         PrettyManager.c = credential
+        PrettyManager.cm = ContentManager(fileContent)
     }
 
 
@@ -32,7 +35,8 @@ class Credential(
     val userName: String,
     val pk: ByteArray,
     private var sk: ByteArray? = null,
-    val esk: ByteArray
+    val esk: ByteArray,
+    val xesak: ByteArray
 ) {
 
     fun getSk(): ByteArray?{

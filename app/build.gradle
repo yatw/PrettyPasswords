@@ -47,4 +47,9 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     testImplementation 'com.github.joshjdevl.libsodiumjni:libsodium-jni-aar:2.0.1'
 
+
+    // xpopup
+    implementation 'com.lxj:xpopup:1.8.10-x'
+
+
 }

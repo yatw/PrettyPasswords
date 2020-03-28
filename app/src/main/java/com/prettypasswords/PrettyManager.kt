@@ -1,5 +1,6 @@
 package com.prettypasswords
 
+import com.prettypasswords.Utilities.ContentManager
 import com.prettypasswords.Utilities.Credential
 import com.prettypasswords.Utilities.Encryption
 
@@ -11,5 +12,7 @@ object PrettyManager {
 
     val e: Encryption = Encryption()
     var c: Credential? = null
+    var cm: ContentManager? = null
+
 
 }

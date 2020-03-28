@@ -34,18 +34,16 @@ fun createUser(context: Context, userName: String, password: String){
     val sk = userKeyPair[1]
 
     val esk: ByteArray = PrettyManager.e.generateESKey(sk, password)
+    val xesak: ByteArray = PrettyManager.e.generateXESAK(pk, sk)
 
-    val credential = Credential(userName=userName,pk=pk,sk=sk,esk=esk)
+
+    val credential = Credential(userName=userName,pk=pk,sk=sk,esk=esk, xesak=xesak)
     PrettyManager.c = credential
     credential.saveUserName(context)
-
 
     // create crypto file
     //https://developer.android.com/training/data-storage/app-specific#java
     createCryptoFile(context)
-
-
-    Log.i("PrettyPassword", "Created user")
 
 }
 
