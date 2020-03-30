@@ -17,8 +17,9 @@ fun createCryptoFile(context: Context){
     val credential = PrettyManager.c!!
 
     val content = initializeContent(credential)
-
     val eContent = encryptBody(content)
+
+    println("eContenet at save file $eContent")
 
 
     val fileName = context.getResources().getString(R.string.cryptoFilePrefix) + credential.userName;
@@ -27,6 +28,7 @@ fun createCryptoFile(context: Context){
     try {
         if (file.createNewFile()) {
             println("File created: " + file.name)
+
 
             // write content into file
             context.openFileOutput(fileName, Context.MODE_PRIVATE).use {

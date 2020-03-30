@@ -1,2 +1,2 @@
-include ':app', ':prettygoodsdk'
+include ':app'
 rootProject.name='PrettyPasswords'

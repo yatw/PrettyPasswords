@@ -2,17 +2,16 @@ package com.prettypasswords.View.fragments
 
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
 import com.prettypasswords.Utilities.loginByPassword
-import com.prettypasswords.View.activities.HomeActivity
+import com.prettypasswords.View.activities.MainActivity
 import com.prettypasswords.View.showAlert
 import kotlinx.android.synthetic.main.sign_in_fragment.*
 
@@ -55,8 +54,8 @@ class SignInFragment : Fragment() {
 
                     Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
 
-                    val intent = Intent(context,HomeActivity::class.java)
-                    startActivity(intent)
+                    // switch fragment to home fragment
+                    (activity as MainActivity?)!!.replaceFragment(HomeFragment())
 
                 }else{
                     showAlert(context, "Incorrect Credential", "")
