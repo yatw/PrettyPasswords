@@ -19,17 +19,15 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.home_fragment, container, false)
 
+
         val contentManager = PrettyManager.cm!!  // contentManager must be initialized after you have credential
-        contentManager.decryptBody()
+        //contentManager.addTag(context!!, "babyishTag2", "babyforever2")
 
-        println(contentManager.tempContent)
+        println("getContent" + contentManager.getContent())
+        println("body " + contentManager.getBody())
 
-
-        val context = activity
-
-
-
-
+        contentManager.decryptEntries("babyishTag2", "babyforever2")
+        println("tags " + contentManager.getTags())
 
 
         return view

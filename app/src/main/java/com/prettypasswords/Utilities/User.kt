@@ -36,34 +36,20 @@ fun createUser(context: Context, userName: String, password: String){
     val esk: ByteArray = PrettyManager.e.generateESKey(sk, password)
     val xesak: ByteArray = PrettyManager.e.generateXESAK(pk, sk)
 
-
     val credential = Credential(userName=userName,pk=pk,sk=sk,esk=esk, xesak=xesak)
     PrettyManager.c = credential
-    credential.saveUserName(context)
+    PrettyManager.cm = ContentManager()
+    PrettyManager.cm!!.saveContentToDisk(context)
 
-    // create crypto file
-    //https://developer.android.com/training/data-storage/app-specific#java
-    createCryptoFile(context)
+    credential.saveUserName(context)
 
 }
 
 // use after user has credential
 fun loginByPassword(context: Context, userName: String, password: String): Boolean{
 
-    // first see if there is credential from retreiveCredential
-    var credential: Credential? = PrettyManager.c
-
-    // Even after retrieveCredential and saved credential
-    // credential class can be null after exit the app
-    // so try to restore credential from disk
-    if (credential == null){
-
-        credential = restoreCredentialFromFile(context,userName)
-
-        if (credential == null){  // cryptfile not found
-            throw AssertionError("New Device: No credential found")
-        }
-    }
+    // must have credential to login
+    var credential = PrettyManager.c!!
 
     val esk: ByteArray = credential.esk
     val pk: ByteArray = credential.pk
@@ -79,6 +65,7 @@ fun loginByPassword(context: Context, userName: String, password: String): Boole
 
     credential.setSk(decryptedSK)
     credential.saveUserName(context)
+    PrettyManager.cm!!.decryptBody(credential.xesak,pk, decryptedSK)
 
     return true
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Base64
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
 import java.nio.charset.StandardCharsets
@@ -12,84 +13,49 @@ import java.nio.charset.StandardCharsets
 // file operation related
 // https://developer.android.com/training/data-storage/app-specific#kotlin
 
-fun createCryptoFile(context: Context){
+fun createCryptoFile(context: Context, eContent: JSONObject){
 
     val credential = PrettyManager.c!!
-
-    val content = initializeContent(credential)
-    val eContent = encryptBody(content)
 
     println("eContenet at save file $eContent")
 
 
     val fileName = context.getResources().getString(R.string.cryptoFilePrefix) + credential.userName;
     val file = File(context.filesDir, fileName )
+    println("file exists ${file.exists()}")
 
     try {
-        if (file.createNewFile()) {
-            println("File created: " + file.name)
 
-
-            // write content into file
-            context.openFileOutput(fileName, Context.MODE_PRIVATE).use {
-                it.write(eContent.toString().toByteArray())
-            }
-
-            PrettyManager.cm = ContentManager(eContent)
-
-        } else {
-            println("File already exists.")
+        if (file.exists()){
+            deleteCryptoFile(context, fileName)
         }
+
+        file.createNewFile()
+        println("File created: " + file.name)
+
+        // write content into file
+        context.openFileOutput(fileName, Context.MODE_PRIVATE).use {
+            it.write(eContent.toString().toByteArray())
+        }
+
     } catch (e: IOException) {
         println("An error occurred.")
         e.printStackTrace()
     }
 
+
 }
 
 
 
-// When first create the cryptoFile, put in userName and esk
-fun initializeContent(c: Credential): JSONObject{
-
-    val content = JSONObject()
-
-    // credential should contain userName, pk, esk
-    val credential = JSONObject()
-    credential.put("userName", c.userName)
-
-    val b64pk = Base64.encodeToString(c.pk, Base64.DEFAULT)
-    val b64esk = Base64.encodeToString(c.esk, Base64.DEFAULT)
-    val b64xesak = Base64.encodeToString(c.xesak, Base64.DEFAULT)
+fun deleteCryptoFile(context: Context, fileName: String){
 
 
-    credential.put("b64esk", b64esk)
-    credential.put("b64pk", b64pk)
-    credential.put("b64xesak", b64xesak)
-
-
-    content.put("credential", credential)
-
-
-    // body should contain xesak, count, and entries
-    val body = JSONObject()
-
-    body.put("count", 0)
-    body.put("tags", JSONObject())
-
-    content.put("body", body)
-
-    return content
-}
-
-
-fun deleteCryptoFile(context: Context, userName: String){
-
-
-    val fileName = context.getResources().getString(R.string.cryptoFilePrefix) + userName;
     val file = File(context.filesDir, fileName )
 
-    file.delete()
+    val status = file.delete()
+    println("File deleted: $fileName $status")
+
 }
 
 
