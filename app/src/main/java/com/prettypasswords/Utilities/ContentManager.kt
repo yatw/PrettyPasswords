@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Base64
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.View.showAlert
+import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.HashMap
@@ -11,17 +12,24 @@ import kotlin.collections.HashMap
 
 class ContentManager{
 
-    private val content: JSONObject // body can be encrypted or not
-    private var sectionBody: JSONObject?   // all tags will always store encrypted in body
-    private val sectionTags: HashMap<String, JSONObject?> = HashMap()  // store decrypted tag for app section
+    // the whole file, credential and body
+    private val content: JSONObject
 
-    constructor(){
+    // if sectionBody is null, it is still encrypted as a b64 string
+    // if sectionBody is not null, all tags stored inside are still encrypted
+    private var sectionBody: JSONObject?
+
+    // store decrypted tag for app section
+    // if the value is null, that mean the content inside tag is encrypted
+    private val sectionTags: HashMap<String, JSONObject?> = HashMap()
+
+    constructor(){  // used when create user
         content = initializeContent()
         sectionBody = content.getJSONObject("body")
     }
 
-    constructor(eContent: JSONObject){
-        this.content = eContent
+    constructor(content: JSONObject){  // used when sign in, retrieve existing content
+        this.content = content
         sectionBody = null
     }
 
@@ -33,8 +41,8 @@ class ContentManager{
         return sectionBody
     }
 
-    fun getTags(): HashMap<String, JSONObject?>{
-        return sectionTags
+    fun getTags(): JSONArray{
+        return sectionBody!!.getJSONArray("tags")
     }
 
     // When first create the cryptoFile, put in userName and esk
@@ -65,7 +73,7 @@ class ContentManager{
         val body = JSONObject()
 
         body.put("count", 0)
-        body.put("tags", JSONObject())
+        body.put("tags", JSONArray())
 
         content.put("body", body)
 
@@ -100,7 +108,7 @@ class ContentManager{
     // will decrypt out all the tags name, but not the entries under the tag
     fun decryptBody(xesak: ByteArray, pk: ByteArray, sk: ByteArray){
 
-        if (sectionBody == null){ // body is still  encrypted
+        if (sectionBody == null){ // body is still encrypted
 
             val e = PrettyManager.e
 
@@ -122,12 +130,10 @@ class ContentManager{
             sectionBody = JSONObject(sbody)
 
             // store all tags
-            val tags: JSONObject = sectionBody!!.getJSONObject("tags")
-
-            val tagNames = tags.keys()
-            while (tagNames.hasNext()) {
-                val tagName = tagNames.next()
-                sectionTags.put(tagName,null)
+            val tags: JSONArray = sectionBody!!.getJSONArray("tags")
+            for (i in 0 until tags.length()) {
+                val tag: JSONObject = tags.getJSONObject(i)
+                sectionTags.put(tag.getString("tagName"),null)
             }
 
         }
@@ -144,6 +150,7 @@ class ContentManager{
         }
 
         val tag = JSONObject()
+        tag.put("tagName", tagName)
         tag.put("count", 0)
         tag.put("entries", JSONObject())
 
@@ -157,8 +164,7 @@ class ContentManager{
         val year: Int = cc.get(Calendar.YEAR)
         val month: Int = cc.get(Calendar.MONTH)+ 1    // only month start from 0, weird
         val day: Int = cc.get(Calendar.DAY_OF_MONTH)
-        val createdDate = "$month/$day/$year"
-        tag.put("createdDate", createdDate)
+        tag.put("lastModified", "$month/$day/$year")
 
         sectionTags.put(tagName, tag)
         sectionBody!!.put("count", sectionBody!!.getInt("count")+1)
@@ -167,8 +173,8 @@ class ContentManager{
         // encrypt this newly created tag and put into sectionBody
         val encryptedTag = JSONObject(tag.toString())
         encryptedTag.put("entries", encryptEntries(tag.getJSONObject("entries"), psk))
-        val tags = sectionBody!!.getJSONObject("tags")
-        tags.put(tagName, encryptedTag)
+        val tags = sectionBody!!.getJSONArray("tags")
+        tags.put(tag)
 
         saveContentToDisk(context)
 
@@ -219,41 +225,12 @@ class ContentManager{
 
 
     fun saveContentToDisk(context: Context){
-
-        // encrypt the content and save to disk
-        var eContent = JSONObject(content.toString())
-
         if (sectionBody != null){
-            eContent.put("body", encryptBody())
+            content.put("body", encryptBody())
         }
-
-
-        createCryptoFile(context, eContent)
+        createCryptoFile(context, content)
     }
 
-/*
-// follow this design
-// https://dribbble.com/shots/2353448-VK-Player-music-Android-App
-    fun generateTagList(context: Context): RecyclerView{
-
-
-        if (bodyEncrypted){
-            showAlert(context, "Body is encrypted", "cannot display tag body is encrypted ")
-        }
-
-        val tags = tempContent.getJSONArray("tags")
-
-
-
-
-        // set up the RecyclerView
-        val recyclerView: RecyclerView = RecyclerView(context)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        val adapter = MyRecyclerViewAdapter(this, animalNames)
-        //adapter.setClickListener(this)
-        recyclerView.adapter = adapter
-    }
-*/
 
 }
 
