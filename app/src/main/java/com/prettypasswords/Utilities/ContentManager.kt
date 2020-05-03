@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.View.showAlert
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.HashMap
@@ -18,11 +19,11 @@ class ContentManager{
 
     // if sectionBody is null, it is still encrypted as a b64 string
     // if sectionBody is not null, all tags stored inside are still encrypted
-    private var sectionBody: JSONArray?
+    var sectionBody: JSONArray?
 
     // store decrypted entries for a tag during app section
     // if the value is null, the tag is still encrypted
-    private val tags: HashMap<String, JSONObject?> = HashMap()
+    val tags: HashMap<String, JSONObject?> = HashMap()
 
     constructor(){  // used when create user
         content = initializeContent()
@@ -34,13 +35,6 @@ class ContentManager{
         sectionBody = null
     }
 
-    fun getContent(): JSONObject{
-        return content
-    }
-
-    fun getBody(): JSONArray{
-        return sectionBody!!
-    }
 
     // When first create the cryptoFile, put in userName and esk
     private fun initializeContent(): JSONObject {
@@ -187,11 +181,11 @@ class ContentManager{
     }
 
 
-    fun decryptTag(context: Context, tagPosition: Int, prettyPassword: String){
+    fun decryptTag(context: Context, tagPosition: Int, prettyPassword: String): Boolean{
 
         if (sectionBody == null){
             showAlert(context, "Body is encrypted", "cannot decrypt a tag while body is encrypted")
-            return
+            return false
         }
 
 
@@ -214,11 +208,25 @@ class ContentManager{
 
             val sentries = bentries.toString(Charsets.UTF_8)
 
-            val entries = JSONObject(sentries)
 
-            tag.put(tagName, entries)
+            // if tag password is correct, sentries will be able to restore back to a json object
+            try{
+                val entries = JSONObject(sentries)
+
+                tag.put(tagName, entries)
+
+                Toast.makeText(context, "Tag $tagName decrypted", Toast.LENGTH_SHORT).show()
+
+                return true
+
+            }catch (e: JSONException){
+                e.printStackTrace()
+                return false
+            }
 
         }
+
+        return false
 
     }
 

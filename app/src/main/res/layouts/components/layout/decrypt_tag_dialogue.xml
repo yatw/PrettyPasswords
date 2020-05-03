@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:layout_toRightOf="@+id/iv_image"
-            android:text="Create a new tag"
+            android:text="Decrypt tag"
             android:textColor="#222"
             android:textSize="18sp" />
 
@@ -34,19 +34,10 @@
             android:layout_toRightOf="@+id/iv_image"
             android:gravity="center_vertical"
             android:lines="1"
-            android:text="Use something easy to remember"
+            android:text="Something"
             android:textColor="#666"
             android:textSize="12sp" />
     </RelativeLayout>
-
-
-    <EditText
-        android:id="@+id/tag_name_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:hint="Enter a tag name" />
 
 
     <EditText
@@ -55,7 +46,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:hint="Create a password" />
+        android:hint="Enter tag password" />
+
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,8 +57,8 @@
 
         <TextView
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/create_tag_submit"
-            android:id="@+id/create_tag_close"
+            app:layout_constraintEnd_toStartOf="@+id/decrypt_tag_submit"
+            android:id="@+id/decrypt_tag_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -83,7 +75,7 @@
         <TextView
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/create_tag_submit"
+            android:id="@+id/decrypt_tag_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -6,12 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.lxj.xpopup.XPopup
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
+import com.prettypasswords.Utilities.ContentManager
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -22,24 +23,34 @@ class TagRecyclerView @JvmOverloads constructor(
 ) : RecyclerView(context, attrs), MyRecyclerViewAdapter.ItemClickListener{
 
 
+    val cm: ContentManager = PrettyManager.cm!!
+
     var adapter: MyRecyclerViewAdapter = MyRecyclerViewAdapter(context)
 
     override fun onItemClick(view: View?, position: Int) {
-        Toast.makeText(
-            context,
-            "You clicked " + adapter.getItem(position).toString() + " on row number " + position,
-            Toast.LENGTH_SHORT
-        ).show()
+
+        val tagName = cm.sectionBody!!.getString(position)
+
+        // tag have not been decrypted
+        if (cm.tags.get(tagName) == null){
+
+            XPopup.Builder(context).asCustom(DecryptTagDialogue(context!!, position)).show()
+
+        }else{
+
+            // TODO jump to show entries
+        }
     }
 
 
     init {
+
+        // create the view for the item in the list
         setAdapter(adapter)
 
         this.layoutManager = LinearLayoutManager(context)
 
 
-        // create the view for the children in the list
         adapter.setClickListener(this)
 
         // divider between each item
@@ -53,7 +64,7 @@ class MyRecyclerViewAdapter internal constructor(context: Context) : RecyclerVie
 
     private val context = context
     private var mClickListener: ItemClickListener? = null
-    private var tags: JSONArray = PrettyManager.cm!!.getBody()
+    private var tags: JSONArray = PrettyManager.cm!!.sectionBody!!
 
 
     override fun onCreateViewHolder(

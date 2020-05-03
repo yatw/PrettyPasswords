@@ -16,9 +16,9 @@ import com.prettypasswords.View.PopupKt;
 
 // Xpop up custom center pop up
 // https://github.com/li-xiaojun/XPopup/blob/master/library/src/main/java/com/lxj/xpopup/core/CenterPopupView.java
-public class CustomPopup extends CenterPopupView {
+public class AddTagDialogue extends CenterPopupView {
 
-    public CustomPopup(@NonNull Context context) {
+    public AddTagDialogue(@NonNull Context context) {
         super(context);
     }
 
