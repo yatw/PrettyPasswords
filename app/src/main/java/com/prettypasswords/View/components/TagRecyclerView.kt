@@ -1,13 +1,12 @@
-package com.prettypasswords.Utilities
+package com.prettypasswords.View.components
 
 import android.content.Context
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,12 @@ import com.prettypasswords.R
 import org.json.JSONArray
 import org.json.JSONObject
 
-class TagList(context: Context) : RecyclerView(context), MyRecyclerViewAdapter.ItemClickListener {
+
+class TagRecyclerView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null
+) : RecyclerView(context, attrs), MyRecyclerViewAdapter.ItemClickListener{
+
 
     var adapter: MyRecyclerViewAdapter = MyRecyclerViewAdapter(context)
 
@@ -28,15 +32,10 @@ class TagList(context: Context) : RecyclerView(context), MyRecyclerViewAdapter.I
         ).show()
     }
 
+
     init {
-
-        this.id = ViewCompat.generateViewId() // unique int id for android view
-
         setAdapter(adapter)
 
-        // set top, left, width, height
-        // NOTICE you MUST set layout param BEFORE add view to parent
-        this.layoutParams = ConstraintLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         this.layoutManager = LinearLayoutManager(context)
 
 
@@ -46,6 +45,7 @@ class TagList(context: Context) : RecyclerView(context), MyRecyclerViewAdapter.I
         // divider between each item
         this.addItemDecoration(DividerItemDecoration(context, VERTICAL))
     }
+
 }
 
 
@@ -53,7 +53,7 @@ class MyRecyclerViewAdapter internal constructor(context: Context) : RecyclerVie
 
     private val context = context
     private var mClickListener: ItemClickListener? = null
-    private var tags: JSONArray = PrettyManager.cm!!.getTags()
+    private var tags: JSONArray = PrettyManager.cm!!.getBody()
 
 
     override fun onCreateViewHolder(

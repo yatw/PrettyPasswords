@@ -1,6 +1,7 @@
 package com.prettypasswords.View.activities
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -11,6 +12,7 @@ import com.prettypasswords.Utilities.hasCredential
 import com.prettypasswords.View.fragments.HomeFragment
 import com.prettypasswords.View.fragments.SignInFragment
 import com.prettypasswords.View.fragments.SignUpFragment
+import kotlinx.android.synthetic.main.home_fragment.*
 
 
 // MainActivity is just a container for signin or signup fragment
@@ -36,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         }
 
        setContentView(R.layout.activity_main);
+
+
     }
 
 

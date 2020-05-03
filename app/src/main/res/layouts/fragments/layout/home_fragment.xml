@@ -5,20 +5,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-    <TextView
-        android:id="@+id/Tags"
+    <LinearLayout
+        android:id="@+id/HomeHeader"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="Tags"
-        android:textSize="22dp"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimaryDark"
-        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#FDFCF7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/TagsList">
 
+        <TextView
+            android:id="@+id/TagsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"
+            android:paddingBottom="20dp"
+            android:text="Password Tags"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="23dp"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true" />
+
+        <Button
+            android:id="@+id/AddTagBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:backgroundTint="#39A6C1"
+            android:text="Add"
+            android:drawableRight="@drawable/icon_add"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+
+    <com.prettypasswords.View.components.TagRecyclerView
+        android:id="@+id/TagsList"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:background="#eff5f8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/HomeHeader" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

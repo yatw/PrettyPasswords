@@ -54,13 +54,6 @@ class SignInFragment : Fragment() {
 
                     Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
 
-/*
-                    PrettyManager.cm!!.addTag(getContext()!!, "Tag1", "hihi")
-                    PrettyManager.cm!!.addTag(getContext()!!, "Tag2", "hihi")
-                    PrettyManager.cm!!.addTag(getContext()!!, "Tag3", "hihi")
-*/
-
-
                     // switch fragment to home fragment
                     (activity as MainActivity?)!!.replaceFragment(HomeFragment())
 
