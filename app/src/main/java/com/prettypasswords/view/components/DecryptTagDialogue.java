@@ -1,18 +1,22 @@
-package com.prettypasswords.View.components;
+package com.prettypasswords.view.components;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.prettypasswords.PrettyManager;
-import com.prettypasswords.Utilities.ContentManager;
+import com.prettypasswords.controller.ContentManager;
 
 import com.lxj.xpopup.core.CenterPopupView;
 import com.prettypasswords.R;
-import com.prettypasswords.View.PopupKt;
+import com.prettypasswords.model.Body;
+import com.prettypasswords.model.Tag;
+
+import java.util.ArrayList;
 
 // Xpop up custom center pop up
 // https://github.com/li-xiaojun/XPopup/blob/master/library/src/main/java/com/lxj/xpopup/core/CenterPopupView.java
@@ -58,12 +62,18 @@ public class DecryptTagDialogue extends CenterPopupView {
                     PopupKt.showAlert(getContext(), "Input cannot be empty", "");
                 }else{
                     ContentManager cm = PrettyManager.INSTANCE.getCm();
+                    Body body = cm.getBody();
+                    ArrayList<Tag> tags = body.getTags();
+
+                    Tag tag = tags.get(tagPosition);
 
 
-                    boolean decryptSuccess = cm.decryptTag(getContext(), tagPosition, tagPassword);
+                    boolean decryptSuccess = tag.decrypt(tagPassword);
 
                     if (decryptSuccess){
                         dismiss(); // 关闭弹窗
+
+                        Toast.makeText(getContext(), "Decrypted tag success", Toast.LENGTH_LONG).show();
 
                         // TODO jump to show entries
                     }else{

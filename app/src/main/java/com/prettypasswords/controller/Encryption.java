@@ -1,4 +1,4 @@
-package com.prettypasswords.Utilities;
+package com.prettypasswords.controller;
 
 
 import org.libsodium.jni.NaCl;

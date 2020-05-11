@@ -1,9 +1,10 @@
-package com.prettypasswords.Utilities
+package com.prettypasswords.controller
 
 
 import android.content.Context
 import android.util.Log
 import com.prettypasswords.PrettyManager
+import com.prettypasswords.model.deleteCryptoFile
 import java.util.*
 
 
@@ -17,7 +18,10 @@ fun getUserName(context: Context): String? {
 fun hasCredential(context: Context, userName: String): Boolean{
 
     if (PrettyManager.c == null){
-        restoreCredentialFromFile(context, userName)
+        restoreCredentialFromFile(
+            context,
+            userName
+        )
     }
 
     val credential = PrettyManager.c
@@ -34,9 +38,13 @@ fun createUser(context: Context, userName: String, password: String){
     val sk = userKeyPair[1]
 
     val esk: ByteArray = PrettyManager.e.generateESKey(sk, password)
-    val xesak: ByteArray = PrettyManager.e.generateXESAK(pk, sk)
 
-    val credential = Credential(userName=userName,pk=pk,sk=sk,esk=esk, xesak=xesak)
+    val credential = Credential(
+        userName = userName,
+        pk = pk,
+        sk = sk,
+        esk = esk
+    )
     PrettyManager.c = credential
     PrettyManager.cm = ContentManager()
     PrettyManager.cm!!.saveContentToDisk(context)
@@ -65,7 +73,7 @@ fun loginByPassword(context: Context, userName: String, password: String): Boole
 
     credential.setSk(decryptedSK)
     credential.saveUserName(context)
-    PrettyManager.cm!!.decryptBody(credential.xesak,pk, decryptedSK)
+    PrettyManager.cm!!.body.decrypt(pk, decryptedSK)
 
     return true
 }

@@ -1,8 +1,8 @@
 package com.prettypasswords
 
-import com.prettypasswords.Utilities.ContentManager
-import com.prettypasswords.Utilities.Credential
-import com.prettypasswords.Utilities.Encryption
+import com.prettypasswords.controller.ContentManager
+import com.prettypasswords.controller.Credential
+import com.prettypasswords.controller.Encryption
 
 
 // Singleton

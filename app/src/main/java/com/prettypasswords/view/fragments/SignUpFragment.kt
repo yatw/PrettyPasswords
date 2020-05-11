@@ -1,4 +1,4 @@
-package com.prettypasswords.View.fragments
+package com.prettypasswords.view.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.prettypasswords.R
-import com.prettypasswords.Utilities.createUser
-import com.prettypasswords.View.activities.MainActivity
-import com.prettypasswords.View.showAlert
+import com.prettypasswords.controller.createUser
+import com.prettypasswords.view.activities.MainActivity
+import com.prettypasswords.view.components.showAlert
 import kotlinx.android.synthetic.main.sign_up_fragment.*
 
 
@@ -38,7 +38,11 @@ class SignUpFragment : Fragment() {
             if (userName.equals("") || masterPassword.equals("")){
                 showAlert(getActivity(), "Plase enter credential","")
             }else{
-                createUser(getActivity()!!.getApplicationContext(), userName, masterPassword)
+                createUser(
+                    getActivity()!!.getApplicationContext(),
+                    userName,
+                    masterPassword
+                )
                 Toast.makeText(context, "User $userName created", Toast.LENGTH_SHORT).show()
 
                 // switch fragment to home fragment

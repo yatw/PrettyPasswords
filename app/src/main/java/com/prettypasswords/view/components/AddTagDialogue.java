@@ -1,4 +1,4 @@
-package com.prettypasswords.View.components;
+package com.prettypasswords.view.components;
 
 import android.content.Context;
 import android.view.View;
@@ -8,11 +8,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.prettypasswords.PrettyManager;
-import com.prettypasswords.Utilities.ContentManager;
+import com.prettypasswords.controller.ContentManager;
 
 import com.lxj.xpopup.core.CenterPopupView;
 import com.prettypasswords.R;
-import com.prettypasswords.View.PopupKt;
 
 // Xpop up custom center pop up
 // https://github.com/li-xiaojun/XPopup/blob/master/library/src/main/java/com/lxj/xpopup/core/CenterPopupView.java
@@ -57,7 +56,7 @@ public class AddTagDialogue extends CenterPopupView {
                     PopupKt.showAlert(getContext(), "Input cannot be empty", "");
                 }else{
                     ContentManager cm = PrettyManager.INSTANCE.getCm();
-                    cm.addTag(getContext(), tagName, tagPassword);
+                    cm.getBody().addTag(getContext(), tagName, tagPassword);
 
                     dismiss(); // 关闭弹窗
                 }

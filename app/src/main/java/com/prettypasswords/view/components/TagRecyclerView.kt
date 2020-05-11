@@ -1,4 +1,4 @@
-package com.prettypasswords.View.components
+package com.prettypasswords.view.components
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,15 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lxj.xpopup.XPopup
+import com.prettypasswords.model.Tag
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
-import com.prettypasswords.Utilities.ContentManager
-import org.json.JSONArray
-import org.json.JSONObject
+import com.prettypasswords.controller.ContentManager
 
 
 class TagRecyclerView @JvmOverloads constructor(
@@ -25,18 +25,19 @@ class TagRecyclerView @JvmOverloads constructor(
 
     val cm: ContentManager = PrettyManager.cm!!
 
-    var adapter: MyRecyclerViewAdapter = MyRecyclerViewAdapter(context)
+
 
     override fun onItemClick(view: View?, position: Int) {
 
-        val tagName = cm.sectionBody!!.getString(position)
+        val tag: Tag = cm.body.tags.get(position)
 
-        // tag have not been decrypted
-        if (cm.tags.get(tagName) == null){
+        if (!tag.decrypted()){
 
             XPopup.Builder(context).asCustom(DecryptTagDialogue(context!!, position)).show()
 
         }else{
+
+            Toast.makeText(context, "$position tag is already decrypted", Toast.LENGTH_LONG).show()
 
             // TODO jump to show entries
         }
@@ -45,13 +46,17 @@ class TagRecyclerView @JvmOverloads constructor(
 
     init {
 
+        val tags = PrettyManager.cm!!.body.tags
+
+        val adapter = MyRecyclerViewAdapter(context, tags)
+
+        adapter.setClickListener(this)
+
         // create the view for the item in the list
         setAdapter(adapter)
 
+
         this.layoutManager = LinearLayoutManager(context)
-
-
-        adapter.setClickListener(this)
 
         // divider between each item
         this.addItemDecoration(DividerItemDecoration(context, VERTICAL))
@@ -60,11 +65,11 @@ class TagRecyclerView @JvmOverloads constructor(
 }
 
 
-class MyRecyclerViewAdapter internal constructor(context: Context) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
+class MyRecyclerViewAdapter internal constructor(context: Context, tags: ArrayList<Tag>) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
     private val context = context
     private var mClickListener: ItemClickListener? = null
-    private var tags: JSONArray = PrettyManager.cm!!.sectionBody!!
+    private var tags: ArrayList<Tag> = tags
 
 
     override fun onCreateViewHolder(
@@ -85,17 +90,17 @@ class MyRecyclerViewAdapter internal constructor(context: Context) : RecyclerVie
         position: Int
     ) {
 
-        val tag: JSONObject = tags.getJSONObject(position)
+        val tag: Tag = tags.get(position)
 
-        holder.tagNameLabel!!.text = tag.getString("tagName")
-        holder.entriesCountLabel!!.text = tag.getInt("count").toString()
-        holder.lastModifiedLabel!!.text = tag.getString("lastModified")
+        holder.tagNameLabel!!.text = tag.tagName
+        holder.lastModifiedLabel!!.text = tag.lastModified
+        holder.entriesCountLabel!!.text = tag.entries.size.toString()
 
     }
 
     // total number of rows
     override fun getItemCount(): Int {
-        return tags.length()
+        return tags.size
     }
 
     // stores and recycles views as they are scrolled off screen
@@ -118,13 +123,15 @@ class MyRecyclerViewAdapter internal constructor(context: Context) : RecyclerVie
         }
 
         override fun onClick(view: View) {
-            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)
+            println("click event catched")
+
+            mClickListener!!.onItemClick(view, adapterPosition)
         }
     }
 
     // convenience method for getting data at click position
-    fun getItem(position: Int): JSONObject {
-        return tags.getJSONObject(position)
+    fun getItem(position: Int): Tag {
+        return tags.get(position)
     }
 
     // allows clicks events to be caught

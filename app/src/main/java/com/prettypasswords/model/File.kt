@@ -1,10 +1,8 @@
-package com.prettypasswords.Utilities
+package com.prettypasswords.model
 
 import android.content.Context
-import android.util.Base64
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
 import java.nio.charset.StandardCharsets

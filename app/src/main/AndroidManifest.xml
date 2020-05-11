@@ -12,9 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Launcher"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".View.activities.HomeActivity"></activity>
+        <activity android:name=".view.activities.HomeActivity"></activity>
         <activity
-            android:name=".View.activities.MainActivity"
+            android:name=".view.activities.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

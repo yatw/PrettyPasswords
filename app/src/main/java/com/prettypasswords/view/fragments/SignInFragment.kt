@@ -1,4 +1,4 @@
-package com.prettypasswords.View.fragments
+package com.prettypasswords.view.fragments
 
 
 import android.content.Context
@@ -10,9 +10,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
-import com.prettypasswords.Utilities.loginByPassword
-import com.prettypasswords.View.activities.MainActivity
-import com.prettypasswords.View.showAlert
+import com.prettypasswords.controller.loginByPassword
+import com.prettypasswords.view.activities.MainActivity
+import com.prettypasswords.view.components.showAlert
 import kotlinx.android.synthetic.main.sign_in_fragment.*
 
 
@@ -50,7 +50,12 @@ class SignInFragment : Fragment() {
                 showAlert(getActivity(), "Plase enter credential","")
             }else{
 
-                if (loginByPassword(context!!, userName, masterPassword)){
+                if (loginByPassword(
+                        context!!,
+                        userName,
+                        masterPassword
+                    )
+                ){
 
                     Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
 

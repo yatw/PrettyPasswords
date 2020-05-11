@@ -1,18 +1,17 @@
-package com.prettypasswords.View.activities
+package com.prettypasswords.view.activities
 
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
-import com.prettypasswords.Utilities.getUserName
-import com.prettypasswords.Utilities.hasCredential
-import com.prettypasswords.View.fragments.HomeFragment
-import com.prettypasswords.View.fragments.SignInFragment
-import com.prettypasswords.View.fragments.SignUpFragment
-import kotlinx.android.synthetic.main.home_fragment.*
+import com.prettypasswords.controller.getUserName
+import com.prettypasswords.controller.hasCredential
+import com.prettypasswords.view.fragments.HomeFragment
+import com.prettypasswords.view.fragments.SignInFragment
+import com.prettypasswords.view.fragments.SignUpFragment
 
 
 // MainActivity is just a container for signin or signup fragment
@@ -25,7 +24,11 @@ class MainActivity : AppCompatActivity() {
 
         val userName: String? = getUserName(this)
 
-        if (userName != null && !userName.equals("") && hasCredential(this,userName)){
+        if (userName != null && !userName.equals("") && hasCredential(
+                this,
+                userName
+            )
+        ){
 
             if (PrettyManager.c!!.getSk() != null){  // have credential and already login
                 replaceFragment(HomeFragment())

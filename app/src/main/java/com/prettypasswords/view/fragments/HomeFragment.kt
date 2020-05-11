@@ -1,4 +1,4 @@
-package com.prettypasswords.View.fragments
+package com.prettypasswords.view.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.lxj.xpopup.XPopup
 import com.prettypasswords.R
-import com.prettypasswords.View.components.AddTagDialogue
+import com.prettypasswords.view.components.AddTagDialogue
 import kotlinx.android.synthetic.main.home_fragment.*
 
 
