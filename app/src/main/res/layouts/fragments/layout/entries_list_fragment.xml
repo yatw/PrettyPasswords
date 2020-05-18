@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/EntryListHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#FDFCF7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/TagsList">
+
+        <TextView
+            android:id="@+id/EntryLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"
+            android:paddingBottom="20dp"
+            android:text="Entries"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="23dp"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true" />
+
+        <Button
+            android:id="@+id/AddEntryBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:backgroundTint="#39A6C1"
+            android:text="Add"
+            android:drawableRight="@drawable/icon_add"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+
+
+    <com.prettypasswords.view.components.EntryRecyclerView
+        android:id="@+id/EntryList"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EntryListHeader" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

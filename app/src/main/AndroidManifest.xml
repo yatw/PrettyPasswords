@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Launcher"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".view.activities.HomeActivity"></activity>
+        <activity android:name=".view.activities.EntriesListActivity"></activity>
+        <activity android:name=".view.activities.EntryActivity"></activity>
         <activity
             android:name=".view.activities.MainActivity"
             android:screenOrientation="portrait">

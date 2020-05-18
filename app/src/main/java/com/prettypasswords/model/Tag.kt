@@ -1,6 +1,8 @@
 package com.prettypasswords.model
 
+import android.content.Context
 import android.util.Base64
+import android.widget.Toast
 import com.prettypasswords.PrettyManager
 import org.json.JSONArray
 import org.json.JSONException
@@ -74,6 +76,9 @@ class Tag {
 
             val entriesJSON = JSONArray(sentries)
 
+
+            println("decrypted json" + entriesJSON)
+
             for (i in 0 until entriesJSON.length()){
                 entries.add(Entry(entriesJSON.getJSONObject(i)))
             }
@@ -87,6 +92,18 @@ class Tag {
         }
 
     }
+
+
+    fun addEntry(context: Context, name: String){
+
+        val newEntry = Entry(name)
+        entries.add(newEntry)
+        PrettyManager.cm!!.saveContentToDisk(context)
+
+        Toast.makeText(context, "Entry $name created", Toast.LENGTH_LONG).show()
+
+    }
+
 
     private fun updateEntries(){
 

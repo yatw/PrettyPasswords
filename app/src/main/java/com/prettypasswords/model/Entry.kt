@@ -10,23 +10,31 @@ import java.util.*
 class Entry {
 
     // properties
-    private var name: String
+    var name: String
     private val content: JSONObject
     var lastModified: String
 
     var isModified: Boolean = false
 
+    constructor(name:String){
+
+        this.name = name
+        this.content = JSONObject()
+        this.lastModified = "n/a"
+
+    }
+
 
     constructor(entry: JSONObject){
 
-        this.name = entry.getString("tagName")
+        this.name = entry.getString("name")
         this.content = entry.getJSONObject("content")
         this.lastModified = entry.getString("lastModified")
     }
 
     private fun add(context: Context, key: String, value: String){
         content.put(key, value)
-        updateLastModified(context)
+
     }
 
     private fun remove(context: Context, key: String){

@@ -7,31 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.lxj.xpopup.XPopup
 import com.prettypasswords.model.Tag
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
 import com.prettypasswords.controller.ContentManager
-import com.prettypasswords.view.activities.EntriesListActivity
+import com.prettypasswords.model.Entry
+import com.prettypasswords.view.activities.EntryActivity
 
 
-class TagRecyclerView @JvmOverloads constructor(
+class EntryRecyclerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
-) : RecyclerView(context, attrs), MyRecyclerViewAdapter.ItemClickListener{
+) : RecyclerView(context, attrs), MyRecyclerViewAdapter2.ItemClickListener{
 
 
     val cm: ContentManager = PrettyManager.cm!!
+    lateinit var tag: Tag
 
-    init {
+    fun initData(tag: Tag){
 
-        val tags = PrettyManager.cm!!.body.tags
+        this.tag = tag
 
-        val adapter = MyRecyclerViewAdapter(context, tags)
+        val adapter = MyRecyclerViewAdapter2(context, tag.entries)
 
         adapter.setClickListener(this)
 
@@ -45,35 +45,26 @@ class TagRecyclerView @JvmOverloads constructor(
         this.addItemDecoration(DividerItemDecoration(context, VERTICAL))
     }
 
-
-
     override fun onItemClick(view: View?, position: Int) {
 
-        val tag: Tag = cm.body.tags.get(position)
+        println("position ${position} clicked")
 
-        if (!tag.decrypted()){
+        tag.entries[position]
 
-            XPopup.Builder(context).asCustom(DecryptTagDialogue(context!!, position)).show()
+        val intent = Intent(context, EntryActivity::class.java)
+        intent.putExtra("entryPosition", position);
+        context.startActivity(intent)
 
-        }else{
-
-            Toast.makeText(context, "$position tag is already decrypted", Toast.LENGTH_LONG).show()
-
-            val intent = Intent(context, EntriesListActivity::class.java)
-            intent.putExtra("tagPosition", position);
-            context.startActivity(intent)
-
-        }
     }
 
 }
 
 
-class MyRecyclerViewAdapter internal constructor(context: Context, tags: ArrayList<Tag>) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
+class MyRecyclerViewAdapter2 internal constructor(context: Context, entriesList: ArrayList<Entry>) : RecyclerView.Adapter<MyRecyclerViewAdapter2.ViewHolder>() {
 
     private val context = context
     private var mClickListener: ItemClickListener? = null
-    private var tags: ArrayList<Tag> = tags
+    private var entries: ArrayList<Entry> = entriesList
 
 
     override fun onCreateViewHolder(
@@ -83,7 +74,7 @@ class MyRecyclerViewAdapter internal constructor(context: Context, tags: ArrayLi
 
 
         // Every item in the list need to create a new view for it
-        val itemView = LayoutInflater.from(context).inflate(R.layout.tag_item, parent, false );
+        val itemView = LayoutInflater.from(context).inflate(R.layout.entry_item, parent, false );
 
         return ViewHolder(itemView)
     }
@@ -94,17 +85,15 @@ class MyRecyclerViewAdapter internal constructor(context: Context, tags: ArrayLi
         position: Int
     ) {
 
-        val tag: Tag = tags.get(position)
+        val entry: Entry = entries.get(position)
 
-        holder.tagNameLabel!!.text = tag.tagName
-        holder.lastModifiedLabel!!.text = tag.lastModified
-        holder.entriesCountLabel!!.text = tag.entries.size.toString()
+        holder.entryName!!.text = entry.name
 
     }
 
     // total number of rows
     override fun getItemCount(): Int {
-        return tags.size
+        return entries.size
     }
 
     // stores and recycles views as they are scrolled off screen
@@ -113,28 +102,26 @@ class MyRecyclerViewAdapter internal constructor(context: Context, tags: ArrayLi
         the onBindViewHolder method will need access to the view to put in data
      */
     inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var tagNameLabel: TextView? = null
-        var entriesCountLabel: TextView? = null
-        var lastModifiedLabel: TextView? = null
+        var entryName: TextView? = null
 
 
         init {
-            tagNameLabel = itemView.findViewById(R.id.tagNameLabel)
-            entriesCountLabel = itemView.findViewById(R.id.entriesCountLabel)
-            lastModifiedLabel = itemView.findViewById(R.id.lastModifiedLabel)
+            entryName = itemView.findViewById(R.id.entryNameLabel)
 
 
             itemView.setOnClickListener(this)
         }
 
         override fun onClick(view: View) {
+            println("click event catched")
+
             mClickListener!!.onItemClick(view, adapterPosition)
         }
     }
 
     // convenience method for getting data at click position
-    fun getItem(position: Int): Tag {
-        return tags.get(position)
+    fun getItem(position: Int): Entry {
+        return entries.get(position)
     }
 
     // allows clicks events to be caught
