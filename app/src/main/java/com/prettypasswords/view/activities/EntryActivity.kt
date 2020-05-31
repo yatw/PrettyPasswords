@@ -1,14 +1,19 @@
 package com.prettypasswords.view.activities
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
+import com.prettypasswords.model.Entry
+import kotlinx.android.synthetic.main.activity_entry.*
 
 
 class EntryActivity : AppCompatActivity() {
+
+
+    lateinit var entry: Entry
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,6 +22,60 @@ class EntryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_entry);
 
 
+        val clickedTag = intent.getIntExtra("clickedTag", -1)
+        val clickedEntry = intent.getIntExtra("clickedEntry", -1)
+
+        val tag = PrettyManager.cm!!.body.tags.get(clickedTag)
+        entry = tag.entries.get(clickedEntry)
+
+        initView()
+        initClick()
+
     }
 
+    fun initView(){
+
+        tag_title.setText(entry.parentTag.tagName)
+        title_edittext.setText(entry.name)
+        content_edittext.setText(entry.getContent())
+
+    }
+
+    fun initClick(){
+
+
+        back_button.setOnClickListener {
+            //返回
+            finish()
+        }
+
+        //save_button
+        save_button.setOnClickListener{
+            Toast.makeText(this, "save", Toast.LENGTH_LONG).show()
+
+
+            val content = content_edittext.text.toString()
+            println(content)
+
+
+            entry.save(this, content )
+
+        }
+
+        //delete_button
+        delete_button.setOnClickListener {
+            Toast.makeText(this, "delete", Toast.LENGTH_LONG).show()
+        }
+
+        //new_button
+        new_button.setOnClickListener {
+            Toast.makeText(this, "new", Toast.LENGTH_LONG).show()
+/*            val intent = Intent(this, NewDocumentActivity::class.java)
+            intent.putExtra("NewDocumentType", NewDocumentType.TYPE_New as Serializable)
+            intent.putExtra("NoteBook",noteBook as Serializable)
+            startActivity(intent)
+            finish()*/
+        }
+
+    }
 }

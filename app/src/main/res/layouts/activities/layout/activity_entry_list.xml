@@ -12,7 +12,7 @@
         android:background="#FDFCF7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/TagsList">
+        app:layout_constraintBottom_toTopOf="@+id/EntriesRecyclerView">
 
         <TextView
             android:id="@+id/EntryLabel"
@@ -40,14 +40,12 @@
     </LinearLayout>
 
 
-
-    <com.prettypasswords.view.components.EntryRecyclerView
-        android:id="@+id/EntryList"
-        android:layout_height="0dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/EntriesRecyclerView"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EntryListHeader" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

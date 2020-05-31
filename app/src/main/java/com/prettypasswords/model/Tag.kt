@@ -19,7 +19,6 @@ class Tag {
     private var b64eentries: String?  // base64 Encrypted entries
 
 
-
     private var psk: ByteArray?
     val entries: ArrayList<Entry> = ArrayList()
 
@@ -80,7 +79,7 @@ class Tag {
             println("decrypted json" + entriesJSON)
 
             for (i in 0 until entriesJSON.length()){
-                entries.add(Entry(entriesJSON.getJSONObject(i)))
+                entries.add(Entry(this, entriesJSON.getJSONObject(i)))
             }
 
             this.psk = psk
@@ -96,7 +95,7 @@ class Tag {
 
     fun addEntry(context: Context, name: String){
 
-        val newEntry = Entry(name)
+        val newEntry = Entry(this, name)
         entries.add(newEntry)
         PrettyManager.cm!!.saveContentToDisk(context)
 
@@ -115,6 +114,7 @@ class Tag {
 
             for (i in 0 until entries.size) {
                 val entry: Entry = entries.get(i)
+                println("get content at tag " + entry.getContent())
                 updatedEntries.put(entry.build())
 
                 if (entry.isModified){

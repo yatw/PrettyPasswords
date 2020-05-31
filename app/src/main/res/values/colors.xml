@@ -5,4 +5,20 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorPrimaryDark">#FF6600</color>
     <color name="androidHoloLight">#26f3f3f3</color>
+
+    <color name="colourless">#00000000</color>
+    <color name="colorWhite">#ffffff</color>
+    //亮灰色
+    <color name="colorGainsboro">#DCDCDC</color>
+    //浅灰色
+    <color name="colorLightGrey">#D3D3D3</color>
+    //银白色
+    <color name="colorSilver">#C0C0C0</color>
+    //纯黑
+    <color name="colorBlack">#000000</color>
+    //道奇蓝
+    <color name="colorDoderBlue">#1E90FF</color>
+    //红色
+    <color name="colorRed">#FF0000</color>
+
 </resources>

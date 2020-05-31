@@ -1,6 +1,7 @@
 package com.prettypasswords.view.activities
 
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -52,6 +53,14 @@ class MainActivity : AppCompatActivity() {
 
         ft.replace(R.id.fragmentPlaceHolder, fragment)
         ft.commit()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            //这里写需要重写的方法
+            return false
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
 }

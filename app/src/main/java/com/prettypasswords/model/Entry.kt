@@ -4,41 +4,47 @@ package com.prettypasswords.model
 import android.content.Context
 import com.prettypasswords.PrettyManager
 import org.json.JSONObject
+import java.io.Serializable
 import java.util.*
 
 
 class Entry {
 
     // properties
+    var parentTag: Tag
+
     var name: String
-    private val content: JSONObject
+    private var content: String
     var lastModified: String
 
     var isModified: Boolean = false
 
-    constructor(name:String){
+    constructor(parentTag: Tag, name:String){
 
+        this.parentTag = parentTag
         this.name = name
-        this.content = JSONObject()
+        this.content = ""
         this.lastModified = "n/a"
 
     }
 
 
-    constructor(entry: JSONObject){
+    constructor(parentTag: Tag, entry: JSONObject){
 
+        this.parentTag = parentTag
         this.name = entry.getString("name")
-        this.content = entry.getJSONObject("content")
+        this.content = entry.getString("content")
         this.lastModified = entry.getString("lastModified")
     }
 
-    private fun add(context: Context, key: String, value: String){
-        content.put(key, value)
-
+    fun getContent(): String{
+        return content
     }
 
-    private fun remove(context: Context, key: String){
-        content.remove(key)
+    fun save(context: Context, content: String){
+
+        this.content = content
+
         updateLastModified(context)
     }
 
