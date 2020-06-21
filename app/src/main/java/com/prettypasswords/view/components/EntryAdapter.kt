@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.prettypasswords.R
 import com.prettypasswords.model.Entry
-import com.prettypasswords.model.Tag
 
 class EntryAdapter(val context: Context, var entries: ArrayList<Entry>): RecyclerView.Adapter<EntryAdapter.ViewHolder>() {
 
@@ -19,6 +18,7 @@ class EntryAdapter(val context: Context, var entries: ArrayList<Entry>): Recycle
     var listener: ItemClickListener? = null
 
     override fun getItemCount(): Int {
+
         return entries.size
     }
 
@@ -46,7 +46,6 @@ class EntryAdapter(val context: Context, var entries: ArrayList<Entry>): Recycle
     }
 
 
-
     // stores and recycles views as they are scrolled off screen
     /*
         holder need to store all the views that contains data
@@ -60,7 +59,6 @@ class EntryAdapter(val context: Context, var entries: ArrayList<Entry>): Recycle
 
         init {
             entryName = itemView.findViewById(R.id.entryNameLabel)
-
             itemView.setOnClickListener(this)
         }
 

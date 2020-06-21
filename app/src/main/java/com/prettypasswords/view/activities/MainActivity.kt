@@ -1,8 +1,9 @@
 package com.prettypasswords.view.activities
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.KeyEvent
-import androidx.appcompat.app.ActionBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -42,8 +43,6 @@ class MainActivity : AppCompatActivity() {
         }
 
        setContentView(R.layout.activity_main);
-
-
     }
 
 

@@ -1,7 +1,6 @@
 package com.prettypasswords.view.activities
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.prettypasswords.PrettyManager
@@ -35,10 +34,9 @@ class EntryActivity : AppCompatActivity() {
 
     fun initView(){
 
-        tag_title.setText(entry.parentTag.tagName)
-        title_edittext.setText(entry.name)
+        tag_title.setText("This entry belong to tag ${entry.parentTag.tagName}")
+        site.setText(entry.name)
         content_edittext.setText(entry.getContent())
-
     }
 
     fun initClick(){
@@ -70,11 +68,7 @@ class EntryActivity : AppCompatActivity() {
         //new_button
         new_button.setOnClickListener {
             Toast.makeText(this, "new", Toast.LENGTH_LONG).show()
-/*            val intent = Intent(this, NewDocumentActivity::class.java)
-            intent.putExtra("NewDocumentType", NewDocumentType.TYPE_New as Serializable)
-            intent.putExtra("NoteBook",noteBook as Serializable)
-            startActivity(intent)
-            finish()*/
+
         }
 
     }

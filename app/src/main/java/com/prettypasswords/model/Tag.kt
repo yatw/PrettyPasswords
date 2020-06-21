@@ -1,8 +1,10 @@
 package com.prettypasswords.model
 
 import android.content.Context
+import android.content.Intent
 import android.util.Base64
 import android.widget.Toast
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.prettypasswords.PrettyManager
 import org.json.JSONArray
 import org.json.JSONException
@@ -101,6 +103,8 @@ class Tag {
 
         Toast.makeText(context, "Entry $name created", Toast.LENGTH_LONG).show()
 
+        val intent = Intent("addEntrySuccess")
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
     }
 
 

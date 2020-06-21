@@ -1,27 +1,48 @@
 package com.prettypasswords.view.fragments
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lxj.xpopup.XPopup
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
+import com.prettypasswords.model.Tag
 import com.prettypasswords.view.activities.EntriesListActivity
 import com.prettypasswords.view.components.AddTagDialogue
 import com.prettypasswords.view.components.DecryptTagDialogue
 import com.prettypasswords.view.components.TagAdapter
 import kotlinx.android.synthetic.main.home_fragment.*
-import java.io.Serializable
 
 
 class HomeFragment : Fragment() {
+
+    val listOfTag = PrettyManager.cm!!.body.tags
+    lateinit var tagAdapter: TagAdapter
+
+
+    val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            //文件变化
+            tagAdapter.notifyDataSetChanged()
+
+            if (listOfTag.size > 0){
+                no_tags.visibility = View.GONE
+                TagsRecyclerView.visibility = View.VISIBLE
+            }
+        }
+    }
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -31,24 +52,33 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpRecyclerView()
+        initView()
+        initClick()
+    }
 
+
+    private fun initClick(){
         AddTagBtn.setOnClickListener {
             XPopup.Builder(context).asCustom(AddTagDialogue(context!!)).show()
         }
     }
 
-    private fun setUpRecyclerView(){
+    private fun initView(){
 
-        var tags = PrettyManager.cm!!.body.tags
-        var tagAdapter = TagAdapter(context!!, tags)
+        if (listOfTag.size > 0){
+            no_tags.visibility = View.GONE
+            TagsRecyclerView.visibility = View.VISIBLE
+        }
+
+
+        tagAdapter = TagAdapter(context!!, listOfTag)
+
 
         TagsRecyclerView.adapter = tagAdapter
         TagsRecyclerView.layoutManager = LinearLayoutManager(context!!)
 
         // add divider between each item
         TagsRecyclerView.addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
-
 
 
         // implement what happen when a tag is clicked
@@ -73,10 +103,20 @@ class HomeFragment : Fragment() {
                 }
             }
         })
+
+
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        LocalBroadcastManager.getInstance(context!!).registerReceiver(receiver, IntentFilter("addTagSuccess"))
+    }
 
+    override fun onPause() {
+        super.onPause()
+        LocalBroadcastManager.getInstance(context!!).unregisterReceiver(receiver)
+    }
 
 /*
     // follow this design

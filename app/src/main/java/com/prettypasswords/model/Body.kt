@@ -1,7 +1,9 @@
 package com.prettypasswords.model
 
 import android.content.Context
+import android.content.Intent
 import android.util.Base64
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.controller.Credential
 import org.json.JSONArray
@@ -81,6 +83,10 @@ class Body {
         val newTag = Tag(tagName, prettyPassword)
         tags.add(newTag)
         PrettyManager.cm!!.saveContentToDisk(context)
+
+
+        val intent = Intent("addTagSuccess")
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
     }
 
 

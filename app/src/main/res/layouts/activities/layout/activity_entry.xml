@@ -33,6 +33,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -51,12 +54,13 @@
                 android:layout_gravity="center"
                 android:background="#00000000"
                 android:src="@drawable/ic_encrypted"/>
+
             <TextView
                 android:id="@+id/tag_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:maxLines="1"
                 android:text=""
                 android:textColor="@color/colorDoderBlue"
@@ -69,19 +73,22 @@
             android:layout_marginEnd="20dp"
             android:background="@color/colorLightGrey"/>
     </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical">
+
         <EditText
-            android:id="@+id/title_edittext"
+            android:id="@+id/site"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:hint="Title..."
+            android:hint="Site"
             android:textColorHint="@color/colorLightGrey"
             android:textColor="@color/colorBlack"
             android:textSize="20sp"
@@ -89,23 +96,43 @@
             android:lines="1"
             android:inputType="textFilter"
             android:background="@null"/>
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Password"
+            android:textColorHint="@color/colorLightGrey"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp"
+            android:maxLines="1"
+            android:lines="1"
+            android:inputType="textFilter"
+            android:background="@null"/>
+
         <EditText
             android:id="@+id/content_edittext"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:hint="Start writing here ..."
+            android:hint="Other..."
             android:textColorHint="@color/colorLightGrey"
-            android:textColor="@color/colorSilver"
-            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp"
             android:minLines="4"
             android:maxLines="8"
             android:gravity="top"
             android:inputType="textMultiLine"
             android:background="@null"/>
+
     </LinearLayout>
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"

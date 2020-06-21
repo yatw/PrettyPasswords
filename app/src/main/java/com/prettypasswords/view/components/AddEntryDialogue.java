@@ -7,8 +7,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.prettypasswords.PrettyManager;
-import com.prettypasswords.controller.ContentManager;
 
 import com.lxj.xpopup.core.CenterPopupView;
 import com.prettypasswords.R;
@@ -62,7 +60,6 @@ public class AddEntryDialogue extends CenterPopupView {
                 }else{
 
                     tag.addEntry(context,entryName);
-
                     dismiss(); // 关闭弹窗
                 }
 
