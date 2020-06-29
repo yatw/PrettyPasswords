@@ -50,16 +50,20 @@ public class AddEntryDialogue extends CenterPopupView {
             public void onClick(View v) {
 
 
+                EditText siteNameInput = findViewById(R.id.siteNameInput);
+                EditText usernameInput = findViewById(R.id.usernameInput);
+                EditText emailInput = findViewById(R.id.emailInput);
+                EditText passwordInput = findViewById(R.id.passwordInput);
 
-                EditText tag_name_input = findViewById(R.id.entry_name_input);
+                String siteName = siteNameInput.getText().toString().trim();
+                String username = usernameInput.getText().toString().trim();
+                String email = emailInput.getText().toString().trim();
+                String password = passwordInput.getText().toString().trim();
 
-                String entryName = tag_name_input.getText().toString();
-
-                if (entryName.isEmpty()){
-                    PopupKt.showAlert(getContext(), "Input cannot be empty", "");
+                if (siteName.isEmpty() || password.isEmpty()){
+                    PopupKt.showAlert(getContext(), "Warning", "Please fill in all required fields");
                 }else{
-
-                    tag.addEntry(context,entryName);
+                    tag.addEntry(context,siteName,username,email,password);
                     dismiss(); // 关闭弹窗
                 }
 

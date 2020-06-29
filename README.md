@@ -1,8 +1,10 @@
 
 # Pretty Passwords    
-100% Secure: All information will be encrypted and stored locally in your device. Therefore the **data is never put into some database you don't know where** in the internet.
+100% Secure: All information will be encrypted and stored locally in your device. 
   
-100% Persistent: User can export the encrypted file from app to transfer between devices.  User have full control of where to save a copy of the data.      
+100% Persistent: User can export the encrypted file from app to transfer between devices.  
+
+The data is never put into some database you don't know where in the internet.
     
 #### What make this password manager unique  
 - You can remember passwords however you want as usual, but the underlying real password for each site is strong and different    

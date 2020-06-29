@@ -1,4 +1,4 @@
-package com.prettypasswords.view.components
+package com.prettypasswords.utilities
 
 import android.content.Context
 import android.widget.Toast

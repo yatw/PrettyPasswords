@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.prettypasswords.R
 import com.prettypasswords.model.Entry
 
@@ -41,7 +43,20 @@ class EntryAdapter(val context: Context, var entries: ArrayList<Entry>): Recycle
 
         val entry: Entry = entries.get(position)
 
-        holder.entryName!!.text = entry.name
+        holder.siteNameLabel!!.text = entry.siteName
+
+        if (entry.userName.isNotEmpty()){
+            holder.userNameLabel!!.visibility = View.VISIBLE
+            holder.userNameDisplay!!.setText(entry.userName)
+        }
+
+        holder.passwordDisplay!!.setText(entry.password)
+
+
+        if (entry.email.isNotEmpty()){
+            holder.emailLabel!!.visibility = View.VISIBLE
+            holder.emailDisplay!!.setText(entry.email)
+        }
 
     }
 
@@ -54,12 +69,29 @@ class EntryAdapter(val context: Context, var entries: ArrayList<Entry>): Recycle
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
-        var entryName: TextView? = null
+        var siteNameLabel: TextView? = null
 
+        var userNameLabel: TextInputLayout? = null
+        var userNameDisplay: TextInputEditText? = null
+
+        var passwordDisplay: TextInputEditText? = null
+
+        var emailLabel: TextInputLayout? = null
+        var emailDisplay: TextInputEditText? = null
 
         init {
-            entryName = itemView.findViewById(R.id.entryNameLabel)
-            itemView.setOnClickListener(this)
+
+            siteNameLabel = itemView.findViewById(R.id.siteNameLabel)
+
+            userNameLabel = itemView.findViewById(R.id.userNameLabel)
+            userNameDisplay = itemView.findViewById(R.id.userNameDisplay)
+
+            passwordDisplay = itemView.findViewById(R.id.passwordDisplay)
+
+            emailLabel = itemView.findViewById(R.id.emailLabel)
+            emailDisplay = itemView.findViewById(R.id.emailDisplay)
+
+            //itemView.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {

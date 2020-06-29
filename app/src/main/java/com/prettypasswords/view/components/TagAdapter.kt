@@ -1,13 +1,18 @@
 package com.prettypasswords.view.components
 
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.prettypasswords.R
+import com.prettypasswords.utilities.LetterTileProvider
 import com.prettypasswords.model.Tag
+
 
 class TagAdapter(val context: Context, var tags: ArrayList<Tag>): RecyclerView.Adapter<TagAdapter.ViewHolder>() {
 
@@ -16,6 +21,7 @@ class TagAdapter(val context: Context, var tags: ArrayList<Tag>): RecyclerView.A
     }
 
     var listener: ItemClickListener? = null
+
 
     override fun getItemCount(): Int {
         return tags.size
@@ -42,10 +48,17 @@ class TagAdapter(val context: Context, var tags: ArrayList<Tag>): RecyclerView.A
 
         val tag: Tag = tags.get(position)
 
+
         holder.tagNameLabel!!.text = tag.tagName
         holder.lastModifiedLabel!!.text = tag.lastModified
-        holder.entriesCountLabel!!.text = tag.entries.size.toString()
 
+        val res: Resources = context.resources;
+        val tileSize: Int = res.getDimensionPixelSize(R.dimen.letter_tile_size);
+
+        val provider: LetterTileProvider = LetterTileProvider(context)
+
+        val letterTile: Bitmap = provider.getLetterTile(tag.tagName.first(), tag.tagName, tileSize, tileSize, true);
+        holder.tagIcon!!.setImageBitmap(letterTile)
 
     }
 
@@ -59,15 +72,17 @@ class TagAdapter(val context: Context, var tags: ArrayList<Tag>): RecyclerView.A
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
+
+        var tagIcon: ImageView? = null
         var tagNameLabel: TextView? = null
-        var entriesCountLabel: TextView? = null
         var lastModifiedLabel: TextView? = null
 
 
         init {
+            tagIcon = itemView.findViewById(R.id.tagIcon)
             tagNameLabel = itemView.findViewById(R.id.tagNameLabel)
-            entriesCountLabel = itemView.findViewById(R.id.entriesCountLabel)
             lastModifiedLabel = itemView.findViewById(R.id.lastModifiedLabel)
+
 
             itemView.setOnClickListener(this)
         }

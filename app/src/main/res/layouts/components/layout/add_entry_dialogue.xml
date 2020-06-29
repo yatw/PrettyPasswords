@@ -9,7 +9,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
 
         <ImageView
             android:id="@+id/iv_image"
@@ -33,26 +34,73 @@
             android:layout_below="@id/tv_name"
             android:layout_toRightOf="@+id/iv_image"
             android:gravity="center_vertical"
-            android:lines="1"
-            android:text="Use something easy to remember"
+            android:text="Leave field blank if not apply"
+            android:textStyle="bold"
             android:textColor="#666"
             android:textSize="12sp" />
     </RelativeLayout>
 
-
-    <EditText
-        android:id="@+id/entry_name_input"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:text="Site Name: (required)"
+        >
+    </TextView>
+
+    <EditText
+        android:id="@+id/siteNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:hint="Enter an entry name" />
+        android:hint="Pixiv" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Username:">
+    </TextView>
+
+    <EditText
+        android:id="@+id/usernameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:hint="BabytheBrave" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Password: (required)">
+    </TextView>
+
+    <EditText
+        android:id="@+id/passwordInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:hint="babyishlife123123" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email:">
+    </TextView>
+
+    <EditText
+        android:id="@+id/emailInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:hint="baby@gmail.com" />
+
+
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="25dp">
 
         <TextView
             app:layout_constraintTop_toTopOf="parent"

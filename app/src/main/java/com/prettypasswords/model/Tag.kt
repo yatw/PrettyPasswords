@@ -95,13 +95,13 @@ class Tag {
     }
 
 
-    fun addEntry(context: Context, name: String){
+    fun addEntry(context: Context, siteName:String, userName: String, email: String, password: String){
 
-        val newEntry = Entry(this, name)
+        val newEntry = Entry(this, siteName, userName, email, password)
         entries.add(newEntry)
         PrettyManager.cm!!.saveContentToDisk(context)
 
-        Toast.makeText(context, "Entry $name created", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "Entry $siteName created", Toast.LENGTH_LONG).show()
 
         val intent = Intent("addEntrySuccess")
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
@@ -118,7 +118,7 @@ class Tag {
 
             for (i in 0 until entries.size) {
                 val entry: Entry = entries.get(i)
-                println("get content at tag " + entry.getContent())
+                //println("get content at tag " + entry.getContent())
                 updatedEntries.put(entry.build())
 
                 if (entry.isModified){

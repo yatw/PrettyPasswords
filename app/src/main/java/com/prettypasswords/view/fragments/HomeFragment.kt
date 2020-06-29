@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lxj.xpopup.XPopup
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
-import com.prettypasswords.model.Tag
 import com.prettypasswords.view.activities.EntriesListActivity
 import com.prettypasswords.view.components.AddTagDialogue
 import com.prettypasswords.view.components.DecryptTagDialogue
@@ -118,29 +117,6 @@ class HomeFragment : Fragment() {
         LocalBroadcastManager.getInstance(context!!).unregisterReceiver(receiver)
     }
 
-/*
-    // follow this design
-// https://dribbble.com/shots/2353448-VK-Player-music-Android-App
-    fun generateTagList(context: Context): RecyclerView{
-
-
-        if (sectionBody == null){
-            showAlert(context, "Body is encrypted", "cannot display tag body is encrypted ")
-        }
-
-        val tags = tempContent.getJSONArray("tags")
-
-
-
-
-        // set up the RecyclerView
-        val recyclerView: RecyclerView = RecyclerView(context)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        val adapter = MyRecyclerViewAdapter(this, animalNames)
-        //adapter.setClickListener(this)
-        recyclerView.adapter = adapter
-    }
-*/
 
 
 

@@ -8,9 +8,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.lxj.xpopup.XPopup
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
@@ -18,9 +16,7 @@ import com.prettypasswords.model.Entry
 import com.prettypasswords.model.Tag
 import com.prettypasswords.view.components.AddEntryDialogue
 import com.prettypasswords.view.components.EntryAdapter
-import com.prettypasswords.view.components.TagAdapter
 import kotlinx.android.synthetic.main.activity_entry_list.*
-import kotlinx.android.synthetic.main.home_fragment.*
 
 
 // display the entries under a tag
@@ -82,9 +78,6 @@ class EntriesListActivity : AppCompatActivity() {
 
         EntriesRecyclerView.adapter = entryAdapter
         EntriesRecyclerView.layoutManager = LinearLayoutManager(this)
-
-        // add divider between each item
-        EntriesRecyclerView.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
 
 
 

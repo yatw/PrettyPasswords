@@ -37,6 +37,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="Enter a User Name"
+            app:boxBackgroundColor="@color/colorWhite"
             android:textColorHint="@color/colorPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -58,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:hint="Enter a Master Password"
+            app:boxBackgroundColor="@color/colorWhite"
             android:textColorHint="@color/colorPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -80,6 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:hint="Renter your Master Password"
+            app:boxBackgroundColor="@color/colorWhite"
             android:textColorHint="@color/colorPrimary">
 
             <com.google.android.material.textfield.TextInputEditText

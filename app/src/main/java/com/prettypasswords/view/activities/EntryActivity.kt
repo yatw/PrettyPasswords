@@ -34,9 +34,9 @@ class EntryActivity : AppCompatActivity() {
 
     fun initView(){
 
-        tag_title.setText("This entry belong to tag ${entry.parentTag.tagName}")
+/*        tag_title.setText("This entry belong to tag ${entry.parentTag.tagName}")
         site.setText(entry.name)
-        content_edittext.setText(entry.getContent())
+        content_edittext.setText(entry.getContent())*/
     }
 
     fun initClick(){
@@ -56,7 +56,7 @@ class EntryActivity : AppCompatActivity() {
             println(content)
 
 
-            entry.save(this, content )
+            //entry.save(this, content )
 
         }
 

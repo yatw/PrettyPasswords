@@ -9,7 +9,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="100dp"
         android:textColor="@color/colorSecondary"
         android:textSize="20dp"
         android:textAlignment="center"
@@ -38,15 +38,15 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="User Name"
+            app:boxBackgroundColor="@color/colorWhite"
             android:textColorHint="@color/colorPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/userNameInput"
-                android:singleLine="true"
-                android:enabled="false"
-                android:textColor="#000"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="#000" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,6 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:hint="Master password"
+            app:boxBackgroundColor="@color/colorWhite"
             android:textColorHint="@color/colorPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -76,13 +77,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/buttonGroup"
         app:layout_constraintTop_toBottomOf="@+id/inputGroup"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="50dp"
         android:layout_width="200dp"
         android:layout_height="50dp">
 

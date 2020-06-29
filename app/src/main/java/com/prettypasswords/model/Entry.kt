@@ -13,17 +13,23 @@ class Entry {
     // properties
     var parentTag: Tag
 
-    var name: String
-    private var content: String
+    var siteName: String
+    var userName: String
+    var email: String
+    var password: String
     var lastModified: String
 
     var isModified: Boolean = false
 
-    constructor(parentTag: Tag, name:String){
+    constructor(parentTag: Tag, siteName:String, userName: String, email: String, password: String){
 
         this.parentTag = parentTag
-        this.name = name
-        this.content = ""
+
+        this.siteName = siteName
+        this.userName = userName
+        this.email = email
+        this.password = password
+
         this.lastModified = "n/a"
 
     }
@@ -32,18 +38,16 @@ class Entry {
     constructor(parentTag: Tag, entry: JSONObject){
 
         this.parentTag = parentTag
-        this.name = entry.getString("name")
-        this.content = entry.getString("content")
+
+        this.siteName = entry.getString("siteName")
+        this.userName = entry.getString("userName")
+        this.email = entry.getString("email")
+        this.password = entry.getString("password")
         this.lastModified = entry.getString("lastModified")
     }
 
-    fun getContent(): String{
-        return content
-    }
 
-    fun save(context: Context, content: String){
-
-        this.content = content
+    fun save(context: Context){
 
         updateLastModified(context)
     }
@@ -66,9 +70,12 @@ class Entry {
     fun build(): JSONObject{
 
         val build = JSONObject()
-        build.put("name", name)
-        build.put("content", content)
+        build.put("siteName", siteName)
+        build.put("userName", userName)
+        build.put("email", email)
+        build.put("password", password)
         build.put("lastModified", lastModified)
+
         return build
     }
 
