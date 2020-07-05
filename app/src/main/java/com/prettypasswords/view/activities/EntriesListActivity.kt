@@ -1,5 +1,6 @@
 package com.prettypasswords.view.activities
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -67,12 +68,16 @@ class EntriesListActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initView(){
 
         if (listOfEntry.size > 0){
             no_entries.visibility = View.GONE
             EntriesRecyclerView.visibility = View.VISIBLE
         }
+
+        TagNameLabel.text = "${tag.tagName}"
+        EntryCount.text = "${listOfEntry.size} entries"
 
         entryAdapter = EntryAdapter(this, tag.entries)
 
@@ -81,7 +86,7 @@ class EntriesListActivity : AppCompatActivity() {
 
 
 
-        // implement what happen when a tag is clicked
+        // implement what happen when a edit button is clicked
         entryAdapter.setItemClickListener(object : EntryAdapter.ItemClickListener{
 
             override fun onItemClick(view: View?, position: Int) {
@@ -89,8 +94,42 @@ class EntriesListActivity : AppCompatActivity() {
                 val intent = Intent(context, EntryActivity::class.java)
                 intent.putExtra("clickedTag", clickedTag)
                 intent.putExtra("clickedEntry", position)
-                context.startActivity(intent)
+                startActivityForResult(intent,20)
 
+            }
+        })
+
+
+
+
+        // implement what happen when the whole card view is long clicked
+        entryAdapter.setItemLongClickListener(object : EntryAdapter.LongItemClickListener{
+
+            override fun onItemClick(builder: XPopup.Builder, position: Int): Boolean {
+
+                builder.asAttachList(
+                    arrayOf("删除"), null
+                ) {
+                        pos, text ->
+
+                        val entry =  listOfEntry.get(position)
+
+                        // 显示确认和取消对话框
+                        // https://github.com/li-xiaojun/XPopup/wiki/2.-%E5%86%85%E7%BD%AE%E7%9A%84%E5%BC%B9%E7%AA%97%E5%AE%9E%E7%8E%B0
+
+                        XPopup.Builder(context).asConfirm(
+                            "Confirm delete", "You sure you want to delete ${entry.siteName}?"
+                        ) {
+
+                            entry.delete(context)
+                            notifyItemRemoved(position)
+
+
+                        }.show()
+
+                }
+                    .show()
+                return false
             }
         })
     }
@@ -105,5 +144,39 @@ class EntriesListActivity : AppCompatActivity() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
     }
 
+    private fun notifyItemRemoved(pos: Int){
+
+        entryAdapter.notifyItemRemoved(pos);
+
+
+        if (listOfEntry.size == 0){
+            no_entries.visibility = View.VISIBLE
+            EntriesRecyclerView.visibility = View.GONE
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+
+        // entry content edited
+        if (requestCode==20 && resultCode==2 && data!=null){
+
+            val clickedEntry = data.getIntExtra("clickedEntry", -1)
+
+            if (clickedEntry >= 0){
+                entryAdapter.notifyItemChanged(clickedEntry)
+            }
+
+        // one entry was deleted
+        }else if (requestCode==20 && resultCode==4 && data!=null){
+
+            val position = data.getIntExtra("clickedEntry", -1)
+
+            notifyItemRemoved(position)
+
+        }
+    }
 
 }

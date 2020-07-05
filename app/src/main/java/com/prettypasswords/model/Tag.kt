@@ -95,9 +95,9 @@ class Tag {
     }
 
 
-    fun addEntry(context: Context, siteName:String, userName: String, email: String, password: String){
+    fun addEntry(context: Context, siteName:String, userName: String, password: String, email: String, others: String){
 
-        val newEntry = Entry(this, siteName, userName, email, password)
+        val newEntry = Entry(this, siteName, userName, password, email, others)
         entries.add(newEntry)
         PrettyManager.cm!!.saveContentToDisk(context)
 
@@ -105,6 +105,15 @@ class Tag {
 
         val intent = Intent("addEntrySuccess")
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+    }
+
+    fun deleteEntry(context: Context, entry: Entry){
+
+        entries.remove(entry)
+        PrettyManager.cm!!.saveContentToDisk(context)
+
+        Toast.makeText(context, "Entry ${entry.siteName} deleted", Toast.LENGTH_LONG).show()
+
     }
 
 

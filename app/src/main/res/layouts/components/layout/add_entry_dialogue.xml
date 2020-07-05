@@ -95,6 +95,18 @@
         android:hint="baby@gmail.com" />
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Others:">
+    </TextView>
+
+    <EditText
+        android:id="@+id/othersInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:hint="Others..." />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

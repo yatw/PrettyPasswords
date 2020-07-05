@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">#F18E33</color>
-    <color name="colorSecondary">#2E7FB7</color>
+    <color name="colorSecondary">#388ecc</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorPrimaryDark">#FF6600</color>
     <color name="androidHoloLight">#26f3f3f3</color>
@@ -19,8 +19,14 @@
     <color name="colorBlack">#000000</color>
     //道奇蓝
     <color name="colorDoderBlue">#1E90FF</color>
+
+    <color name="colorLightBlue">#88c8fd</color>
     //红色
     <color name="colorRed">#FF0000</color>
+
+
+    <color name="colorSoftAmber">#CDBFAC</color>
+
 
     <color name="mtrl_textinput_default_box_stroke_color">#fff</color>
 </resources>

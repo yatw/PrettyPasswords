@@ -4,25 +4,22 @@
 
     <!-- All of the possible tile background colors -->
     <array name="letter_tile_colors">
-        <item>#f69bd6</item>
-        <item>#f16364</item>
-        <item>#f58559</item>
-        <item>#f9a43e</item>
+        <item>#ff9090</item>
+        <item>#ffbf90</item>
+        <item>#90aaff</item>
+        <item>#90d9ff</item>
+        <item>#bbe272</item>
+        <item>#72cce2</item>
         <item>#e4c62e</item>
-        <item>#67bf74</item>
-        <item>#327a4e</item>
-        <item>#59a2be</item>
+        <item>#bce3dd</item>
         <item>#2093cd</item>
-        <item>#003366</item>
-        <item>#ad62a7</item>
-        <item>#5b668f</item>
-
+        <item>#b698ff</item>
     </array>
 
     <!-- The default letter tile text size -->
-    <dimen name="tile_letter_font_size">33sp</dimen>
-    <!-- The deafult tile size -->
-    <dimen name="letter_tile_size">54sp</dimen>
+    <dimen name="tile_letter_font_size">28sp</dimen>
+    <!-- The default tile size -->
+    <dimen name="letter_tile_size">48sp</dimen>
 
 
 </resources>

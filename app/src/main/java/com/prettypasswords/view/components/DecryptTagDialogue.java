@@ -1,6 +1,9 @@
 package com.prettypasswords.view.components;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,15 +20,39 @@ import com.prettypasswords.model.Body;
 import com.prettypasswords.model.Tag;
 
 import java.util.ArrayList;
+import com.prettypasswords.utilities.PopupKt;
+import com.prettypasswords.view.activities.EntriesListActivity;
+
 
 // Xpop up custom center pop up
 // https://github.com/li-xiaojun/XPopup/blob/master/library/src/main/java/com/lxj/xpopup/core/CenterPopupView.java
 public class DecryptTagDialogue extends CenterPopupView {
 
     int tagPosition;
+    Context context;
+
+
+    TextView errorText;
+
+
+    TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            errorText.setVisibility(INVISIBLE);
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
 
     public DecryptTagDialogue(@NonNull Context context, int tagPosition) {
         super(context);
+        this.context = context;
         this.tagPosition = tagPosition;
     }
 
@@ -39,6 +66,12 @@ public class DecryptTagDialogue extends CenterPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
+
+        errorText = findViewById(R.id.errorLabel);
+
+
+        final EditText tag_password = findViewById(R.id.tag_password);
+        tag_password.addTextChangedListener(textWatcher);
 
         TextView closeButton = findViewById(R.id.decrypt_tag_close);
         closeButton.setOnClickListener(new OnClickListener() {
@@ -54,13 +87,16 @@ public class DecryptTagDialogue extends CenterPopupView {
             public void onClick(View v) {
 
 
-                EditText tag_password = findViewById(R.id.tag_password);
 
                 String tagPassword = tag_password.getText().toString();
 
                 if (tagPassword.isEmpty()){
-                    PopupKt.showAlert(getContext(), "Input cannot be empty", "");
+
+                    errorText.setText("Input cannot be empty");
+                    errorText.setVisibility(VISIBLE);
+
                 }else{
+
                     ContentManager cm = PrettyManager.INSTANCE.getCm();
                     Body body = cm.getBody();
                     ArrayList<Tag> tags = body.getTags();
@@ -71,13 +107,20 @@ public class DecryptTagDialogue extends CenterPopupView {
                     boolean decryptSuccess = tag.decrypt(tagPassword);
 
                     if (decryptSuccess){
-                        dismiss(); // 关闭弹窗
+
+
+                        Intent intent = new Intent(context, EntriesListActivity.class);
+                        intent.putExtra("clickedTag", tagPosition);
+                        context.startActivity(intent);
 
                         Toast.makeText(getContext(), "Decrypted tag success", Toast.LENGTH_LONG).show();
 
-                        // TODO jump to show entries
+                        delayDismiss(500); // 关闭弹窗
+
                     }else{
-                        PopupKt.showAlert(getContext(), "Incorrect Password", "");
+
+                        errorText.setText("Incorrect Password");
+                        errorText.setVisibility(VISIBLE);
                     }
 
 
@@ -85,6 +128,10 @@ public class DecryptTagDialogue extends CenterPopupView {
 
             }
         });
+
+
+
+
     }
 
     @Override

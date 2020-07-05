@@ -35,8 +35,6 @@ class TagAdapter(val context: Context, var tags: ArrayList<Tag>): RecyclerView.A
     // here you can put different layout for different viewType
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        System.out.println("Creating View Holder");
-
         // Every item in the list need to create a new view for it
         val itemView = LayoutInflater.from(context).inflate(R.layout.tag_item, parent, false );
 

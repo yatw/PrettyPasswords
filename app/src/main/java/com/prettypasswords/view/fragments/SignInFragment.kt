@@ -12,7 +12,7 @@ import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
 import com.prettypasswords.controller.loginByPassword
 import com.prettypasswords.view.activities.MainActivity
-import com.prettypasswords.view.components.showAlert
+import com.prettypasswords.utilities.showAlert
 import kotlinx.android.synthetic.main.sign_in_fragment.*
 
 

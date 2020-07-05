@@ -11,7 +11,7 @@ import kotlin.math.abs
 // https://stackoverflow.com/questions/23122088/colored-boxed-with-letters-a-la-gmail
 class LetterTileProvider(context: Context) {
 
-    private val NUM_OF_TILE_COLORS = 12
+    private val NUM_OF_TILE_COLORS = 10
 
     private val mPaint = TextPaint()
 

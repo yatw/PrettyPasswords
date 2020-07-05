@@ -5,41 +5,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/EntryListHeader"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#FDFCF7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/EntriesRecyclerView">
+        android:background="#F5EDE3 "
+        android:padding="15dp">
 
         <TextView
-            android:id="@+id/EntryLabel"
+            android:id="@+id/TagNameLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:paddingLeft="20dp"
-            android:paddingBottom="20dp"
-            android:text="Entries"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="23dp"
+            android:textColor="#154890"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_alignParentTop="true" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/EntryCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="90 entries"
+            android:textColor="@color/colorDoderBlue"
+            android:textSize="18sp"
+            android:layout_margin="10dp"
+            app:layout_constraintTop_toBottomOf="@id/TagNameLabel"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <Button
             android:id="@+id/AddEntryBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
             android:backgroundTint="#39A6C1"
             android:text="Add"
             android:drawableRight="@drawable/icon_add"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            app:layout_constraintTop_toBottomOf="@id/TagNameLabel"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <RelativeLayout

@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/siteNameLabel"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:maxLines="1"
@@ -29,6 +29,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Reddit Profile"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/editButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/userNameLabel"
+            android:src="@drawable/icon_edit"
+            android:background="?android:selectableItemBackground"
+            android:padding="10dp"
+            android:layout_marginRight="10dp"/>
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -79,7 +91,8 @@
                 android:enabled="false"
                 android:focusable="false"
                 android:clickable="false"
-                />
+                android:focusableInTouchMode="false"
+            />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -107,6 +120,33 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/othersLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxStrokeColor="@color/border_color_selector"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/emailLabel"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/othersDisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Others"
+                android:textColor="@color/colorSecondary"
+                android:textStyle="bold"
+                android:enabled="false"
+                android:focusable="false"
+                android:clickable="false"
+                android:minLines="4"
+                android:maxLines="8"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

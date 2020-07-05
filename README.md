@@ -38,6 +38,7 @@ The data is never put into some database you don't know where in the internet.
     
 ### Android concepts used  
 - [x] SharedPreferences  
+- [x] Internal file storage
 - [x] Fragments  
 - [x] RecyclerView with adapter  
 - [x] Editable Pop Up  

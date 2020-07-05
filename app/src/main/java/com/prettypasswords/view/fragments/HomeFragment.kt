@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -20,6 +19,7 @@ import com.prettypasswords.R
 import com.prettypasswords.view.activities.EntriesListActivity
 import com.prettypasswords.view.components.AddTagDialogue
 import com.prettypasswords.view.components.DecryptTagDialogue
+import com.prettypasswords.view.components.EntryAdapter
 import com.prettypasswords.view.components.TagAdapter
 import kotlinx.android.synthetic.main.home_fragment.*
 
@@ -92,8 +92,6 @@ class HomeFragment : Fragment() {
                     XPopup.Builder(context).asCustom(DecryptTagDialogue(context!!, position)).show()
 
                 }else{
-
-                    Toast.makeText(context, "$position tag is already decrypted", Toast.LENGTH_LONG).show()
 
                     val intent = Intent(context, EntriesListActivity::class.java)
                     intent.putExtra("clickedTag", position)

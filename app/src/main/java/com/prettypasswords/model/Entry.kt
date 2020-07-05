@@ -4,7 +4,7 @@ package com.prettypasswords.model
 import android.content.Context
 import com.prettypasswords.PrettyManager
 import org.json.JSONObject
-import java.io.Serializable
+import java.text.FieldPosition
 import java.util.*
 
 
@@ -17,18 +17,20 @@ class Entry {
     var userName: String
     var email: String
     var password: String
+    var others: String
     var lastModified: String
 
     var isModified: Boolean = false
 
-    constructor(parentTag: Tag, siteName:String, userName: String, email: String, password: String){
+    constructor(parentTag: Tag, siteName:String, userName: String, password: String, email: String, others: String){
 
         this.parentTag = parentTag
 
         this.siteName = siteName
         this.userName = userName
-        this.email = email
         this.password = password
+        this.email = email
+        this.others = others
 
         this.lastModified = "n/a"
 
@@ -43,12 +45,18 @@ class Entry {
         this.userName = entry.getString("userName")
         this.email = entry.getString("email")
         this.password = entry.getString("password")
+        this.others = entry.getString("others")
         this.lastModified = entry.getString("lastModified")
     }
 
 
-    fun save(context: Context){
+    fun save(context: Context, siteName:String, userName: String, password: String, email: String, others: String ){
 
+        this.siteName = siteName
+        this.userName = userName
+        this.password = password
+        this.email = email
+        this.others = others
         updateLastModified(context)
     }
 
@@ -65,6 +73,11 @@ class Entry {
         PrettyManager.cm!!.saveContentToDisk(context)
     }
 
+    fun delete(context: Context){
+
+        this.parentTag.deleteEntry(context, this)
+    }
+
 
 
     fun build(): JSONObject{
@@ -74,6 +87,7 @@ class Entry {
         build.put("userName", userName)
         build.put("email", email)
         build.put("password", password)
+        build.put("others", others)
         build.put("lastModified", lastModified)
 
         return build

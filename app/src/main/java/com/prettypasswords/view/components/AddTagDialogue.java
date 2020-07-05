@@ -1,6 +1,9 @@
 package com.prettypasswords.view.components;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,10 +15,31 @@ import com.prettypasswords.controller.ContentManager;
 
 import com.lxj.xpopup.core.CenterPopupView;
 import com.prettypasswords.R;
+import com.prettypasswords.utilities.PopupKt;
 
 // Xpop up custom center pop up
 // https://github.com/li-xiaojun/XPopup/blob/master/library/src/main/java/com/lxj/xpopup/core/CenterPopupView.java
 public class AddTagDialogue extends CenterPopupView {
+
+    TextView errorText;
+    EditText tag_name_input;
+    EditText tag_password;
+
+    TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            errorText.setVisibility(INVISIBLE);
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
 
     public AddTagDialogue(@NonNull Context context) {
         super(context);
@@ -32,6 +56,13 @@ public class AddTagDialogue extends CenterPopupView {
     protected void onCreate() {
         super.onCreate();
 
+        errorText = findViewById(R.id.errorLabel);
+        tag_name_input = findViewById(R.id.tag_name_input);
+        tag_password = findViewById(R.id.tag_password);
+
+        tag_name_input.addTextChangedListener(textWatcher);
+        tag_password.addTextChangedListener(textWatcher);
+
         TextView closeButton = findViewById(R.id.create_tag_close);
         closeButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -42,18 +73,18 @@ public class AddTagDialogue extends CenterPopupView {
 
         TextView submitButton = findViewById(R.id.create_tag_submit);
         submitButton.setOnClickListener(new OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
 
-
-                EditText tag_name_input = findViewById(R.id.tag_name_input);
-                EditText tag_password = findViewById(R.id.tag_password);
 
                 String tagName = tag_name_input.getText().toString();
                 String tagPassword = tag_password.getText().toString();
 
                 if (tagName.isEmpty() || tagPassword.isEmpty()){
-                    PopupKt.showAlert(getContext(), "Input cannot be empty", "");
+                    errorText.setText("Input cannot be empty");
+                    errorText.setVisibility(VISIBLE);
+
                 }else{
                     ContentManager cm = PrettyManager.INSTANCE.getCm();
                     cm.getBody().addTag(getContext(), tagName, tagPassword);

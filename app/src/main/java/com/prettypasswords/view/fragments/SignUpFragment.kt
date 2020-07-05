@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.prettypasswords.R
 import com.prettypasswords.controller.createUser
 import com.prettypasswords.view.activities.MainActivity
-import com.prettypasswords.view.components.showAlert
+import com.prettypasswords.utilities.showAlert
 import kotlinx.android.synthetic.main.sign_up_fragment.*
 
 

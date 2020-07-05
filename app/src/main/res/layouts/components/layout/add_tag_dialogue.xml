@@ -40,6 +40,7 @@
     </RelativeLayout>
 
 
+
     <EditText
         android:id="@+id/tag_name_input"
         android:layout_width="match_parent"
@@ -57,6 +58,14 @@
         android:layout_marginBottom="15dp"
         android:hint="Create a password" />
 
+    <TextView
+        android:id="@+id/errorLabel"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:textAlignment="center"
+        android:textColor="@color/colorRed"
+        android:textSize="18sp"
+        android:visibility="invisible"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
