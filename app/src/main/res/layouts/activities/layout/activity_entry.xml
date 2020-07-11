@@ -21,7 +21,7 @@
             app:layout_constraintBottom_toTopOf="@id/subtitle_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_arrow_back_black_24dp"/>
+            app:srcCompat="@drawable/ic_arrow_back_white_24dp"/>
 
 
 
@@ -127,13 +127,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="@color/border_color_selector">
+            app:boxStrokeColor="@color/border_color_selector"
+            app:passwordToggleEnabled="true">>
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
+                android:inputType="textPassword"
                 android:textColor="@color/colorSecondary"
                 android:textStyle="bold"
                 />
@@ -169,7 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Others"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorSecondary"
                 android:textStyle="bold"
                 android:minLines="4"
                 android:maxLines="8"
@@ -181,20 +183,40 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/delete_button"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:padding="10dp"
-        android:text="Delete"
-        android:textSize="14sp"
-        android:textColor="@color/colorRed"
-        app:strokeColor="@color/colorRed"
-        app:iconTint="@null"
-        app:rippleColor="#db6676"
-        app:icon="@drawable/delete_icon"/>
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/delete_button"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:text="Delete"
+            android:textSize="14sp"
+            android:textColor="@color/colorRed"
+            app:strokeColor="@color/colorRed"
+            app:iconTint="@null"
+            app:rippleColor="#db6676"/>
 
+        <Button
+            android:id="@+id/save_button2"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:text="Save"
+            android:textSize="14sp"
+            android:textColor="@color/colorWhite"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:iconTint="@null"
+            app:icon="@drawable/icon_save"/>
+
+    </LinearLayout>
 </LinearLayout>

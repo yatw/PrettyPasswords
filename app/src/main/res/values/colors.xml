@@ -24,9 +24,11 @@
     //红色
     <color name="colorRed">#FF0000</color>
 
-
     <color name="colorSoftAmber">#CDBFAC</color>
 
+    <color name="colorBlueShade">#7da2ab</color>
+
+    <color name="colorGray">#808080</color>
 
     <color name="mtrl_textinput_default_box_stroke_color">#fff</color>
 </resources>

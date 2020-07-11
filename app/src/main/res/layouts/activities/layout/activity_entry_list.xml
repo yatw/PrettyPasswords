@@ -15,7 +15,7 @@
             android:id="@+id/TagNameLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#154890"
+            android:textColor="#7da2ab"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"

@@ -16,6 +16,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="12dp"
+            android:src="@drawable/decrypt_img"
+            android:scaleType="centerCrop"
             android:background="#ddd" />
 
         <TextView
@@ -34,7 +36,7 @@
             android:layout_toRightOf="@+id/iv_image"
             android:gravity="center_vertical"
             android:lines="1"
-            android:text="Something"
+            android:text="Remember this password by heart"
             android:textColor="#666"
             android:textSize="12sp" />
     </RelativeLayout>

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +40,7 @@ class EntriesListActivity : AppCompatActivity() {
             if (listOfEntry.size > 0){
                 no_entries.visibility = View.GONE
                 EntriesRecyclerView.visibility = View.VISIBLE
+                EntryCount.text = "${listOfEntry.size} entries"
             }
         }
     }
@@ -101,31 +103,45 @@ class EntriesListActivity : AppCompatActivity() {
 
 
 
-
         // implement what happen when the whole card view is long clicked
-        entryAdapter.setItemLongClickListener(object : EntryAdapter.LongItemClickListener{
+        entryAdapter.setStickClickListener(object : EntryAdapter.StickClickListener{
 
             override fun onItemClick(builder: XPopup.Builder, position: Int): Boolean {
 
                 builder.asAttachList(
-                    arrayOf("删除"), null
+                    arrayOf("Edit","Delete"), null
                 ) {
                         pos, text ->
 
-                        val entry =  listOfEntry.get(position)
+                        if (text == "Edit"){
 
-                        // 显示确认和取消对话框
-                        // https://github.com/li-xiaojun/XPopup/wiki/2.-%E5%86%85%E7%BD%AE%E7%9A%84%E5%BC%B9%E7%AA%97%E5%AE%9E%E7%8E%B0
+                            val intent = Intent(context, EntryActivity::class.java)
+                            intent.putExtra("clickedTag", clickedTag)
+                            intent.putExtra("clickedEntry", position)
+                            startActivityForResult(intent,20)
 
-                        XPopup.Builder(context).asConfirm(
-                            "Confirm delete", "You sure you want to delete ${entry.siteName}?"
-                        ) {
+                        }else if (text == "Delete"){
 
-                            entry.delete(context)
-                            notifyItemRemoved(position)
+                            val entry =  listOfEntry.get(position)
+
+                            // 显示确认和取消对话框
+                            // https://github.com/li-xiaojun/XPopup/wiki/2.-%E5%86%85%E7%BD%AE%E7%9A%84%E5%BC%B9%E7%AA%97%E5%AE%9E%E7%8E%B0
+
+                            XPopup.Builder(context).asConfirm(
+                                "Confirm delete", "You sure you want to delete ${entry.siteName}?"
+                            ) {
+
+                                entry.delete(context)
+                                notifyItemRemoved(position)
 
 
-                        }.show()
+                            }.show()
+
+                        }else{
+                            Toast.makeText(context, text, Toast.LENGTH_LONG).show()
+                        }
+
+
 
                 }
                     .show()
@@ -154,6 +170,8 @@ class EntriesListActivity : AppCompatActivity() {
             EntriesRecyclerView.visibility = View.GONE
         }
 
+        EntryCount.text = "${listOfEntry.size} entries"
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -178,5 +196,6 @@ class EntriesListActivity : AppCompatActivity() {
 
         }
     }
+
 
 }

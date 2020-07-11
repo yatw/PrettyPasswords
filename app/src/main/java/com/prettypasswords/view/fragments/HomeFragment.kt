@@ -21,6 +21,7 @@ import com.prettypasswords.view.components.AddTagDialogue
 import com.prettypasswords.view.components.DecryptTagDialogue
 import com.prettypasswords.view.components.EntryAdapter
 import com.prettypasswords.view.components.TagAdapter
+import kotlinx.android.synthetic.main.activity_entry_list.*
 import kotlinx.android.synthetic.main.home_fragment.*
 
 
@@ -32,6 +33,7 @@ class HomeFragment : Fragment() {
 
     val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
+
             //文件变化
             tagAdapter.notifyDataSetChanged()
 
@@ -39,9 +41,23 @@ class HomeFragment : Fragment() {
                 no_tags.visibility = View.GONE
                 TagsRecyclerView.visibility = View.VISIBLE
             }
+
         }
     }
 
+    val decryptTagSuccessReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+
+            if (intent != null){
+
+                val pos: Int = intent.getIntExtra("clickedTag", -1)
+
+                if (pos >= 0){
+                    tagAdapter.notifyItemChanged(pos);
+                }
+            }
+        }
+    }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -105,14 +121,17 @@ class HomeFragment : Fragment() {
     }
 
 
+
     override fun onResume() {
         super.onResume()
         LocalBroadcastManager.getInstance(context!!).registerReceiver(receiver, IntentFilter("addTagSuccess"))
+        LocalBroadcastManager.getInstance(context!!).registerReceiver(decryptTagSuccessReceiver, IntentFilter("decryptTagSuccess"))
     }
 
     override fun onPause() {
         super.onPause()
         LocalBroadcastManager.getInstance(context!!).unregisterReceiver(receiver)
+        LocalBroadcastManager.getInstance(context!!).unregisterReceiver(decryptTagSuccessReceiver)
     }
 
 

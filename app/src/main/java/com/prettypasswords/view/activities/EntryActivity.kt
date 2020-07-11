@@ -52,26 +52,15 @@ class EntryActivity : AppCompatActivity() {
 
 
         back_button.setOnClickListener {
-            //返回
             finish()
         }
 
-        //save_button
         save_button.setOnClickListener{
+            saveEntry()
+        }
 
-            val siteName = siteNameEdit.text.toString()
-            val userName = userNameEdit.text.toString()
-            val password = passwordEdit.text.toString()
-            val email = emailEdit.text.toString()
-            val others = othersEdit.text.toString()
-
-            entry.save(this, siteName, userName, password, email, others)
-            Toast.makeText(this, "Saved", Toast.LENGTH_LONG).show()
-
-            val intent = Intent()
-            intent.putExtra("clickedEntry", clickedEntry)
-            setResult(2,intent)
-            finish()
+        save_button2.setOnClickListener{
+            saveEntry()
         }
 
         //delete_button
@@ -96,5 +85,22 @@ class EntryActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun saveEntry(){
+
+        val siteName = siteNameEdit.text.toString()
+        val userName = userNameEdit.text.toString()
+        val password = passwordEdit.text.toString()
+        val email = emailEdit.text.toString()
+        val others = othersEdit.text.toString()
+
+        entry.save(this, siteName, userName, password, email, others)
+        Toast.makeText(this, "Saved", Toast.LENGTH_LONG).show()
+
+        val intent = Intent()
+        intent.putExtra("clickedEntry", clickedEntry)
+        setResult(2,intent)
+        finish()
     }
 }

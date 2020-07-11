@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:maxLines="1"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorSecondary"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,117 +36,139 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/userNameLabel"
+            app:layout_constraintBottom_toTopOf="@id/userNameGroup"
             android:src="@drawable/icon_edit"
             android:background="?android:selectableItemBackground"
             android:padding="10dp"
             android:layout_marginRight="10dp"/>
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/userNameLabel"
+        <RelativeLayout
+            android:id="@+id/userNameGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="@color/border_color_selector"
+            android:layout_margin="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/siteNameLabel"
             android:visibility="gone">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <TextView
+                android:id="@+id/userNameLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="User name:"
+                android:textColor="@color/colorGray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
+
+            <TextView
                 android:id="@+id/userNameDisplay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="User Name"
-                android:textColor="@color/colorSecondary"
-                android:textStyle="bold"
-                android:enabled="false"
-                android:focusable="false"
-                android:clickable="false"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:textSize="18sp"
+                android:layout_below="@id/userNameLabel"
+                android:textStyle="bold"/>
 
+        </RelativeLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordLabel"
+        <RelativeLayout
+            android:id="@+id/passwordGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="@color/border_color_selector"
+            android:layout_margin="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/userNameLabel"
-            app:endIconMode="password_toggle">
+            app:layout_constraintTop_toBottomOf="@id/userNameGroup">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <TextView
+                android:id="@+id/passwordLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/password_toggle"
+                android:textSize="14sp"
+                android:text="Password:"
+                android:textColor="@color/colorGray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
+
+            <TextView
                 android:id="@+id/passwordDisplay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
-                android:text="baby123"
-                android:inputType="textPassword"
-                android:textColor="@color/colorSecondary"
-                android:textStyle="bold"
-                android:enabled="false"
-                android:focusable="false"
-                android:clickable="false"
-                android:focusableInTouchMode="false"
-            />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_toLeftOf="@id/password_toggle"
+                android:textSize="18sp"
+                android:layout_below="@id/passwordLabel"
+                android:textStyle="bold"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/password_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_hide"
+                android:layout_alignParentRight="true"
+                android:background="?android:selectableItemBackground"
+                android:padding="10dp" />
+
+        </RelativeLayout>
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/emailLabel"
+        <RelativeLayout
+            android:id="@+id/emailGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="@color/border_color_selector"
+            android:layout_margin="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passwordLabel"
+            app:layout_constraintTop_toBottomOf="@id/passwordGroup"
             android:visibility="gone">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <TextView
+                android:id="@+id/emailLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Email:"
+                android:textColor="@color/colorGray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+
+            <TextView
                 android:id="@+id/emailDisplay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
-                android:textColor="@color/colorSecondary"
-                android:textStyle="bold"
-                android:enabled="false"
-                android:focusable="false"
-                android:clickable="false"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:textSize="18sp"
+                android:layout_below="@id/emailLabel"
+                android:textStyle="bold"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/othersLabel"
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/othersGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="@color/border_color_selector"
+            android:layout_margin="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/emailLabel"
+            app:layout_constraintTop_toBottomOf="@id/emailGroup"
             android:visibility="gone">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <TextView
+                android:id="@+id/othersLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Others:"
+                android:textColor="@color/colorGray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+
+            <TextView
                 android:id="@+id/othersDisplay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Others"
-                android:textColor="@color/colorSecondary"
-                android:textStyle="bold"
-                android:enabled="false"
-                android:focusable="false"
-                android:clickable="false"
-                android:minLines="4"
-                android:maxLines="8"
-                android:gravity="top"
-                android:inputType="textMultiLine"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:textSize="18sp"
+                android:layout_below="@id/othersLabel"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

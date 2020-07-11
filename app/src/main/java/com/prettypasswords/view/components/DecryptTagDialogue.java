@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.prettypasswords.PrettyManager;
 import com.prettypasswords.controller.ContentManager;
@@ -109,6 +110,11 @@ public class DecryptTagDialogue extends CenterPopupView {
                     if (decryptSuccess){
 
 
+                        // notify the list to update ui
+                        Intent updateIntent = new Intent("decryptTagSuccess");
+                        updateIntent.putExtra("clickedTag", tagPosition);
+                        LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
+
                         Intent intent = new Intent(context, EntriesListActivity.class);
                         intent.putExtra("clickedTag", tagPosition);
                         context.startActivity(intent);
@@ -116,6 +122,9 @@ public class DecryptTagDialogue extends CenterPopupView {
                         Toast.makeText(getContext(), "Decrypted tag success", Toast.LENGTH_LONG).show();
 
                         delayDismiss(500); // 关闭弹窗
+
+
+
 
                     }else{
 

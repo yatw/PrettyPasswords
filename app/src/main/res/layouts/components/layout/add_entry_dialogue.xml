@@ -17,6 +17,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="12dp"
+            android:src="@drawable/newentry"
+            android:scaleType="centerCrop"
             android:background="#ddd" />
 
         <TextView
@@ -34,7 +36,7 @@
             android:layout_below="@id/tv_name"
             android:layout_toRightOf="@+id/iv_image"
             android:gravity="center_vertical"
-            android:text="Leave field blank if not apply"
+            android:text="Another one, how exciting!"
             android:textStyle="bold"
             android:textColor="#666"
             android:textSize="12sp" />

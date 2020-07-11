@@ -3,11 +3,15 @@ package com.prettypasswords.view.components
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.prettypasswords.R
 import com.prettypasswords.utilities.LetterTileProvider
@@ -50,6 +54,8 @@ class TagAdapter(val context: Context, var tags: ArrayList<Tag>): RecyclerView.A
         holder.tagNameLabel!!.text = tag.tagName
         holder.lastModifiedLabel!!.text = tag.lastModified
 
+
+        // set up icon
         val res: Resources = context.resources;
         val tileSize: Int = res.getDimensionPixelSize(R.dimen.letter_tile_size);
 
@@ -57,6 +63,17 @@ class TagAdapter(val context: Context, var tags: ArrayList<Tag>): RecyclerView.A
 
         val letterTile: Bitmap = provider.getLetterTile(tag.tagName.first(), tag.tagName, tileSize, tileSize, true);
         holder.tagIcon!!.setImageBitmap(letterTile)
+
+
+        // if not decrypted show lock icon
+        if (tag.decrypted()){
+            holder.iconLock!!.visibility = GONE
+            val color: Int = ContextCompat.getColor(context, R.color.colorSecondary)
+            holder.tagNameLabel!!.setTextColor(color)
+        }else{
+            holder.iconLock!!.visibility = VISIBLE
+            holder.tagNameLabel!!.setTextColor(Color.RED)
+        }
 
     }
 
@@ -74,12 +91,14 @@ class TagAdapter(val context: Context, var tags: ArrayList<Tag>): RecyclerView.A
         var tagIcon: ImageView? = null
         var tagNameLabel: TextView? = null
         var lastModifiedLabel: TextView? = null
+        var iconLock: ImageView? = null
 
 
         init {
             tagIcon = itemView.findViewById(R.id.tagIcon)
             tagNameLabel = itemView.findViewById(R.id.tagNameLabel)
             lastModifiedLabel = itemView.findViewById(R.id.lastModifiedLabel)
+            iconLock = itemView.findViewById(R.id.iconLock)
 
 
             itemView.setOnClickListener(this)
