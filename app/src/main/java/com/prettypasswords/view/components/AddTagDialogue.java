@@ -15,7 +15,7 @@ import com.prettypasswords.controller.ContentManager;
 
 import com.lxj.xpopup.core.CenterPopupView;
 import com.prettypasswords.R;
-import com.prettypasswords.utilities.PopupKt;
+
 
 // Xpop up custom center pop up
 // https://github.com/li-xiaojun/XPopup/blob/master/library/src/main/java/com/lxj/xpopup/core/CenterPopupView.java

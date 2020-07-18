@@ -70,7 +70,7 @@ class EntryActivity : AppCompatActivity() {
             // https://github.com/li-xiaojun/XPopup/wiki/2.-%E5%86%85%E7%BD%AE%E7%9A%84%E5%BC%B9%E7%AA%97%E5%AE%9E%E7%8E%B0
 
             XPopup.Builder(this).asConfirm(
-                "Confirm delete", "You sure you want to delete ${entry.siteName}?"
+                "Delete entry ${entry.siteName}?", ""
             ) {
 
                 entry.delete(this)

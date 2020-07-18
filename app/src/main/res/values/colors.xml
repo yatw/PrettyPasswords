@@ -5,7 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorPrimaryDark">#FF6600</color>
     <color name="androidHoloLight">#26f3f3f3</color>
-
+    <color name="colorLightOrange">#fed8b1</color>
     <color name="colourless">#00000000</color>
 
     <color name="colorWhite">#ffffff</color>
@@ -29,6 +29,8 @@
     <color name="colorBlueShade">#7da2ab</color>
 
     <color name="colorGray">#808080</color>
+
+    <color name="colorDarkBlue">#283c4b</color>
 
     <color name="mtrl_textinput_default_box_stroke_color">#fff</color>
 </resources>

@@ -4,7 +4,6 @@ package com.prettypasswords.model
 import android.content.Context
 import com.prettypasswords.PrettyManager
 import org.json.JSONObject
-import java.text.FieldPosition
 import java.util.*
 
 

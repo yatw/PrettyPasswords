@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:title="Account">
+        <menu>
+            <item
+                android:id="@+id/password_nav"
+                android:title="Manage Passwords"
+                android:icon="@drawable/icon_key"/>
+            <item
+                android:id="@+id/back_up_nav"
+                android:title="Back Up Data"
+                android:icon="@drawable/icon_backup"/>
+        </menu>
+    </item>
+
+    <item android:title="About">
+        <menu>
+            <item
+                android:id="@+id/how_to_use"
+                android:title="How to use"
+                android:icon="@drawable/icon_doc"/>
+            <item
+                android:id="@+id/how_this_work"
+                android:title="How this work"
+                android:icon="@drawable/icon_explain"/>
+        </menu>
+    </item>
+
+    <item android:title="Support">
+        <menu>
+            <item
+                android:id="@+id/faq_nav"
+                android:title="Help FAQ"
+                android:icon="@drawable/icon_faq"/>
+            <item
+                android:id="@+id/bug_report_nav"
+                android:title="Report a bug"
+                android:icon="@drawable/icon_bug"/>
+        </menu>
+    </item>
+
+</menu>

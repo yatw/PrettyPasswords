@@ -18,7 +18,7 @@ import com.prettypasswords.utilities.LetterTileProvider
 import com.prettypasswords.model.Tag
 
 
-class TagAdapter(val context: Context, var tags: ArrayList<Tag>): RecyclerView.Adapter<TagAdapter.ViewHolder>() {
+class TagAdapter(val context: Context, private val tags: ArrayList<Tag>): RecyclerView.Adapter<TagAdapter.ViewHolder>() {
 
     companion object{
         val TYPE_Tag=1
@@ -49,7 +49,6 @@ class TagAdapter(val context: Context, var tags: ArrayList<Tag>): RecyclerView.A
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val tag: Tag = tags.get(position)
-
 
         holder.tagNameLabel!!.text = tag.tagName
         holder.lastModifiedLabel!!.text = tag.lastModified

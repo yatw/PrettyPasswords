@@ -3,9 +3,11 @@ package com.prettypasswords.model
 import android.content.Context
 import android.content.Intent
 import android.util.Base64
+import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.controller.Credential
+import com.prettypasswords.view.activities.EntriesListActivity
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.collections.ArrayList
@@ -89,6 +91,14 @@ class Body {
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
     }
 
+    fun deleteTag(context: Context, tag: Tag){
+
+        tags.remove(tag)
+        PrettyManager.cm!!.saveContentToDisk(context)
+
+        Toast.makeText(context, "Tag ${tag.tagName} deleted", Toast.LENGTH_LONG).show()
+
+    }
 
     private fun updateTags(){
 

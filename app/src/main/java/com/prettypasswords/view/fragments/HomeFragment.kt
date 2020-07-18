@@ -19,25 +19,23 @@ import com.prettypasswords.R
 import com.prettypasswords.view.activities.EntriesListActivity
 import com.prettypasswords.view.components.AddTagDialogue
 import com.prettypasswords.view.components.DecryptTagDialogue
-import com.prettypasswords.view.components.EntryAdapter
 import com.prettypasswords.view.components.TagAdapter
-import kotlinx.android.synthetic.main.activity_entry_list.*
-import kotlinx.android.synthetic.main.home_fragment.*
+import kotlinx.android.synthetic.main.layout_home_main.*
 
 
 class HomeFragment : Fragment() {
 
-    val listOfTag = PrettyManager.cm!!.body.tags
+    val tags = PrettyManager.cm!!.body.tags
     lateinit var tagAdapter: TagAdapter
 
 
-    val receiver = object : BroadcastReceiver() {
+    val addTagReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
 
             //文件变化
             tagAdapter.notifyDataSetChanged()
 
-            if (listOfTag.size > 0){
+            if (tags.size > 0){
                 no_tags.visibility = View.GONE
                 TagsRecyclerView.visibility = View.VISIBLE
             }
@@ -45,13 +43,12 @@ class HomeFragment : Fragment() {
         }
     }
 
-    val decryptTagSuccessReceiver = object : BroadcastReceiver() {
+    // when decrypt success, or tag name change, ui need update
+    val tagStatusChangeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
 
             if (intent != null){
-
                 val pos: Int = intent.getIntExtra("clickedTag", -1)
-
                 if (pos >= 0){
                     tagAdapter.notifyItemChanged(pos);
                 }
@@ -80,13 +77,13 @@ class HomeFragment : Fragment() {
 
     private fun initView(){
 
-        if (listOfTag.size > 0){
+        if (tags.size > 0){
             no_tags.visibility = View.GONE
             TagsRecyclerView.visibility = View.VISIBLE
         }
 
 
-        tagAdapter = TagAdapter(context!!, listOfTag)
+        tagAdapter = TagAdapter(context!!, tags)
 
 
         TagsRecyclerView.adapter = tagAdapter
@@ -101,17 +98,17 @@ class HomeFragment : Fragment() {
 
             override fun onItemClick(view: View?, position: Int) {
 
-                val tag = tagAdapter.tags.get(position);
+                val tag = tags.get(position);
 
                 if (!tag.decrypted()){
 
-                    XPopup.Builder(context).asCustom(DecryptTagDialogue(context!!, position)).show()
+                    XPopup.Builder(context).asCustom(DecryptTagDialogue(context!!, position, this@HomeFragment)).show()
 
                 }else{
 
                     val intent = Intent(context, EntriesListActivity::class.java)
                     intent.putExtra("clickedTag", position)
-                    context!!.startActivity(intent)
+                    startActivityForResult(intent,10)
 
                 }
             }
@@ -120,20 +117,45 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun notifyItemRemoved(pos: Int){
 
+        tagAdapter.notifyItemRemoved(pos);
 
-    override fun onResume() {
-        super.onResume()
-        LocalBroadcastManager.getInstance(context!!).registerReceiver(receiver, IntentFilter("addTagSuccess"))
-        LocalBroadcastManager.getInstance(context!!).registerReceiver(decryptTagSuccessReceiver, IntentFilter("decryptTagSuccess"))
+        if (tags.size == 0){
+            no_tags.visibility = View.VISIBLE
+            TagsRecyclerView.visibility = View.GONE
+        }
     }
 
-    override fun onPause() {
-        super.onPause()
-        LocalBroadcastManager.getInstance(context!!).unregisterReceiver(receiver)
-        LocalBroadcastManager.getInstance(context!!).unregisterReceiver(decryptTagSuccessReceiver)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        LocalBroadcastManager.getInstance(context!!).registerReceiver(addTagReceiver, IntentFilter("addTagSuccess"))
+        LocalBroadcastManager.getInstance(context!!).registerReceiver(tagStatusChangeReceiver, IntentFilter("tagStatusChanged"))
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(context!!).unregisterReceiver(addTagReceiver)
+        LocalBroadcastManager.getInstance(context!!).unregisterReceiver(tagStatusChangeReceiver)
+    }
+
+    /*
+        We can call startActivityForResult directly from Fragment but actually mechanic behind are all handled by Activity.
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //super.onActivityResult(requestCode, resultCode, data)  comment this unless you want to pass your result to the activity
+
+        // a tag was deleted
+        if (requestCode==10 && resultCode==6 && data!=null){
+
+            val clickedTag = data.getIntExtra("clickedTag", -1)
+
+            if (clickedTag >= 0){
+                notifyItemRemoved(clickedTag)
+            }
+
+        }
+    }
 
 
 

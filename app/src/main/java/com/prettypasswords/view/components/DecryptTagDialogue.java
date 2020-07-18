@@ -21,8 +21,8 @@ import com.prettypasswords.model.Body;
 import com.prettypasswords.model.Tag;
 
 import java.util.ArrayList;
-import com.prettypasswords.utilities.PopupKt;
 import com.prettypasswords.view.activities.EntriesListActivity;
+import com.prettypasswords.view.fragments.HomeFragment;
 
 
 // Xpop up custom center pop up
@@ -31,7 +31,8 @@ public class DecryptTagDialogue extends CenterPopupView {
 
     int tagPosition;
     Context context;
-
+    HomeFragment fragment;
+    Tag tag;
 
     TextView errorText;
 
@@ -51,10 +52,18 @@ public class DecryptTagDialogue extends CenterPopupView {
         }
     };
 
-    public DecryptTagDialogue(@NonNull Context context, int tagPosition) {
+    public DecryptTagDialogue(@NonNull Context context, int tagPosition, HomeFragment fragment) {
         super(context);
         this.context = context;
+        this.fragment = fragment;
         this.tagPosition = tagPosition;
+
+        ContentManager cm = PrettyManager.INSTANCE.getCm();
+        Body body = cm.getBody();
+        ArrayList<Tag> tags = body.getTags();
+
+        tag = tags.get(tagPosition);
+
     }
 
     @Override
@@ -70,6 +79,9 @@ public class DecryptTagDialogue extends CenterPopupView {
 
         errorText = findViewById(R.id.errorLabel);
 
+
+        TextView tv_name = findViewById(R.id.tv_name);
+        tv_name.setText("Decrypt " + tag.getTagName());
 
         final EditText tag_password = findViewById(R.id.tag_password);
         tag_password.addTextChangedListener(textWatcher);
@@ -98,12 +110,6 @@ public class DecryptTagDialogue extends CenterPopupView {
 
                 }else{
 
-                    ContentManager cm = PrettyManager.INSTANCE.getCm();
-                    Body body = cm.getBody();
-                    ArrayList<Tag> tags = body.getTags();
-
-                    Tag tag = tags.get(tagPosition);
-
 
                     boolean decryptSuccess = tag.decrypt(tagPassword);
 
@@ -111,19 +117,17 @@ public class DecryptTagDialogue extends CenterPopupView {
 
 
                         // notify the list to update ui
-                        Intent updateIntent = new Intent("decryptTagSuccess");
+                        Intent updateIntent = new Intent("tagStatusChanged");
                         updateIntent.putExtra("clickedTag", tagPosition);
                         LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
 
                         Intent intent = new Intent(context, EntriesListActivity.class);
                         intent.putExtra("clickedTag", tagPosition);
-                        context.startActivity(intent);
+                        fragment.startActivityForResult(intent, 10);
 
                         Toast.makeText(getContext(), "Decrypted tag success", Toast.LENGTH_LONG).show();
 
                         delayDismiss(500); // 关闭弹窗
-
-
 
 
                     }else{
@@ -131,15 +135,9 @@ public class DecryptTagDialogue extends CenterPopupView {
                         errorText.setText("Incorrect Password");
                         errorText.setVisibility(VISIBLE);
                     }
-
-
                 }
-
             }
         });
-
-
-
 
     }
 

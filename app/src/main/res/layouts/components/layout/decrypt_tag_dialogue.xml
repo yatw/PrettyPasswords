@@ -25,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:layout_toRightOf="@+id/iv_image"
-            android:text="Decrypt tag"
             android:textColor="#222"
             android:textSize="18sp" />
 

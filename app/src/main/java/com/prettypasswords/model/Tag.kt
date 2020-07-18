@@ -15,14 +15,15 @@ import kotlin.collections.ArrayList
 class Tag {
 
     // properties
-    val tagName: String
+    var tagName: String
     var lastModified: String
-    private val b64epsk: String
+    private var b64epsk: String
     private var b64eentries: String?  // base64 Encrypted entries
 
 
     private var psk: ByteArray?
     val entries: ArrayList<Entry> = ArrayList()
+
 
     // used when create a new tag
     constructor(tagName: String, prettyPassword: String){
@@ -53,12 +54,49 @@ class Tag {
         this.psk = null
     }
 
+
+
+    // try to decrypt b64epsk with this password
+    // then compare with decrypted psk
+    fun vertifyPassword(prettyPassword: String): Boolean{
+
+        if (!decrypted()){
+            return false
+        }
+
+
+        val epsk = Base64.decode(b64epsk, Base64.DEFAULT)
+
+        val hasedPP = PrettyManager.e.SHA256(prettyPassword.toByteArray())
+        val vpsk = PrettyManager.e.sKeyDecrypt(epsk, hasedPP)
+
+        return vpsk.contentEquals(psk!!)
+
+    }
+
+
+    fun changePassword(context: Context, newPassword: String){
+
+        val hasedPP = PrettyManager.e.SHA256(newPassword.toByteArray())
+        val epsk = PrettyManager.e.sKeyEncrypt(psk, hasedPP)
+        b64epsk = Base64.encodeToString(epsk, Base64.DEFAULT)
+
+        PrettyManager.cm!!.saveContentToDisk(context)
+
+        Toast.makeText(context, "Tag ${tagName} password updated", Toast.LENGTH_LONG).show()
+
+    }
+
     fun decrypted(): Boolean{
         return psk != null
     }
 
 
     fun decrypt(prettyPassword: String): Boolean{
+
+        if (decrypted()){
+            return true
+        }
 
         val eentries = Base64.decode(b64eentries, Base64.DEFAULT)
 
@@ -116,6 +154,19 @@ class Tag {
 
     }
 
+    fun delete(context: Context){
+
+        PrettyManager.cm!!.body.deleteTag(context, this)
+    }
+
+    fun renameTag(context: Context, newName: String){
+
+        this.tagName = newName
+        PrettyManager.cm!!.saveContentToDisk(context)
+
+        Toast.makeText(context, "Tag name updated to ${tagName}", Toast.LENGTH_LONG).show()
+
+    }
 
     private fun updateEntries(){
 
@@ -152,6 +203,10 @@ class Tag {
         build.put("b64eentries", b64eentries)
         build.put("lastModified", lastModified)
         return build
+    }
+
+    override fun toString(): String{
+        return tagName
     }
 
 }

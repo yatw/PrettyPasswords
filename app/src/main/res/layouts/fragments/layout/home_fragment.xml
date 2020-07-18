@@ -1,89 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:id="@+id/drawer_layout">
 
+    //主布局
+    <include layout="@layout/layout_home_main"/>
 
-    <LinearLayout
-        android:id="@+id/HomeHeader"
+    //侧边布局
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#FDFCF7">
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/drawer_main"
+        app:itemIconTint="@color/colorLightBlue"
+        app:itemTextColor="@color/colorDarkBlue">
 
         <TextView
-            android:id="@+id/TagsLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:paddingLeft="20dp"
-            android:paddingBottom="20dp"
-            android:text="Password Tags"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="23dp"
-            android:textStyle="bold"
-            android:layout_alignParentTop="true" />
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <LinearLayout
-            android:id="@+id/no_tags"
+            android:id="@+id/button_logout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:text="You don't have any Tags yet"
-                android:textAlignment="center"
-                android:textSize="35sp"
-                android:textColor="@color/colorLightGrey">
-            </TextView>
-            <TextView
-                android:id="@+id/new_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:text="Create Tag"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textColor="@color/colorDoderBlue">
-            </TextView>
-        </LinearLayout>
+            android:layout_height="50dp"
+            android:background="@color/colorRed"
+            android:gravity="center"
+            android:text="Log out"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="bottom" />
+        
+    </com.google.android.material.navigation.NavigationView>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/TagsRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"/>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/AddTagBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:src="@drawable/icon_add"
-                app:tint="@android:color/white"
-                app:backgroundTint="@color/colorPrimary"
-                android:layout_margin="16dp" />
-
-        </FrameLayout>
-
-    </RelativeLayout>
-
-
-</LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

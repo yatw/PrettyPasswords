@@ -1,5 +1,6 @@
 package com.prettypasswords.view.activities
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.KeyEvent
@@ -61,5 +62,6 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onKeyDown(keyCode, event)
     }
+
 
 }

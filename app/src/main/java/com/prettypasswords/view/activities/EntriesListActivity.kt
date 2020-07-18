@@ -17,6 +17,7 @@ import com.prettypasswords.R
 import com.prettypasswords.model.Entry
 import com.prettypasswords.model.Tag
 import com.prettypasswords.view.components.AddEntryDialogue
+import com.prettypasswords.view.components.ChangeTagPasswordPopUp
 import com.prettypasswords.view.components.EntryAdapter
 import kotlinx.android.synthetic.main.activity_entry_list.*
 
@@ -32,7 +33,8 @@ class EntriesListActivity : AppCompatActivity() {
     lateinit var entryAdapter: EntryAdapter
     lateinit var listOfEntry: ArrayList<Entry>
 
-    val receiver = object : BroadcastReceiver() {
+
+    val addEntryReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             //文件变化
             entryAdapter.notifyDataSetChanged()
@@ -63,9 +65,47 @@ class EntriesListActivity : AppCompatActivity() {
         listOfEntry = tag.entries
     }
 
+
     private fun initClick(){
+
+
         AddEntryBtn.setOnClickListener {
+
             XPopup.Builder(this).asCustom(AddEntryDialogue(this, tag)).show()
+        }
+
+
+        setting_btn.setOnClickListener{
+
+            // https://github.com/li-xiaojun/XPopup/wiki/2.-%E5%86%85%E7%BD%AE%E7%9A%84%E5%BC%B9%E7%AA%97%E5%AE%9E%E7%8E%B0
+            // 这种弹窗从 1.0.0版本开始实现了优雅的手势交互和智能嵌套滚动
+            XPopup.Builder(this)
+                .asCenterList(
+                    "Manage tag ${tag.tagName}",
+
+                    arrayOf(
+                        "Add entry",
+                        "Rename tag",
+                        "Change tag password",
+                        "Delete tag")
+                ) {
+                        position, text ->
+
+                    when (position) {
+
+                        0 -> XPopup.Builder(this).asCustom(AddEntryDialogue(this, tag)).show()
+
+                        1 -> renameTagPopUp()
+
+                        2 -> changeTagPasswordPopUp()
+
+                        3 -> deleteTagConfirm()
+                    }
+
+                }
+                .show()
+
+
         }
 
     }
@@ -78,7 +118,7 @@ class EntriesListActivity : AppCompatActivity() {
             EntriesRecyclerView.visibility = View.VISIBLE
         }
 
-        TagNameLabel.text = "${tag.tagName}"
+        TagNameLabel.text = tag.tagName
         EntryCount.text = "${listOfEntry.size} entries"
 
         entryAdapter = EntryAdapter(this, tag.entries)
@@ -141,8 +181,6 @@ class EntriesListActivity : AppCompatActivity() {
                             Toast.makeText(context, text, Toast.LENGTH_LONG).show()
                         }
 
-
-
                 }
                     .show()
                 return false
@@ -152,12 +190,12 @@ class EntriesListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter("addEntrySuccess"))
+        LocalBroadcastManager.getInstance(this).registerReceiver(addEntryReceiver, IntentFilter("addEntrySuccess"))
     }
 
     override fun onPause() {
         super.onPause()
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(addEntryReceiver)
     }
 
     private fun notifyItemRemoved(pos: Int){
@@ -197,5 +235,54 @@ class EntriesListActivity : AppCompatActivity() {
         }
     }
 
+    private fun renameTagPopUp(){
+
+        XPopup.Builder(context)
+            .autoOpenSoftInput(true)
+            .asInputConfirm("Rename tag ${tag.tagName}", "", "Enter new tag name")
+            {
+
+                input ->  tag.renameTag(context, input)
+
+                // update title
+                TagNameLabel.text = tag.tagName
+
+                // notify the list to update ui
+                val updateIntent = Intent("tagStatusChanged")
+                updateIntent.putExtra("clickedTag", clickedTag)
+                LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent)
+
+            }
+            .show()
+
+    }
+
+    private fun changeTagPasswordPopUp(){
+        XPopup.Builder(context)
+            .autoOpenSoftInput(true)
+            .asCustom(ChangeTagPasswordPopUp(context, tag))
+            .show()
+    }
+
+    private fun deleteTagConfirm(){
+
+
+        // 显示确认和取消对话框
+        // https://github.com/li-xiaojun/XPopup/wiki/2.-%E5%86%85%E7%BD%AE%E7%9A%84%E5%BC%B9%E7%AA%97%E5%AE%9E%E7%8E%B0
+
+        XPopup.Builder(this).asConfirm(
+            "Delete Tag ${tag.tagName}?", "All ${tag.entries.size} entries in this tag will be deleted"
+        ) {
+
+            tag.delete(context)
+
+            val intent = Intent()
+            intent.putExtra("clickedTag", clickedTag)
+            setResult(6, intent)
+            finish()
+
+        }.show()
+
+    }
 
 }

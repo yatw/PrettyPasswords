@@ -17,7 +17,7 @@ import com.prettypasswords.R
 import com.prettypasswords.model.Entry
 
 
-class EntryAdapter(val context: Context, var entries: ArrayList<Entry>): RecyclerView.Adapter<EntryAdapter.ViewHolder>() {
+class EntryAdapter(val context: Context, private val entries: ArrayList<Entry>): RecyclerView.Adapter<EntryAdapter.ViewHolder>() {
 
 
 
