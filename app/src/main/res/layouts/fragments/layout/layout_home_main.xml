@@ -32,34 +32,19 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-        <LinearLayout
+
+        <TextView
             android:id="@+id/no_tags"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:text="You don't have any Tags yet"
-                android:textAlignment="center"
-                android:textSize="35sp"
-                android:textColor="@color/colorLightGrey">
-            </TextView>
-            <TextView
-                android:id="@+id/new_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:text="Create Tag"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textColor="@color/colorDoderBlue">
-            </TextView>
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="You don't have any Tags yet"
+            android:textAlignment="center"
+            android:textSize="35sp"
+            android:textColor="@color/colorLightGrey">
+        </TextView>
 
         <FrameLayout
             android:layout_width="match_parent"

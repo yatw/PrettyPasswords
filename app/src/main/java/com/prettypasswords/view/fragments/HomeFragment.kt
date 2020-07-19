@@ -17,8 +17,8 @@ import com.lxj.xpopup.XPopup
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
 import com.prettypasswords.view.activities.EntriesListActivity
-import com.prettypasswords.view.components.AddTagDialogue
-import com.prettypasswords.view.components.DecryptTagDialogue
+import com.prettypasswords.view.popups.AddTag
+import com.prettypasswords.view.popups.DecryptTag
 import com.prettypasswords.view.components.TagAdapter
 import kotlinx.android.synthetic.main.layout_home_main.*
 
@@ -71,7 +71,11 @@ class HomeFragment : Fragment() {
 
     private fun initClick(){
         AddTagBtn.setOnClickListener {
-            XPopup.Builder(context).asCustom(AddTagDialogue(context!!)).show()
+            XPopup.Builder(context).asCustom(
+                AddTag(
+                    context!!
+                )
+            ).show()
         }
     }
 
@@ -102,7 +106,13 @@ class HomeFragment : Fragment() {
 
                 if (!tag.decrypted()){
 
-                    XPopup.Builder(context).asCustom(DecryptTagDialogue(context!!, position, this@HomeFragment)).show()
+                    XPopup.Builder(context).asCustom(
+                        DecryptTag(
+                            context!!,
+                            position,
+                            this@HomeFragment
+                        )
+                    ).show()
 
                 }else{
 

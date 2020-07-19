@@ -1,4 +1,4 @@
-package com.prettypasswords.view.components;
+package com.prettypasswords.view.popups;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +27,7 @@ import com.prettypasswords.view.fragments.HomeFragment;
 
 // Xpop up custom center pop up
 // https://github.com/li-xiaojun/XPopup/blob/master/library/src/main/java/com/lxj/xpopup/core/CenterPopupView.java
-public class DecryptTagDialogue extends CenterPopupView {
+public class DecryptTag extends CenterPopupView {
 
     int tagPosition;
     Context context;
@@ -52,7 +52,7 @@ public class DecryptTagDialogue extends CenterPopupView {
         }
     };
 
-    public DecryptTagDialogue(@NonNull Context context, int tagPosition, HomeFragment fragment) {
+    public DecryptTag(@NonNull Context context, int tagPosition, HomeFragment fragment) {
         super(context);
         this.context = context;
         this.fragment = fragment;
@@ -68,7 +68,7 @@ public class DecryptTagDialogue extends CenterPopupView {
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout.decrypt_tag_dialogue;
+        return R.layout.layout_decrypt_tag;
     }
 
 

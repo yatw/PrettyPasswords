@@ -1,4 +1,4 @@
-package com.prettypasswords.view.components;
+package com.prettypasswords.view.popups;
 
 
 import android.annotation.SuppressLint;
@@ -21,7 +21,7 @@ import com.prettypasswords.utilities.PopupKt;
 
 // Description: 带有输入框的Bottom弹窗
 
-public class ChangeTagPasswordPopUp extends BottomPopupView {
+public class ChangeTagPassword extends BottomPopupView {
 
     Tag tag;
     TextView errorText;
@@ -45,14 +45,14 @@ public class ChangeTagPasswordPopUp extends BottomPopupView {
         }
     };
 
-    public ChangeTagPasswordPopUp(@NonNull Context context, Tag tag) {
+    public ChangeTagPassword(@NonNull Context context, Tag tag) {
         super(context);
         this.tag = tag;
     }
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout.change_tag_password_popup;
+        return R.layout.layout_change_tag_password;
     }
 
 
@@ -117,10 +117,6 @@ public class ChangeTagPasswordPopUp extends BottomPopupView {
         });
     }
 
-    @Override
-    protected void onDismiss() {
-        super.onDismiss();
-    }
 
     @Override
     protected int getMaxHeight() {

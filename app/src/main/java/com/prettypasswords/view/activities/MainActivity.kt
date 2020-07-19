@@ -3,6 +3,7 @@ package com.prettypasswords.view.activities
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
 import android.view.KeyEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -55,12 +56,18 @@ class MainActivity : AppCompatActivity() {
         ft.commit()
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK ) {
-            //这里写需要重写的方法
-            return false
+
+    private var doubleBackToExitPressedOnce = false
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
         }
-        return super.onKeyDown(keyCode, event)
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Tab again to exit", Toast.LENGTH_SHORT).show()
+
+        Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
 
 

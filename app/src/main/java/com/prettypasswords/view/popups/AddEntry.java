@@ -1,4 +1,4 @@
-package com.prettypasswords.view.components;
+package com.prettypasswords.view.popups;
 
 import android.content.Context;
 import android.view.View;
@@ -7,20 +7,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-
-import com.lxj.xpopup.core.CenterPopupView;
+import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.prettypasswords.R;
 import com.prettypasswords.model.Tag;
 import com.prettypasswords.utilities.PopupKt;
 
-// Xpop up custom center pop up
-// https://github.com/li-xiaojun/XPopup/blob/master/library/src/main/java/com/lxj/xpopup/core/CenterPopupView.java
-public class AddEntryDialogue extends CenterPopupView {
+public class AddEntry extends FullScreenPopupView {
 
     Context context;
     Tag tag;
 
-    public AddEntryDialogue(@NonNull Context context, Tag tag) {
+    public AddEntry(@NonNull Context context, Tag tag) {
         super(context);
         this.context = context;
         this.tag = tag;
@@ -28,7 +25,7 @@ public class AddEntryDialogue extends CenterPopupView {
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout.add_entry_dialogue;
+        return R.layout.layout_add_entry;
     }
 
 
@@ -74,16 +71,6 @@ public class AddEntryDialogue extends CenterPopupView {
 
             }
         });
-    }
-
-    @Override
-    protected int getMaxWidth() {
-        return super.getMaxWidth();
-    }
-
-    @Override
-    protected int getMaxHeight() {
-        return super.getMaxHeight();
     }
 
 }

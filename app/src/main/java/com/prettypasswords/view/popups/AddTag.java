@@ -1,10 +1,12 @@
-package com.prettypasswords.view.components;
+package com.prettypasswords.view.popups;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,11 +21,13 @@ import com.prettypasswords.R;
 
 // Xpop up custom center pop up
 // https://github.com/li-xiaojun/XPopup/blob/master/library/src/main/java/com/lxj/xpopup/core/CenterPopupView.java
-public class AddTagDialogue extends CenterPopupView {
+public class AddTag extends CenterPopupView {
 
+    CheckBox understand_check_box;
     TextView errorText;
     EditText tag_name_input;
     EditText tag_password;
+    EditText tag_password2;
 
     TextWatcher textWatcher = new TextWatcher() {
         @Override
@@ -32,7 +36,7 @@ public class AddTagDialogue extends CenterPopupView {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            errorText.setVisibility(INVISIBLE);
+            errorText.setVisibility(GONE);
         }
 
         @Override
@@ -41,13 +45,13 @@ public class AddTagDialogue extends CenterPopupView {
     };
 
 
-    public AddTagDialogue(@NonNull Context context) {
+    public AddTag(@NonNull Context context) {
         super(context);
     }
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout.add_tag_dialogue;
+        return R.layout.layout_add_tag;
     }
 
 
@@ -56,12 +60,16 @@ public class AddTagDialogue extends CenterPopupView {
     protected void onCreate() {
         super.onCreate();
 
+        understand_check_box = findViewById(R.id.understand_check_box);
+
         errorText = findViewById(R.id.errorLabel);
         tag_name_input = findViewById(R.id.tag_name_input);
         tag_password = findViewById(R.id.tag_password);
+        tag_password2 = findViewById(R.id.tag_password2);
 
         tag_name_input.addTextChangedListener(textWatcher);
         tag_password.addTextChangedListener(textWatcher);
+        tag_password2.addTextChangedListener(textWatcher);
 
         TextView closeButton = findViewById(R.id.create_tag_close);
         closeButton.setOnClickListener(new OnClickListener() {
@@ -71,18 +79,23 @@ public class AddTagDialogue extends CenterPopupView {
             }
         });
 
-        TextView submitButton = findViewById(R.id.create_tag_submit);
+
+        final TextView submitButton = findViewById(R.id.create_tag_submit);
         submitButton.setOnClickListener(new OnClickListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
 
-
                 String tagName = tag_name_input.getText().toString();
                 String tagPassword = tag_password.getText().toString();
+                String tagPassword2 = tag_password2.getText().toString();
 
-                if (tagName.isEmpty() || tagPassword.isEmpty()){
+                if (tagName.isEmpty() || tagPassword.isEmpty() || tagPassword2.isEmpty()){
                     errorText.setText("Input cannot be empty");
+                    errorText.setVisibility(VISIBLE);
+
+                }else if (!tagPassword.equals(tagPassword2)){
+                    errorText.setText("Passwords do not match");
                     errorText.setVisibility(VISIBLE);
 
                 }else{
@@ -94,16 +107,21 @@ public class AddTagDialogue extends CenterPopupView {
 
             }
         });
+
+
+        // only allow submit button to be clicked if checkbox is checked
+        understand_check_box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked){
+                    submitButton.setEnabled(true);
+                }else{
+                    submitButton.setEnabled(false);
+                }
+            }
+        });
     }
 
-    @Override
-    protected int getMaxWidth() {
-        return super.getMaxWidth();
-    }
-
-    @Override
-    protected int getMaxHeight() {
-        return super.getMaxHeight();
-    }
 
 }

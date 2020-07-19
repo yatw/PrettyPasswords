@@ -16,8 +16,8 @@ import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
 import com.prettypasswords.model.Entry
 import com.prettypasswords.model.Tag
-import com.prettypasswords.view.components.AddEntryDialogue
-import com.prettypasswords.view.components.ChangeTagPasswordPopUp
+import com.prettypasswords.view.popups.AddEntry
+import com.prettypasswords.view.popups.ChangeTagPassword
 import com.prettypasswords.view.components.EntryAdapter
 import kotlinx.android.synthetic.main.activity_entry_list.*
 
@@ -69,9 +69,18 @@ class EntriesListActivity : AppCompatActivity() {
     private fun initClick(){
 
 
-        AddEntryBtn.setOnClickListener {
+        add_entry_btn.setOnClickListener {
 
-            XPopup.Builder(this).asCustom(AddEntryDialogue(this, tag)).show()
+            XPopup.Builder(this)
+                .hasStatusBarShadow(true)
+                .autoOpenSoftInput(true)
+                .asCustom(
+                    AddEntry(
+                        this,
+                        tag
+                    )
+                )
+                .show()
         }
 
 
@@ -93,7 +102,16 @@ class EntriesListActivity : AppCompatActivity() {
 
                     when (position) {
 
-                        0 -> XPopup.Builder(this).asCustom(AddEntryDialogue(this, tag)).show()
+                        0 ->XPopup.Builder(this)
+                            .hasStatusBarShadow(true)
+                            .autoOpenSoftInput(true)
+                            .asCustom(
+                                AddEntry(
+                                    this,
+                                    tag
+                                )
+                            )
+                            .show()
 
                         1 -> renameTagPopUp()
 
@@ -168,7 +186,7 @@ class EntriesListActivity : AppCompatActivity() {
                             // https://github.com/li-xiaojun/XPopup/wiki/2.-%E5%86%85%E7%BD%AE%E7%9A%84%E5%BC%B9%E7%AA%97%E5%AE%9E%E7%8E%B0
 
                             XPopup.Builder(context).asConfirm(
-                                "Confirm delete", "You sure you want to delete ${entry.siteName}?"
+                                "Delete entry ${entry.siteName}?", ""
                             ) {
 
                                 entry.delete(context)
@@ -260,7 +278,12 @@ class EntriesListActivity : AppCompatActivity() {
     private fun changeTagPasswordPopUp(){
         XPopup.Builder(context)
             .autoOpenSoftInput(true)
-            .asCustom(ChangeTagPasswordPopUp(context, tag))
+            .asCustom(
+                ChangeTagPassword(
+                    context,
+                    tag
+                )
+            )
             .show()
     }
 
