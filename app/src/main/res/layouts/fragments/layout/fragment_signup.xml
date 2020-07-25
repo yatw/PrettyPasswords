@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="50sp"
+        android:paddingBottom="200dp">
+
+        <ImageView
+            android:id="@+id/icon_main"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/newtag"
+            android:layout_marginTop="60sp"/>
+
+        <TextView
+            android:id="@+id/label_create"
+            app:layout_constraintTop_toBottomOf="@+id/icon_main"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Your Account"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorSecondary"
+            android:layout_marginTop="40sp"/>
+
+
+        <TextView
+            android:id="@+id/label_user_name"
+            app:layout_constraintTop_toBottomOf="@+id/label_create"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Name"
+            android:textSize="14sp"
+            android:layout_marginTop="40sp"/>
+
+
+        <EditText
+            android:id="@+id/input_user_name"
+            app:layout_constraintTop_toBottomOf="@+id/label_user_name"
+            app:layout_constraintStart_toStartOf="parent"
+            android:maxLines="1"
+            android:lines="1"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/label_password"
+            app:layout_constraintTop_toBottomOf="@+id/input_user_name"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Password"
+            android:textSize="14sp"
+            android:layout_marginTop="20sp"/>
+
+        <EditText
+            android:id="@+id/input_password"
+            app:layout_constraintTop_toBottomOf="@+id/label_password"
+            app:layout_constraintStart_toStartOf="parent"
+            android:maxLines="1"
+            android:lines="1"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/label_password2"
+            app:layout_constraintTop_toBottomOf="@+id/input_password"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm Password"
+            android:textSize="14sp"
+            android:layout_marginTop="20sp"/>
+
+        <EditText
+            android:id="@+id/input_password2"
+            app:layout_constraintTop_toBottomOf="@+id/label_password2"
+            app:layout_constraintStart_toStartOf="parent"
+            android:maxLines="1"
+            android:lines="1"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_signup"
+            app:layout_constraintTop_toBottomOf="@+id/input_password2"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:layout_marginTop="50sp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/btn_signup"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="10sp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already have an account?"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/btn_goto_signin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  Sign In"
+                android:textColor="@color/colorDoderBlue"
+                android:textSize="14sp"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

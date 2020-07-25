@@ -19,6 +19,7 @@ import com.prettypasswords.model.Tag
 import com.prettypasswords.view.popups.AddEntry
 import com.prettypasswords.view.popups.ChangeTagPassword
 import com.prettypasswords.view.components.EntryAdapter
+import kotlinx.android.synthetic.main.activity_entry.*
 import kotlinx.android.synthetic.main.activity_entry_list.*
 
 
@@ -68,6 +69,11 @@ class EntriesListActivity : AppCompatActivity() {
 
     private fun initClick(){
 
+
+
+        btn_back.setOnClickListener {
+            finish()
+        }
 
         add_entry_btn.setOnClickListener {
 

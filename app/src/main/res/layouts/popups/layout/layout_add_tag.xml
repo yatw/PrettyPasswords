@@ -51,6 +51,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
+        android:maxLines="1"
+        android:lines="1"
+        android:singleLine="true"
         android:hint="Enter a tag name" />
 
 
@@ -60,6 +63,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
+        android:maxLines="1"
+        android:lines="1"
+        android:singleLine="true"
         android:hint="Create a password" />
 
 
@@ -69,6 +75,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
+        android:maxLines="1"
+        android:lines="1"
+        android:singleLine="true"
         android:hint="Confirm password" />
 
     <CheckBox

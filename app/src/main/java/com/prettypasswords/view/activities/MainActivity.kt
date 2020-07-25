@@ -1,36 +1,39 @@
 package com.prettypasswords.view.activities
 
-import android.content.Intent
-import android.content.res.Configuration
+
 import android.os.Bundle
 import android.os.Handler
-import android.view.KeyEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
-import com.prettypasswords.controller.getUserName
+import com.prettypasswords.controller.getLastSessionUser
 import com.prettypasswords.controller.hasCredential
 import com.prettypasswords.view.fragments.HomeFragment
 import com.prettypasswords.view.fragments.SignInFragment
 import com.prettypasswords.view.fragments.SignUpFragment
+import kotlinx.android.synthetic.main.fragment_home.*
+import java.lang.NullPointerException
 
 
 // MainActivity is just a container for signin or signup fragment
 class MainActivity : AppCompatActivity() {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme)   // remove splash screen
 
 
-        val userName: String? = getUserName(this)
+        val lastUser: String? = getLastSessionUser(this)
 
-        if (userName != null && !userName.equals("") && hasCredential(
+        if (lastUser != null && !lastUser.equals("") && hasCredential(
                 this,
-                userName
+                lastUser
             )
         ){
 
@@ -44,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             replaceFragment(SignUpFragment())
         }
 
-       setContentView(R.layout.activity_main);
+       setContentView(R.layout.activity_main)
     }
 
 
@@ -59,6 +62,15 @@ class MainActivity : AppCompatActivity() {
 
     private var doubleBackToExitPressedOnce = false
     override fun onBackPressed() {
+
+        try{
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)){
+                drawer_layout.closeDrawer(GravityCompat.START)
+                return
+            }
+        }catch (e: NullPointerException){
+        }
+
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed()
             return

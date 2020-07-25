@@ -21,6 +21,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    android {
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
 
     sourceSets {
         main {
@@ -54,5 +60,12 @@ dependencies {
 
     // xpopup
     implementation 'com.lxj:xpopup:1.8.10-x'
+
+    // circular image
+    implementation 'com.mikhaellopez:circularimageview:4.2.0'
+
+    // https://github.com/hedzr/android-file-chooser
+    implementation group: 'com.obsez.android.lib.filechooser', name: 'filechooser', version: '1.2.0'
+
 
 }

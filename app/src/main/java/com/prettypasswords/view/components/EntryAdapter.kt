@@ -35,7 +35,7 @@ class EntryAdapter(val context: Context, private val entries: ArrayList<Entry>):
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         // Every item in the list need to create a new view for it
-        val itemView = LayoutInflater.from(context).inflate(R.layout.entry_item, parent, false );
+        val itemView = LayoutInflater.from(context).inflate(R.layout.item_entry, parent, false );
 
         return ViewHolder(itemView)
     }

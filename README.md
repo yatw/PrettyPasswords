@@ -22,7 +22,16 @@ The data is never put into some database you don't know where in the internet.
   and    
 2. Break libsodium or somehow know your master password and pretty passwords    
     
-  
+### Android concepts used  
+- [x] SharedPreferences  
+- [x] Internal file storage
+- [x] File import and export
+- [x] RecyclerView with adapter  
+- [x] Custom Pop Up  
+- [x] BoardCast Receiver  
+- [x] SideNav Drawer  
+- [x] Fragments  
+- [x] Web View
     
 ### Issues/Challenges    
  1. If all information are encrypted and stored as a single file in disk, how do you update only a part of the content. (Etc If a user wants to edit one password, only the tag that contains the password needs update, all other tags remain unchanged).    
@@ -36,22 +45,3 @@ The data is never put into some database you don't know where in the internet.
   
 4. On softkeyboard hide and show, adjustResize and adjustPan both cause recyclverView to automatically updated its element on the UI without specifically calling notifyDataSetChanged.  
     
-### Android concepts used  
-- [x] SharedPreferences  
-- [x] Internal file storage
-- [x] RecyclerView with adapter  
-- [x] Custom Pop Up  
-- [x] BoardCast Receiver  
-- [x] SideNav Drawer  
-- [x] Fragments  
-  
-  
-### Flow  
-  
-- sdk need encryption, credential, file create, read, write, email, generate password, change password reminder    
-    
-- app: set up password, created credential, and saved to file    
-    
-- experiment with UI (pop up and say login failed)    
-    
-- asynctask for opening file

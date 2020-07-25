@@ -11,7 +11,7 @@ import org.json.JSONObject
 class ContentManager{
 
 
-    private val credential: JSONObject
+    private var credential: JSONObject
     var body: Body
 
 
@@ -28,7 +28,7 @@ class ContentManager{
     }
 
 
-    // When first create the cryptoFile, put in userName and esk
+    // generate JSONObject credential from object credential
     private fun initCredential(): JSONObject {
 
         val c = PrettyManager.c!!
@@ -47,13 +47,25 @@ class ContentManager{
         return credential
     }
 
+    // when user change password, everything has to be re-encrypted
+    fun updateContent(){
+
+        credential = initCredential()
+        body.reencrypt()
+    }
+
 
     fun saveContentToDisk(context: Context){
+        val eContent = getEncryptedContent()
+        createCryptoFile(context, eContent)
+    }
+
+    fun getEncryptedContent(): JSONObject{
 
         val content = JSONObject()
         content.put("credential", credential)
         content.put("body", body.build())
-        createCryptoFile(context, content)
+        return content
     }
 
 

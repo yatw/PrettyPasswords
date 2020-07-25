@@ -7,11 +7,11 @@
         android:title="Account">
         <menu>
             <item
-                android:id="@+id/password_nav"
-                android:title="Manage Passwords"
+                android:id="@+id/btn_manage_profile"
+                android:title="Manage Profile"
                 android:icon="@drawable/icon_key"/>
             <item
-                android:id="@+id/back_up_nav"
+                android:id="@+id/btn_back_up"
                 android:title="Back Up Data"
                 android:icon="@drawable/icon_backup"/>
         </menu>
@@ -20,11 +20,11 @@
     <item android:title="About">
         <menu>
             <item
-                android:id="@+id/how_to_use"
-                android:title="How to use"
+                android:id="@+id/btn_source_code"
+                android:title="Source Code"
                 android:icon="@drawable/icon_doc"/>
             <item
-                android:id="@+id/how_this_work"
+                android:id="@+id/btn_how_this_work"
                 android:title="How this work"
                 android:icon="@drawable/icon_explain"/>
         </menu>
@@ -33,11 +33,11 @@
     <item android:title="Support">
         <menu>
             <item
-                android:id="@+id/faq_nav"
+                android:id="@+id/btn_faq"
                 android:title="Help FAQ"
                 android:icon="@drawable/icon_faq"/>
             <item
-                android:id="@+id/bug_report_nav"
+                android:id="@+id/btn_bug"
                 android:title="Report a bug"
                 android:icon="@drawable/icon_bug"/>
         </menu>

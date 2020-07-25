@@ -4,6 +4,9 @@
     package="com.prettypasswords"
     tools:ignore="LockedOrientationActivity">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -11,11 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Launcher"
-        tools:ignore="LockedOrientationActivity">
-        <activity android:name=".view.activities.EntriesListActivity"
-                  android:windowSoftInputMode="adjustResize">
-        </activity>
-        <activity android:name=".view.activities.EntryActivity"></activity>
+        tools:ignore="LockedOrientationActivity"
+        tools:replace="android:allowBackup">
+        <activity android:name=".view.activities.ProfileActivity"></activity>
+        <activity android:name=".view.activities.BackUpActivity" />
+        <activity android:name=".view.activities.BrowserActivity" />
+        <activity
+            android:name=".view.activities.EntriesListActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".view.activities.EntryActivity" />
         <activity
             android:name=".view.activities.MainActivity"
             android:screenOrientation="portrait"

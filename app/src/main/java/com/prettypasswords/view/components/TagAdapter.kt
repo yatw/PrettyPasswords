@@ -18,7 +18,7 @@ import com.prettypasswords.utilities.LetterTileProvider
 import com.prettypasswords.model.Tag
 
 
-class TagAdapter(val context: Context, private val tags: ArrayList<Tag>): RecyclerView.Adapter<TagAdapter.ViewHolder>() {
+class TagAdapter(val context: Context,  var tags: ArrayList<Tag>): RecyclerView.Adapter<TagAdapter.ViewHolder>() {
 
     companion object{
         val TYPE_Tag=1
@@ -40,7 +40,7 @@ class TagAdapter(val context: Context, private val tags: ArrayList<Tag>): Recycl
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         // Every item in the list need to create a new view for it
-        val itemView = LayoutInflater.from(context).inflate(R.layout.tag_item, parent, false );
+        val itemView = LayoutInflater.from(context).inflate(R.layout.item_tag, parent, false );
 
         return ViewHolder(itemView)
     }

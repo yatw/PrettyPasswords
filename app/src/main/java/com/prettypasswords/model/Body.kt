@@ -15,8 +15,8 @@ import kotlin.collections.ArrayList
 class Body {
 
     // properties
-    private val b64xesak: String
-    private var b64etags: String?
+    private var b64xesak: String
+    private var b64etags: String?  // updated when save to disk
 
     private var sak: ByteArray? = null
     val tags: ArrayList<Tag> = ArrayList()
@@ -42,6 +42,7 @@ class Body {
     }
 
 
+    // use by updateTags()
     private fun encrypt(btags: ByteArray): String{
 
         val etags = PrettyManager.e.sKeyEncrypt(btags, sak)
@@ -76,6 +77,21 @@ class Body {
             val tag = Tag(tagsJSON.getJSONObject(i))
             tags.add(tag)
         }
+
+    }
+
+    // when user change password, everything need to be re=encrypted
+    fun reencrypt(){
+
+        // create a xesak, and save it as b64 string
+        val c: Credential = PrettyManager.c!!
+        val xesak = PrettyManager.e.generateXESAK(c.pk, c.getSk())
+        b64xesak = Base64.encodeToString(xesak, Base64.DEFAULT)
+
+        // decrypt sak from xesak
+        sak = PrettyManager.e.generateSAK(xesak, c.pk, c.getSk())
+
+        updateTags()
 
     }
 

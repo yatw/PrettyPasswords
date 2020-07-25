@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Pretty Passwords</string>
     <string name="cryptoFilePrefix">cryptoFile</string>
+    <string name="repo_url">https://github.com/yatw/PrettyPasswords</string>
+    <string name="wiki_url">https://github.com/yatw/PrettyPasswords/wiki/How-this-work</string>
 </resources>

@@ -8,18 +8,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lxj.xpopup.XPopup
+import com.lxj.xpopup.enums.PopupAnimation
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
-import com.prettypasswords.view.activities.EntriesListActivity
+import com.prettypasswords.controller.logout
+import com.prettypasswords.view.activities.*
+import com.prettypasswords.view.components.TagAdapter
 import com.prettypasswords.view.popups.AddTag
 import com.prettypasswords.view.popups.DecryptTag
-import com.prettypasswords.view.components.TagAdapter
+import com.prettypasswords.view.popups.PopUpAlert
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.layout_drawer.*
 import kotlinx.android.synthetic.main.layout_home_main.*
 
 
@@ -58,7 +66,7 @@ class HomeFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.home_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,6 +78,7 @@ class HomeFragment : Fragment() {
 
 
     private fun initClick(){
+
         AddTagBtn.setOnClickListener {
             XPopup.Builder(context).asCustom(
                 AddTag(
@@ -77,9 +86,98 @@ class HomeFragment : Fragment() {
                 )
             ).show()
         }
+
+        btn_drawer.setOnClickListener {
+
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)){
+                drawer_layout.closeDrawer(GravityCompat.START)
+            }else{
+                drawer_layout.openDrawer(GravityCompat.START)
+            }
+        }
+
+
+        // drawer item
+        nav_view.setNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.btn_manage_profile -> {
+
+                    val intent = Intent(context, ProfileActivity::class.java)
+                    startActivityForResult(intent,22)
+                }
+                R.id.btn_back_up -> {
+
+                    val intent = Intent(context, BackUpActivity::class.java)
+                    startActivity(intent)
+                }
+                R.id.btn_source_code -> {
+
+                    val repo_url = resources.getString(R.string.repo_url)
+
+                    val intent = Intent(context, BrowserActivity::class.java)
+                    intent.putExtra("title", "Source Code")
+                    intent.putExtra("url", repo_url)
+                    startActivity(intent)
+                }
+                R.id.btn_how_this_work -> {
+
+                    val wiki_url = resources.getString(R.string.wiki_url)
+
+                    val intent = Intent(context, BrowserActivity::class.java)
+                    intent.putExtra("title", "How this work")
+                    intent.putExtra("url", wiki_url)
+                    startActivity(intent)
+                }
+                R.id.btn_faq -> {
+
+                    XPopup.Builder(context)
+                        .offsetX(100)
+                        .offsetY(600)
+                        .popupAnimation(PopupAnimation.TranslateAlphaFromRight)
+                        .asCustom(PopUpAlert(context!!, "Wasn't expecting any FAQ, \nthanks for clicking anyway"))
+                        .show()
+
+                }
+                R.id.btn_bug -> {
+
+                    XPopup.Builder(context)
+                        .offsetX(100)
+                        .offsetY(800)
+                        .popupAnimation(PopupAnimation.TranslateFromBottom)
+                        .asCustom(PopUpAlert(context!!, "It's not a bug, it's a feature !!"))
+                        .show()
+                }
+            }
+            //drawer_layout.closeDrawer(GravityCompat.START)
+            true
+        }
+
+        button_logout.setOnClickListener {
+
+            // 显示确认和取消对话框
+            // https://github.com/li-xiaojun/XPopup/wiki/2.-%E5%86%85%E7%BD%AE%E7%9A%84%E5%BC%B9%E7%AA%97%E5%AE%9E%E7%8E%B0
+
+            XPopup.Builder(context).asConfirm(
+                "Logout of ${PrettyManager.c!!.userName}?", ""
+            ) {
+
+                logout(context!!)
+                (activity as MainActivity).replaceFragment(SignInFragment())  // switch fragment back to signin
+
+                Toast.makeText(context, "Log out Success", Toast.LENGTH_LONG).show()
+
+            }.show()
+
+        }
     }
 
     private fun initView(){
+
+
+        // set user name in drawer
+        val headerView = nav_view.getHeaderView(0)
+        val txtUsername: TextView = headerView.findViewById(R.id.nav_username)
+        txtUsername.text = PrettyManager.c!!.userName
 
         if (tags.size > 0){
             no_tags.visibility = View.GONE
@@ -89,6 +187,7 @@ class HomeFragment : Fragment() {
 
         tagAdapter = TagAdapter(context!!, tags)
 
+        println("How many tags: = ${PrettyManager.cm!!.body.tags}")
 
         TagsRecyclerView.adapter = tagAdapter
         TagsRecyclerView.layoutManager = LinearLayoutManager(context!!)
@@ -102,7 +201,7 @@ class HomeFragment : Fragment() {
 
             override fun onItemClick(view: View?, position: Int) {
 
-                val tag = tags.get(position);
+                val tag = tags.get(position)
 
                 if (!tag.decrypted()){
 
@@ -129,7 +228,7 @@ class HomeFragment : Fragment() {
 
     private fun notifyItemRemoved(pos: Int){
 
-        tagAdapter.notifyItemRemoved(pos);
+        tagAdapter.notifyItemRemoved(pos)
 
         if (tags.size == 0){
             no_tags.visibility = View.VISIBLE
@@ -164,9 +263,13 @@ class HomeFragment : Fragment() {
                 notifyItemRemoved(clickedTag)
             }
 
+            // logout required from ProfileActivity
+        }else if (requestCode==22 && resultCode == 44){
+
+            logout(context!!)
+            (activity as MainActivity).replaceFragment(SignInFragment())  // switch fragment back to signin
+
         }
     }
-
-
 
 }

@@ -33,4 +33,6 @@
     <color name="colorDarkBlue">#283c4b</color>
 
     <color name="mtrl_textinput_default_box_stroke_color">#fff</color>
+
+    <color name="colorSuccessGreen">#4BB543</color>
 </resources>
