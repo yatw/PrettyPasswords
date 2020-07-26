@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.controller.Credential
-import com.prettypasswords.view.activities.EntriesListActivity
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.collections.ArrayList

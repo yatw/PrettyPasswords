@@ -5,13 +5,23 @@
 100% Persistent: User can export the encrypted file from app to transfer between devices.  
 
 The data is never put into some database you don't know where in the internet.
+
+# Demo
+
+|Insert and Edit Tag|Decrypt what you need|
+|:---:|:---:|
+|![](demo/normal_add.gif)|![](demo/decrypt_tag.gif)|
+    
+|Manage Profile | Export encrypted save file|
+|:---:|:---:|
+|![](demo/sidenav.gif)|![](demo/export.gif)|    
     
 #### What make this password manager unique  
 - You can remember passwords however you want as usual, but the underlying real password for each site is strong and different    
     
-- No database dependencies, can't break the database if there isn't one    
+- No database dependencies, can't break one if there isn't one    
     
-- No internet connection required, only you have access the content
+- No internet connection required
     
 - Easy sign up with no personal information    
 

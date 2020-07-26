@@ -16,7 +16,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/newtag"
+            android:src="@drawable/icon_main"
             android:layout_marginTop="40sp"/>
 
         <TextView

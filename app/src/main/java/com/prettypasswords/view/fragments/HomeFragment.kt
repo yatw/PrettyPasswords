@@ -215,7 +215,7 @@ class HomeFragment : Fragment() {
 
                 }else{
 
-                    val intent = Intent(context, EntriesListActivity::class.java)
+                    val intent = Intent(context, TagActivity::class.java)
                     intent.putExtra("clickedTag", position)
                     startActivityForResult(intent,10)
 

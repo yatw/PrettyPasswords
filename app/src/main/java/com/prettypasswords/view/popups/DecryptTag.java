@@ -21,7 +21,7 @@ import com.prettypasswords.model.Body;
 import com.prettypasswords.model.Tag;
 
 import java.util.ArrayList;
-import com.prettypasswords.view.activities.EntriesListActivity;
+import com.prettypasswords.view.activities.TagActivity;
 import com.prettypasswords.view.fragments.HomeFragment;
 
 
@@ -121,7 +121,7 @@ public class DecryptTag extends CenterPopupView {
                         updateIntent.putExtra("clickedTag", tagPosition);
                         LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
 
-                        Intent intent = new Intent(context, EntriesListActivity.class);
+                        Intent intent = new Intent(context, TagActivity.class);
                         intent.putExtra("clickedTag", tagPosition);
                         fragment.startActivityForResult(intent, 10);
 

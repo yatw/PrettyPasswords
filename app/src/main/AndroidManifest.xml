@@ -20,7 +20,7 @@
         <activity android:name=".view.activities.BackUpActivity" />
         <activity android:name=".view.activities.BrowserActivity" />
         <activity
-            android:name=".view.activities.EntriesListActivity"
+            android:name=".view.activities.TagActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".view.activities.EntryActivity" />
         <activity
