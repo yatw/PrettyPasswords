@@ -54,7 +54,6 @@ class ContentManager{
         body.reencrypt()
     }
 
-
     fun saveContentToDisk(context: Context){
         val eContent = getEncryptedContent()
         createCryptoFile(context, eContent)

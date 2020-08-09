@@ -20,6 +20,8 @@ import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.enums.PopupAnimation
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
+import com.prettypasswords.contants.*
+import com.prettypasswords.controller.ContentManager
 import com.prettypasswords.controller.logout
 import com.prettypasswords.view.activities.*
 import com.prettypasswords.view.components.TagAdapter
@@ -103,7 +105,7 @@ class HomeFragment : Fragment() {
                 R.id.btn_manage_profile -> {
 
                     val intent = Intent(context, ProfileActivity::class.java)
-                    startActivityForResult(intent,22)
+                    startActivityForResult(intent,DISPLAY_MANAGE_PROFILE)
                 }
                 R.id.btn_back_up -> {
 
@@ -187,7 +189,6 @@ class HomeFragment : Fragment() {
 
         tagAdapter = TagAdapter(context!!, tags)
 
-        println("How many tags: = ${PrettyManager.cm!!.body.tags}")
 
         TagsRecyclerView.adapter = tagAdapter
         TagsRecyclerView.layoutManager = LinearLayoutManager(context!!)
@@ -217,7 +218,7 @@ class HomeFragment : Fragment() {
 
                     val intent = Intent(context, TagActivity::class.java)
                     intent.putExtra("clickedTag", position)
-                    startActivityForResult(intent,10)
+                    startActivityForResult(intent, DISPLAY_TAG)
 
                 }
             }
@@ -255,7 +256,7 @@ class HomeFragment : Fragment() {
         //super.onActivityResult(requestCode, resultCode, data)  comment this unless you want to pass your result to the activity
 
         // a tag was deleted
-        if (requestCode==10 && resultCode==6 && data!=null){
+        if (requestCode==DISPLAY_TAG && resultCode==DELETE_TAG && data!=null){
 
             val clickedTag = data.getIntExtra("clickedTag", -1)
 
@@ -264,7 +265,7 @@ class HomeFragment : Fragment() {
             }
 
             // logout required from ProfileActivity
-        }else if (requestCode==22 && resultCode == 44){
+        }else if (requestCode==DISPLAY_MANAGE_PROFILE && resultCode == LOGOUT_REQUIRED){
 
             logout(context!!)
             (activity as MainActivity).replaceFragment(SignInFragment())  // switch fragment back to signin

@@ -1,6 +1,6 @@
 
 # Pretty Passwords    
-100% Secure: All information will be encrypted and stored locally in your device. 
+100% Secure: All information is encrypted and stored locally in your device. 
   
 100% Persistent: User can export the encrypted file from app to transfer between devices.  
 

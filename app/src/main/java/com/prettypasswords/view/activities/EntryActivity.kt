@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.lxj.xpopup.XPopup
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
+import com.prettypasswords.contants.*
 import com.prettypasswords.model.Entry
 import com.prettypasswords.model.Tag
 import kotlinx.android.synthetic.main.activity_entry.*
@@ -76,7 +77,7 @@ class EntryActivity : AppCompatActivity() {
                 entry.delete(this)
                 val intent = Intent()
                 intent.putExtra("clickedEntry", clickedEntry)
-                setResult(4, intent)
+                setResult(DELETE_ENTRY, intent)
                 finish()
 
             }.show()
@@ -100,7 +101,7 @@ class EntryActivity : AppCompatActivity() {
 
         val intent = Intent()
         intent.putExtra("clickedEntry", clickedEntry)
-        setResult(2,intent)
+        setResult(EDIT_ENTRY,intent)
         finish()
     }
 }

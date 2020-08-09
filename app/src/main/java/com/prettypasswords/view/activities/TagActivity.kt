@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lxj.xpopup.XPopup
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
+import com.prettypasswords.contants.*
 import com.prettypasswords.model.Entry
 import com.prettypasswords.model.Tag
 import com.prettypasswords.view.popups.AddEntry
@@ -60,6 +61,7 @@ class TagActivity : AppCompatActivity() {
     }
 
     private fun initData(){
+
         clickedTag = intent.getIntExtra("clickedTag", -1)
         tag = PrettyManager.cm!!.body.tags.get(clickedTag)
         listOfEntry = tag.entries
@@ -159,7 +161,7 @@ class TagActivity : AppCompatActivity() {
                 val intent = Intent(context, EntryActivity::class.java)
                 intent.putExtra("clickedTag", clickedTag)
                 intent.putExtra("clickedEntry", position)
-                startActivityForResult(intent,20)
+                startActivityForResult(intent,DISPLAY_ENTRY)
 
             }
         })
@@ -181,7 +183,7 @@ class TagActivity : AppCompatActivity() {
                             val intent = Intent(context, EntryActivity::class.java)
                             intent.putExtra("clickedTag", clickedTag)
                             intent.putExtra("clickedEntry", position)
-                            startActivityForResult(intent,20)
+                            startActivityForResult(intent,DISPLAY_ENTRY)
 
                         }else if (text == "Delete"){
 
@@ -240,7 +242,7 @@ class TagActivity : AppCompatActivity() {
 
 
         // entry content edited
-        if (requestCode==20 && resultCode==2 && data!=null){
+        if (requestCode==DISPLAY_ENTRY && resultCode==EDIT_ENTRY && data!=null){
 
             val clickedEntry = data.getIntExtra("clickedEntry", -1)
 
@@ -249,7 +251,7 @@ class TagActivity : AppCompatActivity() {
             }
 
         // one entry was deleted
-        }else if (requestCode==20 && resultCode==4 && data!=null){
+        }else if (requestCode==DISPLAY_ENTRY && resultCode==DELETE_ENTRY && data!=null){
 
             val position = data.getIntExtra("clickedEntry", -1)
 
@@ -306,7 +308,7 @@ class TagActivity : AppCompatActivity() {
 
             val intent = Intent()
             intent.putExtra("clickedTag", clickedTag)
-            setResult(6, intent)
+            setResult(DELETE_TAG, intent)
             finish()
 
         }.show()

@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
+import com.prettypasswords.contants.GENERATE_SAVE_FILE
 import kotlinx.android.synthetic.main.activity_back_up.*
 import java.io.OutputStream
 
@@ -55,7 +56,7 @@ class BackUpActivity : AppCompatActivity() {
                 // the system file picker before your app creates the document.
                 //putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri)
             }
-            startActivityForResult(intent, 600)
+            startActivityForResult(intent, GENERATE_SAVE_FILE)
         }
     }
 
@@ -63,7 +64,7 @@ class BackUpActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode==600 && resultCode == Activity.RESULT_OK){
+        if (requestCode==GENERATE_SAVE_FILE && resultCode == Activity.RESULT_OK){
 
             label_save_result.visibility = View.VISIBLE
             var fileWritten = false

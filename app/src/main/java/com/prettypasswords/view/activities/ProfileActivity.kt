@@ -7,6 +7,7 @@ import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import com.lxj.xpopup.XPopup
 import com.prettypasswords.R
+import com.prettypasswords.contants.LOGOUT_REQUIRED
 import com.prettypasswords.controller.*
 import com.prettypasswords.utilities.showAlert
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -76,7 +77,7 @@ class ProfileActivity : AppCompatActivity() {
                         changeUserNameAndPassword(this, userName, new_pw1)
 
                         val intent = Intent()
-                        setResult(44, intent)
+                        setResult(LOGOUT_REQUIRED, intent)
                         finish()
 
                     }.show()
@@ -92,7 +93,7 @@ class ProfileActivity : AppCompatActivity() {
                         changePassword(this, new_pw1)
 
                         val intent = Intent()
-                        setResult(44, intent)
+                        setResult(LOGOUT_REQUIRED, intent)
                         finish()
 
                     }.show()
@@ -108,7 +109,7 @@ class ProfileActivity : AppCompatActivity() {
                         changeUserName(this, userName)
 
                         val intent = Intent()
-                        setResult(44, intent)
+                        setResult(LOGOUT_REQUIRED, intent)
                         finish()
 
                     }.show()
