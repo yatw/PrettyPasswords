@@ -3,18 +3,10 @@ package com.prettypasswords.controller
 import android.content.Context
 import android.util.Base64
 import com.prettypasswords.PrettyManager
-import com.prettypasswords.model.getFileContent
 import org.json.JSONObject
-import java.io.File
 
 
-fun restoreCredentialFromFile(file: File?){
-
-    if (file == null){
-        return
-    }
-
-    val fileContent: JSONObject = getFileContent(file)
+fun restoreCredential(fileContent: JSONObject){
 
     val fileCredential = fileContent.getJSONObject("credential")
 

@@ -1,12 +1,12 @@
 
 # Pretty Passwords    
-100% Secure: All information is encrypted and stored locally in your device. 
+**100% Secure**: All information is encrypted and stored locally in your device. 
   
-100% Persistent: User can export the encrypted file from app to transfer between devices.  
+**100% Persistent**: User can export the encrypted file from app to transfer between devices.  
 
 The data is never put into some database you don't know where in the internet.
 
-# Demo
+### Demo
 
 |Insert and Edit Tag|Decrypt what you need|
 |:---:|:---:|
@@ -16,7 +16,7 @@ The data is never put into some database you don't know where in the internet.
 |:---:|:---:|
 |![](demo/sidenav.gif)|![](demo/export.gif)|    
     
-#### What make this password manager unique  
+### What make this password manager unique  
 - You can remember passwords however you want as usual, but the underlying real password for each site is strong and different    
     
 - No database dependencies, can't break one if there isn't one    
@@ -27,10 +27,10 @@ The data is never put into some database you don't know where in the internet.
 
 - Not even the creator know who is using this app or who they are    
      
-#### To steal your password, one must:    
-1. Physically obtain a copy of your cryptoFile
+### To steal your password, one must:    
+1. Physically obtain a copy of your encrypted save file    
   and    
-2. Break libsodium or somehow know your master password and pretty passwords    
+2. Break libsodium or somehow know your master password and tag passwords    
     
 ### Android concepts used  
 - [x] SharedPreferences  

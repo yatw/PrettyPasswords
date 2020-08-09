@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.prettypasswords.R
 import com.prettypasswords.controller.createUser
 import com.prettypasswords.view.activities.MainActivity
-import com.prettypasswords.utilities.showAlert
+import com.prettypasswords.view.popups.showAlert
 import kotlinx.android.synthetic.main.fragment_signup.*
 
 
@@ -40,7 +40,11 @@ class SignUpFragment : Fragment() {
             val masterPassword = input_password.text.toString()
 
             if (userName.equals("") || masterPassword.equals("")){
-                showAlert(getActivity(), "Plase enter credential","")
+                showAlert(
+                    getActivity(),
+                    "Plase enter credential",
+                    ""
+                )
             }else{
                 createUser(
                     getActivity()!!.getApplicationContext(),

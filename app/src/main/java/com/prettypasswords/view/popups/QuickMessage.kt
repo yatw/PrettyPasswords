@@ -5,7 +5,7 @@ import android.widget.TextView
 import com.lxj.xpopup.core.PositionPopupView
 import com.prettypasswords.R
 
-class PopUpAlert(context: Context, text: String?) :
+class QuickMessage(context: Context, text: String?) :
     PositionPopupView(context) {
     override fun getImplLayoutId(): Int {
         return R.layout.layout_qq_popup

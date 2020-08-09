@@ -1,4 +1,4 @@
-package com.prettypasswords.utilities
+package com.prettypasswords.view.utilities
 
 import android.content.Context
 import android.content.res.TypedArray

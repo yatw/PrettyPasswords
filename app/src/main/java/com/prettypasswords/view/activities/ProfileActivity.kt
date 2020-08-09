@@ -9,7 +9,7 @@ import com.lxj.xpopup.XPopup
 import com.prettypasswords.R
 import com.prettypasswords.contants.LOGOUT_REQUIRED
 import com.prettypasswords.controller.*
-import com.prettypasswords.utilities.showAlert
+import com.prettypasswords.view.popups.showAlert
 import kotlinx.android.synthetic.main.activity_profile.*
 
 
@@ -123,7 +123,11 @@ class ProfileActivity : AppCompatActivity() {
     private fun checkInputName(userName: String): Boolean{
 
         if (userName.isEmpty()){
-            showAlert(this, "Error", "userName Cannot be empty")
+            showAlert(
+                this,
+                "Error",
+                "userName Cannot be empty"
+            )
             return false
         }
         return true
@@ -132,16 +136,32 @@ class ProfileActivity : AppCompatActivity() {
     private fun checkInputPw(curPw: String, new_pw1: String, new_pw2: String): Boolean{
 
         if (curPw.isEmpty() || new_pw1.isEmpty() || new_pw2.isEmpty()){
-            showAlert(this, "Error", "Input Cannot be empty")
+            showAlert(
+                this,
+                "Error",
+                "Input Cannot be empty"
+            )
             return false
         }else if (new_pw1 != new_pw2){
-            showAlert(this, "Error", "New Passwords do not match")
+            showAlert(
+                this,
+                "Error",
+                "New Passwords do not match"
+            )
             return false
         }else if (new_pw1 == curPw){
-            showAlert(this, "Error", "Why bother changing")
+            showAlert(
+                this,
+                "Error",
+                "Why bother changing"
+            )
             return false
         }else if (!validatePassword(curPw)){
-            showAlert(this, "Error", "Incorrect password")
+            showAlert(
+                this,
+                "Error",
+                "Incorrect password"
+            )
             return false
         }
 

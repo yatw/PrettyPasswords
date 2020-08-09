@@ -21,13 +21,12 @@ import com.lxj.xpopup.enums.PopupAnimation
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
 import com.prettypasswords.contants.*
-import com.prettypasswords.controller.ContentManager
 import com.prettypasswords.controller.logout
 import com.prettypasswords.view.activities.*
 import com.prettypasswords.view.components.TagAdapter
 import com.prettypasswords.view.popups.AddTag
 import com.prettypasswords.view.popups.DecryptTag
-import com.prettypasswords.view.popups.PopUpAlert
+import com.prettypasswords.view.popups.QuickMessage
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.layout_drawer.*
 import kotlinx.android.synthetic.main.layout_home_main.*
@@ -136,7 +135,7 @@ class HomeFragment : Fragment() {
                         .offsetX(100)
                         .offsetY(600)
                         .popupAnimation(PopupAnimation.TranslateAlphaFromRight)
-                        .asCustom(PopUpAlert(context!!, "Wasn't expecting any FAQ, \nthanks for clicking anyway"))
+                        .asCustom(QuickMessage(context!!, "Wasn't expecting any FAQ, \nthanks for clicking anyway"))
                         .show()
 
                 }
@@ -146,7 +145,7 @@ class HomeFragment : Fragment() {
                         .offsetX(100)
                         .offsetY(800)
                         .popupAnimation(PopupAnimation.TranslateFromBottom)
-                        .asCustom(PopUpAlert(context!!, "It's not a bug, it's a feature !!"))
+                        .asCustom(QuickMessage(context!!, "It's not a bug, it's a feature !!"))
                         .show()
                 }
             }

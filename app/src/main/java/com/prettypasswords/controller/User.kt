@@ -2,11 +2,12 @@ package com.prettypasswords.controller
 
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.model.deleteCryptoFile
+import com.prettypasswords.model.getFileContent
 import com.prettypasswords.model.getFileWithUserName
+import org.json.JSONObject
 import java.io.File
 import java.util.*
 
@@ -24,8 +25,12 @@ fun hasCredential(context: Context, userName: String): Boolean{
 
     if (PrettyManager.c == null){
 
-        val file: File? = getFileWithUserName(context, userName)
-        restoreCredentialFromFile(file)
+        val file: File = getFileWithUserName(context, userName) ?: return false
+        val fileContent: JSONObject? = getFileContent(file)
+
+        if (fileContent != null){
+            restoreCredential(fileContent)
+        }
     }
 
     val credential = PrettyManager.c
@@ -116,7 +121,7 @@ fun changeUserName(context: Context, userName: String){
 
     // delete old file with old userName
     val file: File? = getFileWithUserName(context, oldName)
-    deleteCryptoFile(context, file)
+    deleteCryptoFile(file)
 
     Toast.makeText(context, "Change userName success", Toast.LENGTH_LONG).show()
 }
@@ -178,7 +183,7 @@ fun changeUserNameAndPassword(context: Context, userName: String, password: Stri
 
     // delete old file with old userName
     val file: File? = getFileWithUserName(context, oldName)
-    deleteCryptoFile(context, file)
+    deleteCryptoFile(file)
 
     Toast.makeText(context, "Change userName and password success", Toast.LENGTH_LONG).show()
 }
@@ -199,6 +204,7 @@ fun logout(context: Context){
 
 }
 
+/*
 fun deleteUser(context: Context, userName: String){
 
 
@@ -211,4 +217,4 @@ fun deleteUser(context: Context, userName: String){
     deleteCryptoFile(context, userName)
 
     Log.i("PrettyPassword", "Deleted user")
-}
+}*/

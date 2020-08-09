@@ -15,7 +15,7 @@ import com.prettypasswords.R
 import com.prettypasswords.controller.hasCredential
 import com.prettypasswords.controller.loginByPassword
 import com.prettypasswords.model.importFile
-import com.prettypasswords.utilities.showAlert
+import com.prettypasswords.view.popups.showAlert
 import com.prettypasswords.view.activities.MainActivity
 import kotlinx.android.synthetic.main.fragment_signin.*
 
@@ -76,11 +76,19 @@ class SignInFragment : Fragment() {
 
 
             if (userName.equals("") || masterPassword.equals("")){
-                showAlert(getActivity(), "Plase enter credential","")
+                showAlert(
+                    getActivity(),
+                    "Plase enter credential",
+                    ""
+                )
             }else{
 
                 if (!hasCredential(getContext()!!, userName)){
-                    showAlert(getActivity(), "No Account credential","")
+                    showAlert(
+                        getActivity(),
+                        "No Account credential",
+                        ""
+                    )
                     return@setOnClickListener
                 }
 
@@ -96,7 +104,11 @@ class SignInFragment : Fragment() {
                     (activity as MainActivity?)!!.replaceFragment(HomeFragment())
 
                 }else{
-                    showAlert(context, "Incorrect Credential", "")
+                    showAlert(
+                        context,
+                        "Incorrect Credential",
+                        ""
+                    )
                 }
             }
 

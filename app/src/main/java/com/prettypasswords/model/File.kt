@@ -3,8 +3,8 @@ package com.prettypasswords.model
 import android.content.Context
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
-import com.prettypasswords.controller.restoreCredentialFromFile
-import com.prettypasswords.utilities.showAlert
+import com.prettypasswords.controller.restoreCredential
+import com.prettypasswords.view.popups.showAlert
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.*
@@ -24,7 +24,6 @@ fun createCryptoFile(context: Context, eContent: JSONObject){
 
     val fileName = context.getResources().getString(R.string.cryptoFilePrefix) + credential.userName
     val file = File(context.filesDir, fileName )
-    println("at create file: file $fileName already exists? ${file.exists()}")
 
     try {
 
@@ -33,7 +32,6 @@ fun createCryptoFile(context: Context, eContent: JSONObject){
         }
 
         file.createNewFile()
-        println("File created: " + file.name)
 
         // write content into file
         context.openFileOutput(fileName, Context.MODE_PRIVATE).use {
@@ -42,7 +40,11 @@ fun createCryptoFile(context: Context, eContent: JSONObject){
         }
 
     } catch (e: IOException) {
-        showAlert(context, "Create Crypto failed", e.toString())
+        showAlert(
+            context,
+            "Create Crypto failed",
+            e.toString()
+        )
         e.printStackTrace()
     }
 
@@ -53,29 +55,44 @@ fun importFile(context: Context, file: File): Boolean{
 
 
     if (!file.exists()){
-        showAlert(context, "File do not exist","")
+        showAlert(
+            context,
+            "File do not exist",
+            ""
+        )
         return false
     }
 
-    val fileContent: JSONObject = getFileContent(file)
+    val fileContent: JSONObject? = getFileContent(file)
+
+    if (fileContent == null){
+        showAlert(
+            context,
+            "Get fileContent failed",
+            "Probably not in json format"
+        )
+        return false
+    }
+
 
     if (!validateFile(fileContent)){
-        showAlert(context, "ValidateFile failed","")
+        showAlert(
+            context,
+            "ValidateFile failed",
+            ""
+        )
         return false
     }
 
-
-    try{
-        restoreCredentialFromFile(file)
-    }catch(e: Exception){
-        e.printStackTrace()
-        showAlert(context, "Restore Credential failed","")
-    }
-
+    restoreCredential(fileContent)
 
     createCryptoFile(context, fileContent)
 
-    showAlert(context, "Import File Success","You can now access this account")
+    showAlert(
+        context,
+        "Import File Success",
+        "You can now access this account"
+    )
     return true
 
 }
@@ -105,7 +122,7 @@ fun validateFile(jsonContent: JSONObject): Boolean{
 }
 
 // turn the file content into JSONObject
-fun getFileContent(file: File): JSONObject{
+fun getFileContent(file: File): JSONObject?{
 
     val fis = FileInputStream(file)
     val inputStreamReader = InputStreamReader(fis, StandardCharsets.UTF_8)
@@ -121,7 +138,13 @@ fun getFileContent(file: File): JSONObject{
 
     val contents = stringBuilder.toString()
 
-    return JSONObject(contents);
+    return try{
+        JSONObject(contents);
+
+    }catch (e: JSONException){
+        null
+    }
+
 }
 
 fun getFileWithUserName(context: Context, userName: String): File?{
@@ -146,16 +169,15 @@ fun deleteCryptoFile(context: Context, fileName: String){
     val file = File(context.filesDir, fileName )
 
     val status = file.delete()
-    println("File deleted: $fileName status is $status")
+    //println("File deleted: $fileName status is $status")
 
 }
 
-fun deleteCryptoFile(context: Context, file: File?){
+fun deleteCryptoFile(file: File?){
 
     if (file != null){
-        val fileName = file.name
         val status = file.delete()
-        println("File deleted: $fileName status is $status")
+        //println("File deleted: ${file.name} status is $status")
     }
 
 }

@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         val lastUser: String? = getLastSessionUser(this)
 
-        if (lastUser != null && !lastUser.equals("") && hasCredential(
+        if (lastUser != null && lastUser != "" && hasCredential(
                 this,
                 lastUser
             )

@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.prettypasswords.R;
 import com.prettypasswords.model.Tag;
-import com.prettypasswords.utilities.PopupKt;
 
 public class AddEntry extends FullScreenPopupView {
 
@@ -61,7 +60,7 @@ public class AddEntry extends FullScreenPopupView {
                 String others = othersInput.getText().toString().trim();
 
                 if (siteName.isEmpty() || password.isEmpty()){
-                    PopupKt.showAlert(getContext(), "Warning", "Please fill in all required fields");
+                    PopUpDialogueKt.showAlert(getContext(), "Warning", "Please fill in all required fields");
                 }else{
                     tag.addEntry(context,siteName,username,password,email,others);
                     dismiss(); // 关闭弹窗

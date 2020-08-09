@@ -16,7 +16,6 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.prettypasswords.R;
 import com.prettypasswords.model.Tag;
-import com.prettypasswords.utilities.PopupKt;
 
 
 // Description: 带有输入框的Bottom弹窗
@@ -101,12 +100,12 @@ public class ChangeTagPassword extends BottomPopupView {
                 }
 
                 if (curPw.equals(newPw2)){
-                    PopupKt.showAlert(getContext(), "What's the point?", "Current password and new password are the same");
+                    PopUpDialogueKt.showAlert(getContext(), "What's the point?", "Current password and new password are the same");
                     return;
                 }
 
                 if (!tag.vertifyPassword(curPw)){
-                    PopupKt.showAlert(getContext(), "Incorrect Password", "");
+                    PopUpDialogueKt.showAlert(getContext(), "Incorrect Password", "");
                     return;
                 }
 

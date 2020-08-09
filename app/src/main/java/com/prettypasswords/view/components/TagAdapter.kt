@@ -14,7 +14,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.prettypasswords.R
-import com.prettypasswords.utilities.LetterTileProvider
+import com.prettypasswords.view.utilities.LetterTileProvider
 import com.prettypasswords.model.Tag
 
 

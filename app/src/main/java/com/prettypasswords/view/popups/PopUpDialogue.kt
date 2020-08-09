@@ -1,7 +1,6 @@
-package com.prettypasswords.utilities
+package com.prettypasswords.view.popups
 
 import android.content.Context
-import android.widget.Toast
 import com.lxj.xpopup.XPopup
 
 
