@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +21,8 @@ import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.enums.PopupAnimation
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
-import com.prettypasswords.contants.*
+import com.prettypasswords.contants.DELETE_TAG
+import com.prettypasswords.contants.DISPLAY_TAG
 import com.prettypasswords.controller.logout
 import com.prettypasswords.view.activities.*
 import com.prettypasswords.view.components.TagAdapter
@@ -73,12 +75,18 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initView()
-        initClick()
+        /**
+         *  After logout from changing profile, fragment popbackStack() will trigger this fragment creation again, but at that point credential is null
+         */
+        if (PrettyManager.c != null){
+            initView()
+            initClick()
+        }
     }
 
-
     private fun initClick(){
+
+        val ft: FragmentTransaction = parentFragmentManager.beginTransaction()
 
         AddTagBtn.setOnClickListener {
             XPopup.Builder(context).asCustom(
@@ -102,32 +110,44 @@ class HomeFragment : Fragment() {
         nav_view.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.btn_manage_profile -> {
-
-                    val intent = Intent(context, ProfileActivity::class.java)
-                    startActivityForResult(intent,DISPLAY_MANAGE_PROFILE)
+                    ft.replace(R.id.fragmentPlaceHolder, ProfileFragment())
+                    ft.commit()
+                    ft.addToBackStack("ProfileFragment")
+                    drawer_layout.closeDrawer(GravityCompat.START)
                 }
                 R.id.btn_back_up -> {
-
-                    val intent = Intent(context, BackUpActivity::class.java)
-                    startActivity(intent)
+                    ft.replace(R.id.fragmentPlaceHolder, BackUpFragment())
+                    ft.commit()
+                    ft.addToBackStack("BackUpFragment")
+                    drawer_layout.closeDrawer(GravityCompat.START)
                 }
                 R.id.btn_source_code -> {
+                    val browserFragment = BrowserFragment()
 
-                    val repo_url = resources.getString(R.string.repo_url)
+                    // bundle will be used as parameter to init the fragment
+                    val bundle = Bundle(2)
+                    bundle.putString("title", "Source Code")
+                    bundle.putString("url", resources.getString(R.string.repo_url))
+                    browserFragment.arguments = bundle
 
-                    val intent = Intent(context, BrowserActivity::class.java)
-                    intent.putExtra("title", "Source Code")
-                    intent.putExtra("url", repo_url)
-                    startActivity(intent)
+                    ft.replace(R.id.fragmentPlaceHolder, browserFragment)
+                    ft.commit()
+                    ft.addToBackStack("BrowserFragment")
+                    drawer_layout.closeDrawer(GravityCompat.START)
                 }
                 R.id.btn_how_this_work -> {
+                    val browserFragment = BrowserFragment()
 
-                    val wiki_url = resources.getString(R.string.wiki_url)
+                    // bundle will be used as parameter to init the fragment
+                    val bundle = Bundle(2)
+                    bundle.putString("title", "How this work")
+                    bundle.putString("url", resources.getString(R.string.wiki_url))
+                    browserFragment.arguments = bundle
 
-                    val intent = Intent(context, BrowserActivity::class.java)
-                    intent.putExtra("title", "How this work")
-                    intent.putExtra("url", wiki_url)
-                    startActivity(intent)
+                    ft.replace(R.id.fragmentPlaceHolder, browserFragment)
+                    ft.commit()
+                    ft.addToBackStack("BrowserFragment")
+                    drawer_layout.closeDrawer(GravityCompat.START)
                 }
                 R.id.btn_faq -> {
 
@@ -163,7 +183,8 @@ class HomeFragment : Fragment() {
             ) {
 
                 logout(context!!)
-                (activity as MainActivity).replaceFragment(SignInFragment())  // switch fragment back to signin
+                ft.replace(R.id.fragmentPlaceHolder, SignInFragment())
+                ft.commit()
 
                 Toast.makeText(context, "Log out Success", Toast.LENGTH_LONG).show()
 
@@ -173,7 +194,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun initView(){
-
 
         // set user name in drawer
         val headerView = nav_view.getHeaderView(0)
@@ -262,13 +282,6 @@ class HomeFragment : Fragment() {
             if (clickedTag >= 0){
                 notifyItemRemoved(clickedTag)
             }
-
-            // logout required from ProfileActivity
-        }else if (requestCode==DISPLAY_MANAGE_PROFILE && resultCode == LOGOUT_REQUIRED){
-
-            logout(context!!)
-            (activity as MainActivity).replaceFragment(SignInFragment())  // switch fragment back to signin
-
         }
     }
 

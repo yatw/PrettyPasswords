@@ -11,12 +11,21 @@ import org.json.JSONObject
 import java.io.File
 import java.util.*
 
-
-fun getLastSessionUser(context: Context): String? {
+// save the userName in sharedpreference on create and on login
+fun saveCurrentUser(context: Context, userName: String){
 
     val sharedPref = context.getSharedPreferences(PrettyManager.sharedPreferenceKey, Context.MODE_PRIVATE)
+    val editor = sharedPref.edit()
 
-    return sharedPref.getString("userName","")
+    editor.putString("userName", userName)
+    editor.commit()
+}
+
+
+fun getLastSessionUser(context: Context): String {
+    val sharedPref = context.getSharedPreferences(PrettyManager.sharedPreferenceKey, Context.MODE_PRIVATE)
+    val userName = sharedPref.getString("userName","")
+    return userName ?: ""
 }
 
 
@@ -35,7 +44,6 @@ fun hasCredential(context: Context, userName: String): Boolean{
 
     val credential = PrettyManager.c
     return credential != null && credential.userName.equals(userName)
-
 }
 
 // register, to create cryptoFile
@@ -58,7 +66,7 @@ fun createUser(context: Context, userName: String, password: String){
     PrettyManager.cm = ContentManager()
     PrettyManager.cm!!.saveContentToDisk(context)
 
-    credential.saveCurrentUser(context)
+    saveCurrentUser(context, userName)
 
 }
 
@@ -101,7 +109,7 @@ fun loginByPassword(context: Context, userName: String, password: String): Boole
     }
 
     credential.setSk(decryptedSK)
-    credential.saveCurrentUser(context)
+    saveCurrentUser(context, userName)
     PrettyManager.cm!!.body.decrypt(pk, decryptedSK)
 
     return true
@@ -117,7 +125,7 @@ fun changeUserName(context: Context, userName: String){
     PrettyManager.cm!!.updateContent()
     PrettyManager.cm!!.saveContentToDisk(context)
 
-    credential.saveCurrentUser(context)
+    saveCurrentUser(context, userName)
 
     // delete old file with old userName
     val file: File? = getFileWithUserName(context, oldName)
@@ -150,7 +158,7 @@ fun changePassword(context: Context, password: String){
     PrettyManager.cm!!.updateContent()
     PrettyManager.cm!!.saveContentToDisk(context)
 
-    newCred.saveCurrentUser(context)
+    saveCurrentUser(context, newCred.userName)
 
     Toast.makeText(context, "Change password success", Toast.LENGTH_LONG).show()
 }
@@ -179,7 +187,7 @@ fun changeUserNameAndPassword(context: Context, userName: String, password: Stri
     PrettyManager.cm!!.updateContent()
     PrettyManager.cm!!.saveContentToDisk(context)
 
-    newCred.saveCurrentUser(context)
+    saveCurrentUser(context, userName)
 
     // delete old file with old userName
     val file: File? = getFileWithUserName(context, oldName)
@@ -190,18 +198,17 @@ fun changeUserNameAndPassword(context: Context, userName: String, password: Stri
 
 fun logout(context: Context){
 
-
-/*
-    // This is normal logout, still have credential
-    val credential = PrettyManager.c
-    credential!!.setSk(null)
-*/
-
     // this is hard logout, erase credential
     // but for this app, when signin hasContential() will restore
     PrettyManager.c = null
     PrettyManager.cm = null
+}
 
+fun signout(context: Context){
+
+    // This is normal logout, still have credential
+    val credential = PrettyManager.c
+    credential!!.setSk(null)
 }
 
 /*

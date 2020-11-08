@@ -1,7 +1,6 @@
 package com.prettypasswords.view.fragments
 
 
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,11 +11,11 @@ import androidx.fragment.app.Fragment
 import com.obsez.android.lib.filechooser.ChooserDialog
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
+import com.prettypasswords.controller.getLastSessionUser
 import com.prettypasswords.controller.hasCredential
 import com.prettypasswords.controller.loginByPassword
 import com.prettypasswords.model.importFile
 import com.prettypasswords.view.popups.showAlert
-import com.prettypasswords.view.activities.MainActivity
 import kotlinx.android.synthetic.main.fragment_signin.*
 
 
@@ -40,17 +39,25 @@ class SignInFragment : Fragment() {
 
         if (credential != null) {
             input_user_name.setText(credential.userName)
+
+        }else{
+            val lastUser: String = getLastSessionUser(activity!!)
+            if (lastUser == ""){
+                input_user_name.hint = "userName"
+            }else{
+                input_user_name.setText(lastUser)
+            }
         }
 
-        val context: Context? = getActivity()
+        val ft = parentFragmentManager.beginTransaction()
 
 
         btn_import.setOnClickListener{
 
-            ChooserDialog(getContext())
+            ChooserDialog(activity)
                 .withChosenListener(ChooserDialog.Result { path, file ->
 
-                    if (importFile(getContext()!!, file)){
+                    if (importFile(activity!!, file)){
                         credential = PrettyManager.c!!   // if success, must have restored credential
                         input_user_name.setText(credential!!.userName)  // populate username from credential
                     }
@@ -65,7 +72,8 @@ class SignInFragment : Fragment() {
         }
 
         btn_goto_signup.setOnClickListener{
-            (activity as MainActivity?)!!.replaceFragment(SignUpFragment())  // switch fragment back to signup
+            ft.replace(R.id.fragmentPlaceHolder, SignUpFragment())
+            ft.commit()
         }
 
         btn_signin.setOnClickListener{
@@ -75,46 +83,41 @@ class SignInFragment : Fragment() {
             val masterPassword = input_password.text.toString()
 
 
-            if (userName.equals("") || masterPassword.equals("")){
+            if (userName == "" || masterPassword == ""){
                 showAlert(
-                    getActivity(),
-                    "Plase enter credential",
+                    activity,
+                    "Please enter credential",
                     ""
                 )
             }else{
 
-                if (!hasCredential(getContext()!!, userName)){
+                if (!hasCredential(activity!!, userName)){
                     showAlert(
-                        getActivity(),
-                        "No Account credential",
+                        activity!!,
+                        "No Account credential for {$userName}",
                         ""
                     )
                     return@setOnClickListener
                 }
 
                 if (loginByPassword(
-                        context!!,
+                        activity!!,
                         userName,
                         masterPassword
                     )
                 ){
-                    Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
-
-                    // switch fragment to home fragment
-                    (activity as MainActivity?)!!.replaceFragment(HomeFragment())
+                    Toast.makeText(activity, "Login Success", Toast.LENGTH_SHORT).show()
+                    ft.replace(R.id.fragmentPlaceHolder, HomeFragment())
+                    ft.commit()
 
                 }else{
                     showAlert(
-                        context,
+                        activity,
                         "Incorrect Credential",
                         ""
                     )
                 }
             }
-
-
         }
-
-
     }
 }

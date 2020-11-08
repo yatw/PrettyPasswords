@@ -40,18 +40,6 @@ class Credential(
         this.sk = sk
     }
 
-
-    // save the userName in sharedpreference on create and on login
-    fun saveCurrentUser(context: Context){
-
-        val sharedPref = context.getSharedPreferences(PrettyManager.sharedPreferenceKey, Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-
-        editor.putString("userName", userName)
-
-        editor.commit()
-    }
-
     fun clear(context: Context) {
 
         val sharedPref = context.getSharedPreferences(PrettyManager.sharedPreferenceKey, Context.MODE_PRIVATE)

@@ -38,9 +38,9 @@ The data is never put into some database you don't know where in the internet.
 - [x] File import and export
 - [x] RecyclerView with adapter  
 - [x] Custom Pop Up  
-- [x] BoardCast Receiver  
+- [x] BroadcastReceiver
 - [x] SideNav Drawer  
-- [x] Fragments  
+- [x] Fragments
 - [x] Web View
     
 ### Issues/Challenges    

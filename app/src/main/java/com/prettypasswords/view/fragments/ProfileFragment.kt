@@ -1,35 +1,38 @@
-package com.prettypasswords.view.activities
+package com.prettypasswords.view.fragments
 
-import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.CompoundButton
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.lxj.xpopup.XPopup
 import com.prettypasswords.R
-import com.prettypasswords.contants.LOGOUT_REQUIRED
 import com.prettypasswords.controller.*
 import com.prettypasswords.view.popups.showAlert
-import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.fragment_browser.btn_close
+import kotlinx.android.synthetic.main.fragment_profile.*
 
+class ProfileFragment : Fragment() {
 
-class ProfileActivity : AppCompatActivity() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_profile, container, false)
+    }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setTheme(R.style.AppTheme)   // remove splash screen
-
-        setContentView(R.layout.activity_profile)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initClick()
-
     }
 
     private fun initClick(){
 
         btn_close.setOnClickListener {
-            finish()
+            parentFragmentManager.popBackStack()
         }
 
 
@@ -71,14 +74,11 @@ class ProfileActivity : AppCompatActivity() {
 
                 if (checkInputName(userName) && checkInputPw(curPw, new_pw1, new_pw2)) {
 
-                    XPopup.Builder(this).asConfirm(
+                    XPopup.Builder(activity).asConfirm(
                         "Continue?", "This will cause you to logout"
                     ) {
-                        changeUserNameAndPassword(this, userName, new_pw1)
-
-                        val intent = Intent()
-                        setResult(LOGOUT_REQUIRED, intent)
-                        finish()
+                        changeUserNameAndPassword(activity!!, userName, new_pw1)
+                        handleLogout()
 
                     }.show()
                 }
@@ -87,14 +87,11 @@ class ProfileActivity : AppCompatActivity() {
 
                 if (checkInputPw(curPw, new_pw1, new_pw2)) {
 
-                    XPopup.Builder(this).asConfirm(
+                    XPopup.Builder(activity).asConfirm(
                         "Continue?", "This will cause you to logout"
                     ) {
-                        changePassword(this, new_pw1)
-
-                        val intent = Intent()
-                        setResult(LOGOUT_REQUIRED, intent)
-                        finish()
+                        changePassword(activity!!, new_pw1)
+                        handleLogout()
 
                     }.show()
                 }
@@ -103,28 +100,37 @@ class ProfileActivity : AppCompatActivity() {
             }else if (updateUserName){
 
                 if (checkInputName(userName)){
-                    XPopup.Builder(this).asConfirm(
+                    XPopup.Builder(activity).asConfirm(
                         "Continue?", "This will cause you to logout"
                     ) {
-                        changeUserName(this, userName)
-
-                        val intent = Intent()
-                        setResult(LOGOUT_REQUIRED, intent)
-                        finish()
+                        changeUserName(activity!!, userName)
+                        handleLogout()
 
                     }.show()
                 }
             }
+        }
+    }
 
+    private fun handleLogout(){
+
+        val backStackCount = parentFragmentManager.backStackEntryCount
+        for (i in 0 until backStackCount) {
+            parentFragmentManager.popBackStack()
         }
 
+        val ft: FragmentTransaction = parentFragmentManager.beginTransaction()
+        ft.replace(R.id.fragmentPlaceHolder, SignInFragment())
+        ft.commit()
+
+        logout(activity!!)
     }
 
     private fun checkInputName(userName: String): Boolean{
 
         if (userName.isEmpty()){
             showAlert(
-                this,
+                activity,
                 "Error",
                 "userName Cannot be empty"
             )
@@ -137,28 +143,28 @@ class ProfileActivity : AppCompatActivity() {
 
         if (curPw.isEmpty() || new_pw1.isEmpty() || new_pw2.isEmpty()){
             showAlert(
-                this,
+                activity,
                 "Error",
                 "Input Cannot be empty"
             )
             return false
         }else if (new_pw1 != new_pw2){
             showAlert(
-                this,
+                activity,
                 "Error",
                 "New Passwords do not match"
             )
             return false
         }else if (new_pw1 == curPw){
             showAlert(
-                this,
+                activity,
                 "Error",
                 "Why bother changing"
             )
             return false
         }else if (!validatePassword(curPw)){
             showAlert(
-                this,
+                activity,
                 "Error",
                 "Incorrect password"
             )
@@ -167,4 +173,5 @@ class ProfileActivity : AppCompatActivity() {
 
         return true
     }
+
 }

@@ -16,13 +16,12 @@
         android:theme="@style/AppTheme.Launcher"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
-        <activity android:name=".view.activities.ProfileActivity"></activity>
-        <activity android:name=".view.activities.BackUpActivity" />
-        <activity android:name=".view.activities.BrowserActivity" />
         <activity
             android:name=".view.activities.TagActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".view.activities.EntryActivity" />
+        <activity android:name=".view.activities.EntryActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.activities.MainActivity"
             android:screenOrientation="portrait"
