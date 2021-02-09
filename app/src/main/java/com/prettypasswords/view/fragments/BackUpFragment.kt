@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
 import com.prettypasswords.contants.GENERATE_SAVE_FILE
+import com.prettypasswords.model.getCryptoFileName
 import kotlinx.android.synthetic.main.fragment_back_up.*
 import kotlinx.android.synthetic.main.fragment_browser.btn_close
 import java.io.OutputStream
@@ -22,8 +23,7 @@ class BackUpFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val credential = PrettyManager.c!!
-        fileName = this.getResources().getString(R.string.cryptoFilePrefix) + credential.userName
+        fileName = getCryptoFileName(requireContext())
     }
 
     override fun onCreateView(
@@ -58,7 +58,7 @@ class BackUpFragment : Fragment() {
 
             val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
-                type = "text/plain"
+                type = "application/json"
                 putExtra(Intent.EXTRA_TITLE, fileName)
 
                 // Optionally, specify a URI for the directory that should be opened in
@@ -84,7 +84,7 @@ class BackUpFragment : Fragment() {
 
                 // write to specific file using uri
                 //https://stackoverflow.com/questions/51490194/file-written-using-action-create-document-is-empty-on-google-drive-but-not-local
-                val os: OutputStream? = activity!!.contentResolver.openOutputStream(uri)
+                val os: OutputStream? = requireActivity().contentResolver.openOutputStream(uri)
                 if (os != null) {
                     val eContent = PrettyManager.cm!!.getEncryptedContent()
                     os.write(eContent.toString().toByteArray())

@@ -29,11 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         val lastUser: String = getLastSessionUser(this)
 
-        if (lastUser != "" && hasCredential(
-                this,
-                lastUser
-            )
-        ){
+        if (lastUser != "" && hasCredential(this, lastUser)){
 
             if (PrettyManager.c!!.getSk() != null){  // have credential and already login
                 ft.replace(R.id.fragmentPlaceHolder, HomeFragment())

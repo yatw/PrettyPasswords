@@ -1,6 +1,7 @@
 package com.prettypasswords.model
 
 import android.content.Context
+import android.net.Uri
 import com.prettypasswords.PrettyManager
 import com.prettypasswords.R
 import com.prettypasswords.controller.restoreCredential
@@ -8,22 +9,21 @@ import com.prettypasswords.view.popups.showAlert
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.*
-import java.lang.Exception
 import java.nio.charset.StandardCharsets
 
 
 // file operation related
 // https://developer.android.com/training/data-storage/app-specific#kotlin
 
+fun getCryptoFileName(context: Context): String{
+    val credential = PrettyManager.c!!
+    return context.getResources().getString(R.string.cryptoFilePrefix) + credential.userName + ".json"
+}
+
 fun createCryptoFile(context: Context, eContent: JSONObject){
 
-    val credential = PrettyManager.c!!
-
-    //println("eContenet at save file $eContent")
-
-
-    val fileName = context.getResources().getString(R.string.cryptoFilePrefix) + credential.userName
-    val file = File(context.filesDir, fileName )
+    val fileName = getCryptoFileName(context)
+    val file = File(context.filesDir, fileName)
 
     try {
 
@@ -36,7 +36,6 @@ fun createCryptoFile(context: Context, eContent: JSONObject){
         // write content into file
         context.openFileOutput(fileName, Context.MODE_PRIVATE).use {
             it.write(eContent.toString().toByteArray())
-
         }
 
     } catch (e: IOException) {
@@ -51,19 +50,9 @@ fun createCryptoFile(context: Context, eContent: JSONObject){
 
 }
 
-fun importFile(context: Context, file: File): Boolean{
+fun importFile(context: Context, uri: Uri): Boolean{
 
-
-    if (!file.exists()){
-        showAlert(
-            context,
-            "File do not exist",
-            ""
-        )
-        return false
-    }
-
-    val fileContent: JSONObject? = getFileContent(file)
+    val fileContent: JSONObject? = getUriContent(context, uri)
 
     if (fileContent == null){
         showAlert(
@@ -121,6 +110,33 @@ fun validateFile(jsonContent: JSONObject): Boolean{
     return false
 }
 
+fun getUriContent(context: Context, uri: Uri): JSONObject?{
+    val cR = context.contentResolver
+    val inputStream = cR.openInputStream(uri)
+
+    // this dynamically extends to take the bytes you read
+    val byteBuffer = ByteArrayOutputStream()
+
+    // this is storage overwritten on each iteration with bytes
+    val bufferSize = 1024
+    val buffer = ByteArray(bufferSize)
+
+    // we need to know how may bytes were read to write them to the byteBuffer
+    var len = 0
+    while (inputStream!!.read(buffer).also({ len = it }) != -1) {
+        byteBuffer.write(buffer, 0, len)
+    }
+
+    // and then we can return your byte array.
+    val data = byteBuffer.toByteArray()
+    return try{
+        val contents = String(data)
+        JSONObject(contents)
+    }catch (e: JSONException){
+        null
+    }
+}
+
 // turn the file content into JSONObject
 fun getFileContent(file: File): JSONObject?{
 
@@ -139,8 +155,7 @@ fun getFileContent(file: File): JSONObject?{
     val contents = stringBuilder.toString()
 
     return try{
-        JSONObject(contents);
-
+        JSONObject(contents)
     }catch (e: JSONException){
         null
     }
@@ -148,26 +163,13 @@ fun getFileContent(file: File): JSONObject?{
 }
 
 fun getFileWithUserName(context: Context, userName: String): File?{
-
-    val predicatedName = context.resources.getString(R.string.cryptoFilePrefix) + userName
-
-    val files: Array<String> = context.fileList()   // all files within the filesDir directory
-
-    for (filename in files){
-
-        if (filename == predicatedName){
-            return File(context.filesDir, filename)
-        }
-    }
-
-    return null
+    val predicatedName = getCryptoFileName(context)
+    val file = File(context.filesDir, predicatedName)
+    return if (file.exists()) file else null
 }
 
 fun deleteCryptoFile(context: Context, fileName: String){
-
-
-    val file = File(context.filesDir, fileName )
-
+    val file = File(context.filesDir, fileName)
     val status = file.delete()
     //println("File deleted: $fileName status is $status")
 
