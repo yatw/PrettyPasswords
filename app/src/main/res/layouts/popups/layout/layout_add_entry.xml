@@ -138,7 +138,7 @@
 
         <TextView
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/create_tag_submit"
+            app:layout_constraintEnd_toStartOf="@+id/create_entry_submit"
             android:id="@+id/create_entry_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

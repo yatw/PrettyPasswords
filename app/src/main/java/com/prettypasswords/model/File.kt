@@ -20,6 +20,11 @@ fun getCryptoFileName(context: Context): String{
     return context.getResources().getString(R.string.cryptoFilePrefix) + credential.userName + ".json"
 }
 
+// overload for not having credential
+fun getCryptoFileName(context: Context, userName: String): String{
+    return context.resources.getString(R.string.cryptoFilePrefix) + userName + ".json"
+}
+
 fun createCryptoFile(context: Context, eContent: JSONObject){
 
     val fileName = getCryptoFileName(context)
@@ -163,7 +168,7 @@ fun getFileContent(file: File): JSONObject?{
 }
 
 fun getFileWithUserName(context: Context, userName: String): File?{
-    val predicatedName = getCryptoFileName(context)
+    val predicatedName = getCryptoFileName(context, userName)
     val file = File(context.filesDir, predicatedName)
     return if (file.exists()) file else null
 }
