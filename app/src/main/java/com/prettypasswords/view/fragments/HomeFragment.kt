@@ -38,6 +38,7 @@ class HomeFragment : Fragment() {
 
     val tags = PrettyManager.cm!!.body.tags
     lateinit var tagAdapter: TagAdapter
+    lateinit val ViewModel: 
 
 
     val addTagReceiver = object : BroadcastReceiver() {
