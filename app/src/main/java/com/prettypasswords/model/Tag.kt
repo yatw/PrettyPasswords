@@ -5,7 +5,7 @@ import android.content.Intent
 import android.util.Base64
 import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.prettypasswords.PrettyManager
+import com.prettypasswords.globals.PrettyManager
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject

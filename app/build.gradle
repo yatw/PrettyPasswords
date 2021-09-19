@@ -1,16 +1,14 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.prettypasswords"
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -25,6 +23,13 @@ android {
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
+        }
+        kotlinOptions {
+            jvmTarget = '1.8'
+        }
+        buildFeatures {
+            viewBinding true
+            dataBinding true
         }
     }
 
@@ -43,19 +48,32 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //noinspection GradleDependency
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.core:core-ktx:1.3.2'
+
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.1'
+    implementation "com.google.android.material:material:$materialVersion"
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation "androidx.appcompat:appcompat:1.3.0-beta01"
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    ///// Android architecture component
+
+    // Navigation
+    // Kotlin
+    // https://developer.android.com/jetpack/androidx/releases/navigation#groovy
+    def nav_version = "2.3.5"
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    // ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
 
     // libsodium
     implementation 'com.github.joshjdevl.libsodiumjni:libsodium-jni-aar:2.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     testImplementation 'com.github.joshjdevl.libsodiumjni:libsodium-jni-aar:2.0.1'
 
 
@@ -65,6 +83,7 @@ dependencies {
     // circular image
     implementation 'com.mikhaellopez:circularimageview:4.2.0'
 
-
+    // timber
+    implementation "com.jakewharton.timber:timber:$timberVersion"
 
 }

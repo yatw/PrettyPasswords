@@ -5,8 +5,8 @@ import android.content.Intent
 import android.util.Base64
 import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.prettypasswords.PrettyManager
-import com.prettypasswords.controller.Credential
+import com.prettypasswords.globals.Credential
+import com.prettypasswords.globals.PrettyManager
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.collections.ArrayList

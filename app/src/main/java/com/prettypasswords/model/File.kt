@@ -2,10 +2,10 @@ package com.prettypasswords.model
 
 import android.content.Context
 import android.net.Uri
-import com.prettypasswords.PrettyManager
+import com.prettypasswords.globals.PrettyManager
 import com.prettypasswords.R
-import com.prettypasswords.controller.restoreCredential
-import com.prettypasswords.view.popups.showAlert
+import com.prettypasswords.globals.restoreCredential
+import com.prettypasswords.utils.showAlert
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.*

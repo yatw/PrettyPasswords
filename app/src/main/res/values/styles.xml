@@ -8,6 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="toolbarTheme">
+        <!-- Color used for the title of the Toolbar - as long as not overridden -->
+        <item name="android:textColorPrimary">@color/colorWhite</item>
+        <!-- Used to color back button and three dots -->
+        <item name="android:textColorSecondary">@color/colorWhite</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+    <!-- optional theme for splash screen -->
     <style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <!-- Optional, on Android 5+ you can modify the colorPrimaryDark color to match the windowBackground color for further branding-->

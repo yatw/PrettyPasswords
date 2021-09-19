@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_content"
+    app:startDestination="@id/pwListFragment">
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.prettypasswords.features.pages.content.ProfileFragment"
+        android:label="Profile" />
+    <fragment
+        android:id="@+id/pwListFragment"
+        android:name="com.prettypasswords.features.pages.content.PwListFragment"
+        android:label="Passwords" >
+        <action
+            android:id="@+id/action_pwListFragment_to_pwEditFragment"
+            app:destination="@id/pwEditFragment" />
+        <action
+            android:id="@+id/action_pwListFragment_to_backupFragment"
+            app:destination="@id/backupFragment" />
+        <action
+            android:id="@+id/action_pwListFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_pwListFragment_to_browserFragment"
+            app:destination="@id/browserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/backupFragment"
+        android:name="com.prettypasswords.features.pages.content.BackupFragment"
+        android:label="Back up data" />
+    <fragment
+        android:id="@+id/browserFragment"
+        android:name="com.prettypasswords.features.pages.content.BrowserFragment"
+        android:label="BrowserFragment" />
+    <fragment
+        android:id="@+id/pwEditFragment"
+        android:name="com.prettypasswords.features.pages.content.PwEditFragment"
+        android:label="Edit Password" />
+</navigation>

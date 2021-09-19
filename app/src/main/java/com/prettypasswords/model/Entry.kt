@@ -2,7 +2,7 @@ package com.prettypasswords.model
 
 
 import android.content.Context
-import com.prettypasswords.PrettyManager
+import com.prettypasswords.globals.PrettyManager
 import org.json.JSONObject
 import java.util.*
 
