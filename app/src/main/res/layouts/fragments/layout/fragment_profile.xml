@@ -147,7 +147,7 @@
             android:textColor="@color/colorWhite"
             app:backgroundTint="@color/colorPrimaryDark"
             app:iconTint="@null"
-            app:icon="@drawable/icon_save"
+            app:icon="@drawable/ic_save"
             android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

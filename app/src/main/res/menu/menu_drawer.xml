@@ -9,11 +9,11 @@
             <item
                 android:id="@+id/profileFragment"
                 android:title="Manage Profile"
-                android:icon="@drawable/icon_key"/>
+                android:icon="@drawable/ic_profile"/>
             <item
                 android:id="@+id/backupFragment"
                 android:title="Back Up Data"
-                android:icon="@drawable/icon_backup"/>
+                android:icon="@drawable/ic_save"/>
         </menu>
     </item>
 
@@ -22,11 +22,11 @@
             <item
                 android:id="@+id/btn_source_code"
                 android:title="Source Code"
-                android:icon="@drawable/icon_doc"/>
+                android:icon="@drawable/ic_code"/>
             <item
                 android:id="@+id/btn_how_this_work"
                 android:title="How this work"
-                android:icon="@drawable/icon_explain"/>
+                android:icon="@drawable/ic_teach"/>
         </menu>
     </item>
 
@@ -35,11 +35,11 @@
             <item
                 android:id="@+id/btn_faq"
                 android:title="Help FAQ"
-                android:icon="@drawable/icon_faq"/>
+                android:icon="@drawable/ic_faq"/>
             <item
                 android:id="@+id/btn_bug"
                 android:title="Report a bug"
-                android:icon="@drawable/icon_bug"/>
+                android:icon="@drawable/ic_bug"/>
         </menu>
     </item>
 

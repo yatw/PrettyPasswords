@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/userNameGroup"
-            android:src="@drawable/icon_edit"
+            android:src="@drawable/ic_edit"
             android:background="?android:selectableItemBackground"
             android:padding="10dp"
             android:layout_marginRight="10dp"/>
@@ -102,7 +102,7 @@
                 android:id="@+id/password_toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_hide"
+                android:src="@drawable/ic_hide"
                 android:layout_alignParentRight="true"
                 android:background="?android:selectableItemBackground"
                 android:padding="10dp" />
