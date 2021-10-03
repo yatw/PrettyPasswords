@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.prettypasswords.R
-import com.prettypasswords.controller.getLastSessionUser
-import com.prettypasswords.controller.hasCredential
 import com.prettypasswords.databinding.FragmentSplashBinding
 import com.prettypasswords.globals.PrettyManager
 
@@ -30,11 +28,13 @@ class SplashFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val lastUser: String = getLastSessionUser(requireContext())
-        if (lastUser != "" && hasCredential(requireContext(), lastUser)){
-            if (PrettyManager.c!!.getSk() != null) {  // have credential and already login
+        val lastUser: String = PrettyManager.u.getLastSessionUserName(requireContext())
+        if (lastUser != "" && PrettyManager.retrieveSavedFile(requireContext(), lastUser)){
+            val credential = PrettyManager.u.credential
+
+            if (credential != null && credential.hasSk()) {  // have credential and already login
                 Handler(Looper.getMainLooper()).postDelayed({
-                    findNavController().navigate(R.id.action_signInFragment_to_homeFragment)
+                    findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
                 }, 800)
             }else{
                 Handler(Looper.getMainLooper()).postDelayed({

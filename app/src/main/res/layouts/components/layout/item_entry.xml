@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/ThemeOverlay.MaterialComponents.Light"
@@ -10,12 +11,15 @@
     app:cardElevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/card_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:paddingTop="10dp"
-        android:paddingBottom="20dp">
+        android:paddingBottom="20dp"
+        android:longClickable="true"
+        android:foreground="?attr/selectableItemBackground">
 
         <TextView
             android:id="@+id/siteNameLabel"
@@ -29,19 +33,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Reddit Profile"/>
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/editButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/userNameGroup"
-            android:src="@drawable/ic_edit"
-            android:background="?android:selectableItemBackground"
-            android:padding="10dp"
-            android:layout_marginRight="10dp"/>
-
 
         <RelativeLayout
             android:id="@+id/userNameGroup"
@@ -167,8 +158,6 @@
                 android:textStyle="bold"/>
 
         </RelativeLayout>
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

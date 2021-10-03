@@ -1,4 +1,4 @@
-package com.prettypasswords.features.common;
+package com.prettypasswords.utils;
 
 
 import org.libsodium.jni.NaCl;

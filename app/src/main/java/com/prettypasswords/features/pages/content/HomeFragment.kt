@@ -1,15 +1,21 @@
 package com.prettypasswords.features.pages.content
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationView
+import com.lxj.xpopup.XPopup
+import com.lxj.xpopup.enums.PopupAnimation
 import com.prettypasswords.R
 import com.prettypasswords.databinding.FragmentHomeBinding
+import com.prettypasswords.view.popups.QuickMessage
 import kotlinx.android.synthetic.main.fragment_drawer.view.*
 
 
@@ -46,6 +52,37 @@ class HomeFragment: Fragment() {
         )
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
+
+        binding.navView.setNavigationItemSelectedListener{ item: MenuItem ->
+
+            // You need this line to handle the navigation
+            val handled = NavigationUI.onNavDestinationSelected(item, navController)
+            when (item.itemId) {
+                R.id.browserFragment -> {
+
+                }
+                R.id.btn_faq -> {
+                    XPopup.Builder(context)
+                        .offsetX(100)
+                        .offsetY(200)
+                        .popupAnimation(PopupAnimation.TranslateAlphaFromRight)
+                        .asCustom(QuickMessage(requireContext(), "Wasn't expecting any FAQ, \nthanks for clicking anyway"))
+                        .show()
+                }
+                R.id.btn_bug -> {
+                    XPopup.Builder(context)
+                        .offsetX(100)
+                        .offsetY(400)
+                        .popupAnimation(PopupAnimation.TranslateFromBottom)
+                        .asCustom(QuickMessage(requireContext(), "It's not a bug, it's a feature !!"))
+                        .show()
+                }
+
+            }
+
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            return@setNavigationItemSelectedListener true
+        }
     }
 
 }

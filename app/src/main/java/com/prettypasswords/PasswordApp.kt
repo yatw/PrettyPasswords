@@ -1,7 +1,6 @@
 package com.prettypasswords
 
 import android.app.Application
-import com.prettypasswords.BuildConfig
 import timber.log.Timber
 
 class PasswordApp: Application() {

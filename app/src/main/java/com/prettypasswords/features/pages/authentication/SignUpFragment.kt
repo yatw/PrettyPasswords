@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.prettypasswords.R
-import com.prettypasswords.controller.createUser
 import com.prettypasswords.databinding.FragmentSignupBinding
+import com.prettypasswords.globals.PrettyManager
 import com.prettypasswords.utils.showAlert
 
 class SignUpFragment: Fragment() {
@@ -36,7 +36,7 @@ class SignUpFragment: Fragment() {
                 if (userName == "" || masterPassword == ""){
                     showAlert(activity, "Plase enter credential", "")
                 }else{
-                    createUser(requireActivity().applicationContext, userName, masterPassword)
+                    PrettyManager.createUser(requireActivity().applicationContext, userName, masterPassword)
                     Toast.makeText(context, "User $userName created", Toast.LENGTH_SHORT).show()
                     requireActivity().findNavController(R.id.main_nav_host).navigate(R.id.action_signUpFragment_to_homeFragment)
                 }

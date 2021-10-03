@@ -26,6 +26,11 @@
             app:destination="@id/browserFragment" />
     </fragment>
     <fragment
+        android:id="@+id/pwEditFragment"
+        android:name="com.prettypasswords.features.pages.content.PwEditFragment"
+        android:label="Edit Password" />
+
+    <fragment
         android:id="@+id/backupFragment"
         android:name="com.prettypasswords.features.pages.content.BackupFragment"
         android:label="Back up data" />
@@ -33,8 +38,5 @@
         android:id="@+id/browserFragment"
         android:name="com.prettypasswords.features.pages.content.BrowserFragment"
         android:label="BrowserFragment" />
-    <fragment
-        android:id="@+id/pwEditFragment"
-        android:name="com.prettypasswords.features.pages.content.PwEditFragment"
-        android:label="Edit Password" />
+
 </navigation>
