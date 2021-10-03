@@ -1,9 +1,12 @@
 package com.prettypasswords.features.pages.content
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +15,7 @@ import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -24,8 +28,7 @@ import com.prettypasswords.databinding.FragmentPwListBinding
 import com.prettypasswords.databinding.ItemEntryBinding
 import com.prettypasswords.model.Password
 import com.prettypasswords.view.popups.AddEntry
-import timber.log.Timber
-import java.util.*
+
 
 class PwListFragment: Fragment() {
 
@@ -43,6 +46,10 @@ class PwListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
+            handleBackPress()
+        }
 
         val submitCallback = object: AddEntry.SubmitCallback{
             override fun onSubmit(password: Password) {
@@ -69,10 +76,29 @@ class PwListFragment: Fragment() {
 
             binding.pwList.visibility = View.VISIBLE
             binding.noPw.visibility = View.GONE
-            Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show()
         }
     }
 
+    private var doubleBackToExitPressedOnce = false
+    private fun handleBackPress(){
+        if (doubleBackToExitPressedOnce) {
+
+            // Back to home
+            // https://stackoverflow.com/a/52568072/5777189
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addCategory(Intent.CATEGORY_HOME)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(requireContext(), "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+            doubleBackToExitPressedOnce = false
+        }, 2000)
+    }
 
 
     // inner = Non Static Nested classes
