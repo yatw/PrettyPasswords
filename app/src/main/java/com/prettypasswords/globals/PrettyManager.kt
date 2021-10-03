@@ -102,7 +102,7 @@ object PrettyManager {
     }
 
     @JvmStatic
-    fun addPassword(context: Context, list: List<Password>){
+    fun savePasswords(context: Context, list: List<Password>){
         val credential = u.credential?: throw IllegalStateException("credential is null")
 
         f.saveContentToDisk(context,

@@ -15,23 +15,23 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.lxj.xpopup.XPopup
 import com.prettypasswords.R
 import com.prettypasswords.databinding.FragmentPwListBinding
 import com.prettypasswords.databinding.ItemEntryBinding
-import com.prettypasswords.globals.PrettyManager.addPassword
 import com.prettypasswords.model.Password
 import com.prettypasswords.view.popups.AddEntry
+import timber.log.Timber
+import java.util.*
 
 class PwListFragment: Fragment() {
 
     private lateinit var binding: FragmentPwListBinding
 
-    //private val viewModel = ViewModelProvider(viewLifecycleOwner).get(PwListViewModel::class.java)
-    private val viewModel by activityViewModels<PwListViewModel>()
+    private val viewModel: PwViewModel by navGraphViewModels(R.id.nav_password)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,20 +58,19 @@ class PwListFragment: Fragment() {
         binding.pwList.adapter = adapter
 
         viewModel.pwList.observe(viewLifecycleOwner){ list ->
-            if (list.isNullOrEmpty()){
+
+            if (list.isEmpty()){
                 binding.pwList.visibility = View.GONE
                 binding.noPw.visibility = View.VISIBLE
                 return@observe
             }
             adapter.updateData(list)
+            adapter.notifyDataSetChanged()
 
             binding.pwList.visibility = View.VISIBLE
             binding.noPw.visibility = View.GONE
             Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show()
-
         }
-
-        viewModel.loadPasswords()
     }
 
 
@@ -117,6 +116,8 @@ class PwListFragment: Fragment() {
             val othersGroup: RelativeLayout = binding.othersGroup
             val othersLabel: TextView = binding.othersLabel
             val othersDisplay: TextView = binding.othersDisplay
+
+            val lastModified: TextView = binding.lastModified
 
             var passwordHidden = true
 
@@ -166,7 +167,7 @@ class PwListFragment: Fragment() {
 
             if (pw.userName.isNotEmpty()){
                 holder.userNameGroup.visibility = View.VISIBLE
-                holder.userNameDisplay.setText(pw.userName)
+                holder.userNameDisplay.text = pw.userName
             }
 
 
@@ -176,18 +177,19 @@ class PwListFragment: Fragment() {
 
             if (pw.email.isNotEmpty()){
                 holder.emailGroup.visibility = View.VISIBLE
-                holder.emailDisplay.setText(pw.email)
+                holder.emailDisplay.text = pw.email
             }
 
             if (!pw.others.isNullOrBlank()){
                 holder.othersGroup.visibility = View.VISIBLE
-                holder.othersDisplay.setText(pw.others)
+                holder.othersDisplay.text = pw.others
             }
 
-            holder.cardContent.setOnLongClickListener {
+            holder.lastModified.text = pw.lastModified
 
-                Toast.makeText(requireContext(), "ff", Toast.LENGTH_SHORT).show()
-                true
+            holder.cardContent.setOnClickListener {
+                val action = PwListFragmentDirections.actionPwListFragmentToPwEditFragment(position)
+                findNavController().navigate(action)
             }
         }
 

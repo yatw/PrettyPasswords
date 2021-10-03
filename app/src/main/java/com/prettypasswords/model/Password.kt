@@ -11,7 +11,7 @@ class Password(
     var email: String,
     var password: String,
     var others: String?,
-    private var lastModified: String = ""
+    var lastModified: String = ""
 ){
 
     init {
@@ -38,5 +38,11 @@ class Password(
         val c: Date = Calendar.getInstance().getTime()
         val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd")
         return simpleDateFormat.format(c)
+    }
+
+    override fun toString(): String{
+        return """
+            Password(siteName=$siteName, userName=$userName, email=$email, password=$password, others=$others, lastModified=$lastModified
+        """
     }
 }

@@ -123,7 +123,7 @@
                 android:id="@+id/emailDisplay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:layout_below="@id/emailLabel"
                 android:textStyle="bold"/>
 
@@ -154,8 +154,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:layout_below="@id/othersLabel"
-                android:textStyle="bold"/>
+                android:layout_below="@id/othersLabel"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/last_modified_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/othersGroup">
+
+            <TextView
+                android:id="@+id/last_modified_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Last Modified:"
+                android:textColor="@color/colorGray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+
+            <TextView
+                android:id="@+id/last_modified"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_below="@id/last_modified_label"/>
 
         </RelativeLayout>
 
