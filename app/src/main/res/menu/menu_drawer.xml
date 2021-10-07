@@ -20,11 +20,11 @@
     <item android:title="About">
         <menu>
             <item
-                android:id="@+id/browserFragment"
+                android:id="@+id/codeFragment"
                 android:title="Source Code"
                 android:icon="@drawable/ic_code"/>
             <item
-                android:id="@+id/browserFragmenft"
+                android:id="@+id/wikiFragment"
                 android:title="How this work"
                 android:icon="@drawable/ic_teach"/>
         </menu>

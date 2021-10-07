@@ -43,7 +43,12 @@ The data is never put into some database you don't know where in the internet.
 - [x] Fragments
 - [x] Web View
     
-### Issues/Challenges    
+### Issues/Challenges
+
+#### Version 2 With Android Architecture Comopnents
+1. Disappointed at NavigationUI not able to pass in custom argument. There is a use case that both button in the navigation drawer go to the same fragment, the only different is the url argument. [It doesn't support something simple as that](https://stackoverflow.com/a/54684557/5777189)
+
+#### Version 1
  1. If all information are encrypted and stored as a single file in disk, how do you update only a part of the content. (Etc If a user wants to edit one password, only the tag that contains the password needs update, all other tags remain unchanged).    
 **Resolution:** Break each tag and entry into its own model with reference to each other, when update occur, construct the content from each model and create a new file.  
     

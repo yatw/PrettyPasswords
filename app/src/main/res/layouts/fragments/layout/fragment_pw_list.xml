@@ -15,7 +15,8 @@
         android:text="You don't have any Passwords yet"
         android:textAlignment="center"
         android:textSize="35sp"
-        android:textColor="@color/colorLightGrey">
+        android:textColor="@color/colorLightGrey"
+        android:visibility="gone">
     </TextView>
 
     <FrameLayout
