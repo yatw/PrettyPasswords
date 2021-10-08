@@ -98,11 +98,7 @@ class UserManager {
 
     fun signout(context: Context){
         // This is normal logout, still have credential
-        val c = credential
-        if (c == null){
-            Timber.e("credential is null")
-            return
-        }
+        val c = credential?: throw IllegalStateException("credential is null")
         c.setSk(null)
     }
 

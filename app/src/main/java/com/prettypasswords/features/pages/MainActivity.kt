@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
      * https://stackoverflow.com/questions/6677969/tap-outside-edittext-to-lose-focus
      */
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN) {
+        if (event.action == MotionEvent.ACTION_UP) {
             val v = currentFocus
             if (v is EditText) {
                 val outRect = Rect()

@@ -1,40 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="vm"
+            type="com.prettypasswords.features.pages.content.ProfileViewModel" />
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
-        android:paddingBottom="200dp">
-
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/avatar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/avatar"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            app:civ_border_color="@color/colorPrimary"
-            app:civ_border_width="5dp"
-            app:civ_shadow="false"
-            android:layout_margin="20dp"/>
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/body"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/avatar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="25dp"
             android:orientation="vertical"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="30dp"
+            android:paddingVertical="20dp">
 
 
             <CheckBox
@@ -42,7 +28,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Change User Name" />
+                android:text="Change User Name"
+                android:onClick="@{() -> vm.updateUserNameChecked()}"/>
 
             <LinearLayout
                 android:id="@+id/username_group"
@@ -50,13 +37,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="@{vm.userNameChecked? View.VISIBLE : View.GONE}">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Change UserName"
-                    android:textColor="@color/colorGray"/>
+                    android:textColor="@color/colorGray" />
 
                 <EditText
                     android:id="@+id/new_user_name"
@@ -64,10 +51,9 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:lines="1"
-                    android:singleLine="true"/>
+                    android:singleLine="true" />
 
             </LinearLayout>
-
 
 
             <CheckBox
@@ -75,7 +61,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Change Master Password" />
+                android:text="Change Master Password"
+                android:onClick="@{() -> vm.updatePasswordChecked()}"/>
 
             <LinearLayout
                 android:id="@+id/master_pw_group"
@@ -83,13 +70,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="@{vm.updatePasswordChecked? View.VISIBLE : View.GONE}">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Enter Current Password"
-                    android:textColor="@color/colorGray"/>
+                    android:textColor="@color/colorGray" />
 
                 <EditText
                     android:id="@+id/input_current_pw"
@@ -97,13 +84,13 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:lines="1"
-                    android:singleLine="true"/>
+                    android:singleLine="true" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Enter a new Password"
-                    android:textColor="@color/colorGray"/>
+                    android:textColor="@color/colorGray" />
 
                 <EditText
                     android:id="@+id/input_new_pw1"
@@ -111,13 +98,13 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:lines="1"
-                    android:singleLine="true"/>
+                    android:singleLine="true" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Confirm new Password"
-                    android:textColor="@color/colorGray"/>
+                    android:textColor="@color/colorGray" />
 
                 <EditText
                     android:id="@+id/input_new_pw2"
@@ -125,16 +112,15 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:lines="1"
-                    android:singleLine="true"/>
-
+                    android:singleLine="true" />
             </LinearLayout>
-
-        </LinearLayout>
-
 
         <Button
             app:layout_constraintTop_toBottomOf="@+id/body"
             app:layout_constraintEnd_toEndOf="parent"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:iconTint="@color/colorWhite"
+            app:icon="@drawable/ic_save"
             android:id="@+id/btn_save"
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="wrap_content"
@@ -145,11 +131,9 @@
             android:text="Save"
             android:textSize="14sp"
             android:textColor="@color/colorWhite"
-            app:backgroundTint="@color/colorPrimaryDark"
-            app:iconTint="@null"
-            app:icon="@drawable/ic_save"
-            android:visibility="gone"/>
+            android:visibility="@{(vm.updatePasswordChecked || vm.userNameChecked)? View.VISIBLE : View.GONE}"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-</ScrollView>
+    </ScrollView>
+</layout>

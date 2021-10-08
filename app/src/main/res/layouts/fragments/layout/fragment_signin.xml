@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:text="User Name"
             android:textSize="14sp"
-            android:layout_marginTop="40sp"/>
+            android:layout_marginTop="40dp"/>
 
 
         <EditText
@@ -69,6 +69,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:maxLines="1"
             android:lines="1"
+            android:enabled="false"
             android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -81,7 +82,7 @@
             android:layout_height="wrap_content"
             android:text="Password"
             android:textSize="14sp"
-            android:layout_marginTop="20sp"/>
+            android:layout_marginTop="20dp"/>
 
         <EditText
             android:id="@+id/input_password"
@@ -110,6 +111,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:text="Sign In"
             android:paddingVertical="15dp"
             android:layout_marginTop="50sp"/>

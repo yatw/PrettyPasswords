@@ -2,9 +2,11 @@ package com.prettypasswords.features.pages.content
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -12,8 +14,9 @@ import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.enums.PopupAnimation
 import com.prettypasswords.R
 import com.prettypasswords.databinding.FragmentHomeBinding
+import com.prettypasswords.globals.PrettyManager
 import com.prettypasswords.view.popups.QuickMessage
-import kotlinx.android.synthetic.main.fragment_drawer.view.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
 class HomeFragment: Fragment() {
@@ -76,6 +79,13 @@ class HomeFragment: Fragment() {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
             return@setNavigationItemSelectedListener true
         }
+
+        binding.btnLogout.setOnClickListener {
+            PrettyManager.u.signout(requireContext())
+            findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
+            Toast.makeText(requireContext(), "You have signed out", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
 }
