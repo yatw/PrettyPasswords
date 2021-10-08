@@ -32,7 +32,8 @@ The data is never put into some database you don't know where in the internet.
   and    
 2. Break libsodium or somehow know your master password and tag passwords    
     
-### Android concepts used  
+### Android concepts used
+- [x] Activity Result Launcher
 - [x] SharedPreferences  
 - [x] Internal file storage
 - [x] File import and export

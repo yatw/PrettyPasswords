@@ -1,6 +1,8 @@
 package com.prettypasswords.utils
 
+import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.net.Uri
 import com.prettypasswords.R
 import com.prettypasswords.globals.PrettyManager
@@ -55,16 +57,17 @@ class FileManager {
 
     }
 
-    fun saveContentToDisk(context: Context,
-                          credential: JSONObject,
-                          b64ePws: String? = null
-    ){
-        val content = JSONObject()
-        content.put("credential", credential)
-        if (b64ePws != null){
-            content.put("b64ePws", b64ePws)
+    fun writeContentToUri(activity: Activity, uri: Uri): Boolean{
+        // write to specific file using uri
+        //https://stackoverflow.com/questions/51490194/file-written-using-action-create-document-is-empty-on-google-drive-but-not-local
+        val os: OutputStream? = activity.contentResolver.openOutputStream(uri)
+        if (os != null) {
+            val eContent = PrettyManager.getEncryptedContent()
+            os.write(eContent.toString().toByteArray())
+            os.close()
+            return true
         }
-        createCryptoFile(context, content)
+        return false
     }
 
     fun getUriContent(context: Context, uri: Uri): JSONObject?{

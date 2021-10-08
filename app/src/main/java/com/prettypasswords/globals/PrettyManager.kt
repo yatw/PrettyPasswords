@@ -30,7 +30,7 @@ object PrettyManager {
     // register, to create cryptoFile
     fun createUser(context: Context, userName: String, password: String){
         val c = u.createCredential(context, userName, password)
-        f.saveContentToDisk(context, c.toJson())
+        f.createCryptoFile(context, c.toJson())
     }
 
     fun retrieveSavedFile(context: Context, userName: String): Boolean{
@@ -91,7 +91,7 @@ object PrettyManager {
             u.credential = credential
 
             if (fileContent.has("b64ePws")){
-                b64ePws= fileContent.getString("b64ePws")
+                b64ePws = fileContent.getString("b64ePws")
             }
 
             return true
@@ -101,17 +101,27 @@ object PrettyManager {
         return false
     }
 
+    fun getEncryptedContent(): JSONObject{
+        val credential = u.credential?: throw IllegalStateException("credential is null")
+
+        val content = JSONObject()
+        content.put("credential", credential)
+        if (b64ePws != null){
+            content.put("b64ePws", b64ePws)
+        }
+        return content
+    }
+
     @JvmStatic
     fun savePasswords(context: Context, list: List<Password>){
         val credential = u.credential?: throw IllegalStateException("credential is null")
 
-        f.saveContentToDisk(context,
-            credential.toJson(),
-            encryptPws(
-                list,
-                credential.getSak()
-            )
+        b64ePws = encryptPws(
+            list,
+            credential.getSak()
         )
+
+        f.createCryptoFile(context, getEncryptedContent())
     }
 
     // turn password list to json list
