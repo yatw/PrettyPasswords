@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.prettypasswords.R
@@ -19,6 +21,24 @@ class SignInFragment: Fragment() {
 
     private lateinit var binding: FragmentSigninBinding
 
+    private val activityResultLauncher = registerForActivityResult(
+        ActivityResultContracts.OpenDocument(),
+        ActivityResultCallback { uri ->
+            if (uri == null){
+                Toast.makeText(requireContext(), "Canceled", Toast.LENGTH_SHORT).show()
+                return@ActivityResultCallback
+            }
+
+            val importSuccess = PrettyManager.importFile(requireContext(), uri)
+            if (importSuccess){
+                fillInUserName()
+                Toast.makeText(requireContext(), "Import file Success!", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(requireContext(), "Import file Failed!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    )
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,13 +47,16 @@ class SignInFragment: Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    private fun fillInUserName(){
         val credential = PrettyManager.u.credential
             ?: throw IllegalStateException("No Credential for login")
 
         binding.inputUserName.setText(credential.userName)
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fillInUserName()
 
         binding.btnSignin.setOnClickListener(object: View.OnClickListener{
             override fun onClick(v: View?) {
@@ -62,6 +85,10 @@ class SignInFragment: Fragment() {
             }
 
         })
+
+        binding.btnImport.setOnClickListener {
+            activityResultLauncher.launch(arrayOf("application/json"))
+        }
 
     }
 }

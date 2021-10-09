@@ -2,15 +2,16 @@ package com.prettypasswords.utils
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
 import android.net.Uri
+import android.util.JsonWriter
 import com.prettypasswords.R
 import com.prettypasswords.globals.PrettyManager
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import timber.log.Timber
 import java.io.*
 import java.nio.charset.StandardCharsets
+
 
 class FileManager {
 
@@ -57,17 +58,41 @@ class FileManager {
 
     }
 
-    fun writeContentToUri(activity: Activity, uri: Uri): Boolean{
+    fun writeContentToJsonFile(activity: Activity, uri: Uri): Boolean{
         // write to specific file using uri
         //https://stackoverflow.com/questions/51490194/file-written-using-action-create-document-is-empty-on-google-drive-but-not-local
+
+
+        val eContent = PrettyManager.getEncryptedContent()
+
         val os: OutputStream? = activity.contentResolver.openOutputStream(uri)
         if (os != null) {
-            val eContent = PrettyManager.getEncryptedContent()
-            os.write(eContent.toString().toByteArray())
-            os.close()
+            val writer = JsonWriter(OutputStreamWriter(os, "UTF-8"))
+            writeToJsonWriter(writer, eContent)
+            writer.close()
             return true
         }
         return false
+    }
+
+    // Must encode correctly to become MIME type json
+    // https://developer.android.com/reference/android/util/JsonWriter
+    private fun writeToJsonWriter(writer: JsonWriter, content: JSONObject){
+
+        writer.beginObject()
+
+        val keys = content.keys()
+        for (key in keys){
+
+            val obj = content.get(key)
+            if (obj is JSONObject) {
+                writer.name(key)
+                writeToJsonWriter(writer, obj)
+            }else{
+                writer.name(key).value(content.getString(key))
+            }
+        }
+        writer.endObject()
     }
 
     fun getUriContent(context: Context, uri: Uri): JSONObject?{

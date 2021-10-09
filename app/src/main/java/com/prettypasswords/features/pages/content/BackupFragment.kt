@@ -29,7 +29,7 @@ class BackupFragment: Fragment() {
             }
             binding.labelSaveResult.visibility = View.VISIBLE
 
-            val success = PrettyManager.f.writeContentToUri(requireActivity(), uri)
+            val success = PrettyManager.f.writeContentToJsonFile(requireActivity(), uri)
             if (success){
                 binding.labelSaveResult.setTextColor(Color.GREEN)
                 binding.labelSaveResult.text = "Success, File ${fileName} saved at path ${uri.path}"

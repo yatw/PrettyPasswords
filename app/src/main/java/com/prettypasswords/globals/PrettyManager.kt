@@ -45,31 +45,10 @@ object PrettyManager {
     fun importFile(context: Context, uri: Uri): Boolean{
 
         val fileContent: JSONObject? = f.getUriContent(context, uri)
-        if (fileContent == null){
-            showAlert(
-                context,
-                "Get fileContent failed",
-                "Probably not in json format"
-            )
+        if (fileContent == null || !restoreCredential(fileContent)){
             return false
         }
-
-        if (!restoreCredential(fileContent)){
-            showAlert(
-                context,
-                "ValidateFile failed",
-                ""
-            )
-            return false
-        }
-
         f.createCryptoFile(context, fileContent)
-
-        showAlert(
-            context,
-            "Import File Success",
-            "You can now access this account"
-        )
         return true
     }
 
@@ -105,7 +84,7 @@ object PrettyManager {
         val credential = u.credential?: throw IllegalStateException("credential is null")
 
         val content = JSONObject()
-        content.put("credential", credential)
+        content.put("credential", credential.toJson())
         if (b64ePws != null){
             content.put("b64ePws", b64ePws)
         }
