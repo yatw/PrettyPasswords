@@ -29,7 +29,7 @@ class BackupFragment: Fragment() {
             }
             binding.labelSaveResult.visibility = View.VISIBLE
 
-            val success = PrettyManager.f.writeContentToJsonFile(requireActivity(), uri)
+            val success = PrettyManager.saveAsFile(requireActivity(), uri)
             if (success){
                 binding.labelSaveResult.setTextColor(Color.GREEN)
                 binding.labelSaveResult.text = "Success, File ${fileName} saved at path ${uri.path}"
@@ -53,7 +53,8 @@ class BackupFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fileName = PrettyManager.f.getCryptoFileName(requireContext())
+        fileName = PrettyManager.f.getCryptoFileName(requireContext(),
+            userName = PrettyManager.u.getUserName())
 
         binding.labelInstructions.text = """
             File will be generated as ${fileName}

@@ -1,28 +1,83 @@
 package com.prettypasswords.features.pages.content
 
-import androidx.lifecycle.LiveData
+import android.content.Context
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.prettypasswords.globals.PrettyManager
 import timber.log.Timber
 
 
 class ProfileViewModel: ViewModel() {
 
 
-    private val _userNameChecked = MutableLiveData(false)
-    val userNameChecked: LiveData<Boolean> = _userNameChecked
+    val userNameChecked = MutableLiveData(false)
 
-    private val _updatePasswordChecked = MutableLiveData(false)
-    val updatePasswordChecked: LiveData<Boolean> = _updatePasswordChecked
+    val userNameInput = MutableLiveData("")
 
-    fun updateUserNameChecked(){
-        var checked = _userNameChecked.value?: false
-        _userNameChecked.postValue(!checked)
+    val passwordChecked = MutableLiveData(false)
+
+    val passwordNow = MutableLiveData("")
+    val password1 = MutableLiveData("")
+    val password2 = MutableLiveData("")
+
+
+    val saveBtnEnable = MediatorLiveData<Boolean>().apply {
+        this.addSource(userNameChecked){
+            this.postValue(shouldSaveBtnEnable())
+        }
+        this.addSource(userNameInput){
+            this.postValue(shouldSaveBtnEnable())
+        }
+        this.addSource(passwordChecked){
+            this.postValue(shouldSaveBtnEnable())
+        }
+        this.addSource(passwordNow){
+            this.postValue(shouldSaveBtnEnable())
+        }
+        this.addSource(password1){
+            this.postValue(shouldSaveBtnEnable())
+        }
+        this.addSource(password2){
+            this.postValue(shouldSaveBtnEnable())
+        }
     }
 
-    fun updatePasswordChecked(){
-        var checked = _updatePasswordChecked.value?: false
-        _updatePasswordChecked.postValue(!checked)
+
+    fun shouldSaveBtnEnable(): Boolean{
+        if (userNameChecked.value != true && passwordChecked.value != true){
+            return false
+        }
+        return isUserNameOk() && isPasswordOk()
+    }
+
+    fun isUserNameOk(): Boolean{
+        val checked = userNameChecked.value?: return false
+        return !(checked && userNameInput.value.isNullOrBlank())
+    }
+
+    fun isPasswordOk(): Boolean{
+        val checked = passwordChecked.value?: return false
+        if (!checked){
+            return true
+        }
+        val currentPassword = passwordNow.value
+        val pw1 = password1.value
+        val pw2 = password2.value
+        if (currentPassword.isNullOrBlank() || pw1.isNullOrBlank() || pw2.isNullOrBlank()){
+            return false
+        }
+        if (pw1 != pw2){
+            return false
+        }
+        return true
+    }
+
+
+    fun handleSave(context: Context): Boolean{
+        val newUserName = if (userNameChecked.value == true) userNameInput.value else null
+        val newPw = if (passwordChecked.value == true) password1.value else null
+        return PrettyManager.updateProfile(context, newUserName, newPw)
     }
 
 }

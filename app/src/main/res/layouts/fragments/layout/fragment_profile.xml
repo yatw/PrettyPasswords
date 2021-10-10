@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Change User Name"
-                android:onClick="@{() -> vm.updateUserNameChecked()}"/>
+                android:checked="@={vm.userNameChecked}"/>
 
             <LinearLayout
                 android:id="@+id/username_group"
@@ -51,7 +51,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:lines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="@={vm.userNameInput}"/>
 
             </LinearLayout>
 
@@ -62,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Change Master Password"
-                android:onClick="@{() -> vm.updatePasswordChecked()}"/>
+                android:checked="@={vm.passwordChecked}"/>
 
             <LinearLayout
                 android:id="@+id/master_pw_group"
@@ -70,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="@{vm.updatePasswordChecked? View.VISIBLE : View.GONE}">
+                android:visibility="@{vm.passwordChecked? View.VISIBLE : View.GONE}">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -84,7 +85,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:lines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="@={vm.passwordNow}"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -98,7 +100,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:lines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="@={vm.password1}"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -112,26 +115,29 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:lines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="@={vm.password2}"/>
             </LinearLayout>
 
-        <Button
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_save"
             app:layout_constraintTop_toBottomOf="@+id/body"
             app:layout_constraintEnd_toEndOf="parent"
-            app:backgroundTint="@color/colorPrimaryDark"
             app:iconTint="@color/colorWhite"
             app:icon="@drawable/ic_save"
-            android:id="@+id/btn_save"
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:padding="10dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="25dp"
             android:text="Save"
             android:textSize="14sp"
             android:textColor="@color/colorWhite"
-            android:visibility="@{(vm.updatePasswordChecked || vm.userNameChecked)? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{(vm.passwordChecked || vm.userNameChecked)? View.VISIBLE : View.GONE}"
+            android:enabled="@{vm.saveBtnEnable}" />
 
         </LinearLayout>
 

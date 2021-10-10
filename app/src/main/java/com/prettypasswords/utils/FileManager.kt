@@ -1,12 +1,10 @@
 package com.prettypasswords.utils
 
-import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.util.JsonWriter
+import androidx.core.net.toUri
 import com.prettypasswords.R
-import com.prettypasswords.globals.PrettyManager
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.*
@@ -19,19 +17,19 @@ class FileManager {
 // file operation related
 // https://developer.android.com/training/data-storage/app-specific#kotlin
 
-    fun getCryptoFileName(context: Context): String{
-        val credential = PrettyManager.u.credential!!
-        return context.getResources().getString(R.string.cryptoFilePrefix) + credential.userName + ".json"
-    }
 
-    // overload for not having credential
     fun getCryptoFileName(context: Context, userName: String): String{
         return context.resources.getString(R.string.cryptoFilePrefix) + userName + ".json"
     }
 
-    fun createCryptoFile(context: Context, eContent: JSONObject){
+    fun getFileWithUserName(context: Context, userName: String): File?{
+        val predicatedName = getCryptoFileName(context, userName)
+        val file = File(context.filesDir, predicatedName)
+        return if (file.exists()) file else null
+    }
 
-        val fileName = getCryptoFileName(context)
+    fun createCryptoFile(context: Context, fileName: String, eContent: JSONObject): Boolean{
+
         val file = File(context.filesDir, fileName)
 
         try {
@@ -42,30 +40,19 @@ class FileManager {
 
             file.createNewFile()
 
-            // write content into file
-            context.openFileOutput(fileName, Context.MODE_PRIVATE).use {
-                it.write(eContent.toString().toByteArray())
-            }
+            return writeAsJsonFile(context, file.toUri(), eContent)
 
         } catch (e: IOException) {
-            showAlert(
-                context,
-                "Create Crypto failed",
-                e.toString()
-            )
             e.printStackTrace()
         }
-
+        return false     // todo handle fail
     }
 
-    fun writeContentToJsonFile(activity: Activity, uri: Uri): Boolean{
+    fun writeAsJsonFile(context: Context, uri: Uri, eContent: JSONObject): Boolean{
         // write to specific file using uri
         //https://stackoverflow.com/questions/51490194/file-written-using-action-create-document-is-empty-on-google-drive-but-not-local
 
-
-        val eContent = PrettyManager.getEncryptedContent()
-
-        val os: OutputStream? = activity.contentResolver.openOutputStream(uri)
+        val os: OutputStream? = context.contentResolver.openOutputStream(uri)
         if (os != null) {
             val writer = JsonWriter(OutputStreamWriter(os, "UTF-8"))
             writeToJsonWriter(writer, eContent)
@@ -95,6 +82,7 @@ class FileManager {
         writer.endObject()
     }
 
+    // todo combine
     fun getUriContent(context: Context, uri: Uri): JSONObject?{
         val cR = context.contentResolver
         val inputStream = cR.openInputStream(uri)
@@ -122,6 +110,7 @@ class FileManager {
         }
     }
 
+    // todo combine
     // turn the file content into JSONObject
     fun getFileContent(file: File): JSONObject?{
 
@@ -147,11 +136,6 @@ class FileManager {
 
     }
 
-    fun getFileWithUserName(context: Context, userName: String): File?{
-        val predicatedName = getCryptoFileName(context, userName)
-        val file = File(context.filesDir, predicatedName)
-        return if (file.exists()) file else null
-    }
 
     fun deleteCryptoFile(context: Context, fileName: String){
         val file = File(context.filesDir, fileName)

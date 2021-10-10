@@ -4,6 +4,7 @@ import android.content.Context
 import com.prettypasswords.globals.PrettyManager
 import com.prettypasswords.model.Credential
 import timber.log.Timber
+import java.lang.IllegalArgumentException
 import java.lang.IllegalStateException
 import java.util.*
 
@@ -18,32 +19,38 @@ class UserManager {
 
     private var sak: ByteArray? = null
 
+    companion object {
 
-    fun createCredential(context: Context, userName: String, password: String): Credential{
+        fun createCredential(context: Context, userName: String, password: String): Credential{
 
-        val userKeyPair : Array<ByteArray> = PrettyManager.e.generateAKey()
+            val userKeyPair : Array<ByteArray> = PrettyManager.e.generateAKey()
 
-        val pk = userKeyPair[0]
-        val sk = userKeyPair[1]
+            val pk = userKeyPair[0]
+            val sk = userKeyPair[1]
 
-        val esk: ByteArray = PrettyManager.e.generateESKey(sk, password)
-        val xesak = PrettyManager.e.generateXESAK(pk, sk)
+            val esk: ByteArray = PrettyManager.e.generateESKey(sk, password)
+            val xesak = PrettyManager.e.generateXESAK(pk, sk)
 
 
-        val credential = Credential(
-            userName = userName,
-            pk = pk,
-            sk = sk,
-            esk = esk,
-            xesak = xesak
-        )
-        this.credential = credential
+            return Credential(
+                userName = userName,
+                pk = pk,
+                sk = sk,
+                esk = esk,
+                xesak = xesak
+            )
+        }
 
+    }
+
+    fun initWithCredential(context: Context, c: Credential){
+
+        val sk = c.getSk()?: throw IllegalArgumentException("missing sk")
 
         // decrypt sak from xesak
-        sak = PrettyManager.e.generateSAK(xesak, pk, sk)
-        saveCurrentUserName(context, userName)
-        return credential
+        sak = PrettyManager.e.generateSAK(c.xesak, c.pk, sk)
+        saveCurrentUserName(context, c.userName)
+        this.credential = c
     }
 
 
@@ -59,7 +66,7 @@ class UserManager {
 
 
         // if not equals, incorrect password
-        if (!Arrays.equals(generatedpk,pk)){
+        if (!generatedpk.contentEquals(pk)){
             return false
         }
 
@@ -70,6 +77,23 @@ class UserManager {
         saveCurrentUserName(context, c.userName)
 
         return true
+    }
+
+    fun checkPasswordCorrect(password: String): Boolean{
+        val c = credential ?: throw IllegalStateException("credential is null")
+        val esk: ByteArray = c.esk
+        val pk: ByteArray = c.pk
+
+        val decryptedSK: ByteArray = PrettyManager.e.decryptESKtoSK(esk,  password)
+        val generatedpk: ByteArray = PrettyManager.e.generatePk(decryptedSK)
+
+        // if not equals, incorrect password
+        return Arrays.equals(generatedpk,pk)
+    }
+
+
+    fun getUserName(): String{
+        return credential?.userName ?: throw IllegalStateException("null credential")
     }
 
 
@@ -90,13 +114,13 @@ class UserManager {
         return userName ?: ""
     }
 
-    fun logout(context: Context){
+    fun signout(context: Context){
         // this is hard logout, erase credential
         // but for this app, when signin hasContential() will restore
         credential = null
     }
 
-    fun signout(context: Context){
+    fun logout(context: Context){
         // This is normal logout, still have credential
         val c = credential?: throw IllegalStateException("credential is null")
         c.setSk(null)

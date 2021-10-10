@@ -7,16 +7,13 @@ import com.prettypasswords.model.*
 import com.prettypasswords.utils.Encryption
 import com.prettypasswords.utils.FileManager
 import com.prettypasswords.utils.UserManager
-import com.prettypasswords.utils.showAlert
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import timber.log.Timber
+import java.io.File
 import java.lang.IllegalStateException
 import kotlin.collections.ArrayList
 
-
-// Singleton
 object PrettyManager {
 
     const val sharedPreferenceKey = "PrettyManagerUserCredential"
@@ -27,17 +24,25 @@ object PrettyManager {
 
     var b64ePws: String? = null
 
-    // register, to create cryptoFile
-    fun createUser(context: Context, userName: String, password: String){
-        val c = u.createCredential(context, userName, password)
-        f.createCryptoFile(context, c.toJson())
+    // called by backupFragment
+    fun saveAsFile(context: Context, uri: Uri): Boolean{
+        val eContent = getEncryptedContent()
+        return f.writeAsJsonFile(context, uri, eContent)
     }
 
+    // register, to create credential and cryptoFile
+    fun createUser(context: Context, userName: String, password: String){
+        val c = UserManager.createCredential(context, userName, password)
+        u.initWithCredential(context, c)
+        f.createCryptoFile(context,
+            fileName = f.getCryptoFileName(context, userName),
+            eContent = c.toJson())
+    }
+
+    // call by splashFragment to decide go to signin or signup
     fun retrieveSavedFile(context: Context, userName: String): Boolean{
         val file = f.getFileWithUserName(context, userName) ?: return false
         val content = f.getFileContent(file) ?: return false
-        Timber.i("retrieved content")
-        Timber.i(content.toString())
         return restoreCredential(content)
     }
 
@@ -48,7 +53,10 @@ object PrettyManager {
         if (fileContent == null || !restoreCredential(fileContent)){
             return false
         }
-        f.createCryptoFile(context, fileContent)
+        val credential = u.credential?: throw IllegalStateException("credential is null")
+        f.createCryptoFile(context,
+            fileName = f.getCryptoFileName(context, credential.userName),
+            eContent = fileContent)
         return true
     }
 
@@ -80,16 +88,22 @@ object PrettyManager {
         return false
     }
 
-    fun getEncryptedContent(): JSONObject{
-        val credential = u.credential?: throw IllegalStateException("credential is null")
+    // if during change password, re-encrypt everything using the new credential, otherwise use the current encrypted content
+    fun getEncryptedContent(c: Credential? = null): JSONObject{
+        val credential = c?: u.credential?: throw IllegalStateException("credential is null")
+
 
         val content = JSONObject()
         content.put("credential", credential.toJson())
+
         if (b64ePws != null){
-            content.put("b64ePws", b64ePws)
+            val encryptedContent = b64ePws?: throw IllegalStateException("b64ePws is null")
+            content.put("b64ePws", if (c == null) b64ePws else encryptPws(encryptedContent, c))
         }
         return content
     }
+
+
 
     @JvmStatic
     fun savePasswords(context: Context, list: List<Password>){
@@ -100,11 +114,13 @@ object PrettyManager {
             credential.getSak()
         )
 
-        f.createCryptoFile(context, getEncryptedContent())
+        f.createCryptoFile(context,
+            fileName = f.getCryptoFileName(context, credential.userName),
+            eContent = getEncryptedContent())
     }
 
     // turn password list to json list
-    private fun encryptPws(pwList: List<Password>, sak: ByteArray): String? {
+    private fun encryptPws(pwList: List<Password>, sak: ByteArray): String {
 
         val jsonArray = JSONArray()
         for (pw in pwList){
@@ -115,33 +131,46 @@ object PrettyManager {
         return Base64.encodeToString(ePws, Base64.DEFAULT)
     }
 
-
-    // called when user login success
-    // if login success, the sak will be valid
-    fun decrypt(): ArrayList<Password>{
-        val c = u.credential ?: throw IllegalStateException("credential is null")
-
+    private fun decryptPws(b64ePws: String? = null, sak: ByteArray): ArrayList<Password>{
         val pwList: ArrayList<Password> = ArrayList()
 
         if (b64ePws == null){
             return pwList
         }
 
-
         val ePws = Base64.decode(b64ePws, Base64.DEFAULT)
 
-        val bPws = e.sKeyDecrypt(ePws, c.getSak())
+        val bPws = e.sKeyDecrypt(ePws, sak)
 
         val sPws = bPws.toString(Charsets.UTF_8)
 
         val jsonPws = JSONArray(sPws)
 
-        // store all tags
         for (i in 0 until jsonPws.length()) {
             val pw = jsonToPassword(jsonPws.getJSONObject(i))
             pwList.add(pw)
         }
         return pwList
+    }
+
+    // called during getEncryptedContent with password update
+    // need to re-encrypt with new password
+    private fun encryptPws(b64ePws: String, newCredential: Credential): String {
+        val credential = u.credential?: throw IllegalStateException("credential is null")
+
+        // decrypt with old credential
+        val pwList = decryptPws(b64ePws, credential.getSak())
+
+        // now encrypt with new credential
+        return encryptPws(pwList, newCredential.getSak())
+    }
+
+
+    // called when user login success
+    // if login success, the sak will be valid
+    fun getDecryptedContent(): ArrayList<Password>{
+        val credential = u.credential?: throw IllegalStateException("credential is null")
+        return decryptPws(b64ePws, credential.getSak())
     }
 
     private fun jsonToPassword(pwJson: JSONObject): Password {
@@ -153,6 +182,32 @@ object PrettyManager {
         val others = if (pwJson.has("others")) pwJson.getString("others") else null
         val lastModified = pwJson.getString("lastModified")
         return Password(siteName, userName, email, password, others, lastModified)
+    }
+
+
+    fun updateProfile(context: Context, newUserName: String?, newPw: String?): Boolean{
+        val credential = u.credential?: throw IllegalStateException("null credential")
+
+        // first delete old file with old userName
+        val file: File? = f.getFileWithUserName(context, credential.userName)
+        f.deleteCryptoFile(file)
+
+        val userName = newUserName?: credential.userName
+
+        val credentialToSave = if (newPw != null)
+            UserManager.createCredential(context, userName, newPw)
+        else credential
+
+
+        if (newUserName != null){
+            credentialToSave.userName = newUserName
+            u.saveCurrentUserName(context, newUserName)
+        }
+
+        val createSuccess = f.createCryptoFile(context,
+            fileName = f.getCryptoFileName(context, credentialToSave.userName),
+                    eContent = getEncryptedContent(credentialToSave))
+        return createSuccess
     }
 
 

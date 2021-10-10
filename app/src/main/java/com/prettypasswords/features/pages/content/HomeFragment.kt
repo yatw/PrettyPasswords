@@ -2,6 +2,7 @@ package com.prettypasswords.features.pages.content
 
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -34,8 +35,6 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         // bind the drawer with the navigation graph
 
         // I used  findNavController() doesn't work, see
@@ -43,7 +42,7 @@ class HomeFragment: Fragment() {
         val navHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_home) as NavHostFragment
         val navController = navHostFragment.navController
         binding.drawerLayout.nav_view.setupWithNavController(navController)
-        //binding.navView.setupWithNavController(navController)
+        binding.navView.setupWithNavController(navController)
 
         // bind the toolbar with navigation graph
         val appBarConfiguration = AppBarConfiguration(
@@ -81,11 +80,14 @@ class HomeFragment: Fragment() {
         }
 
         binding.btnLogout.setOnClickListener {
-            PrettyManager.u.signout(requireContext())
+            PrettyManager.u.logout(requireContext())
             findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
-            Toast.makeText(requireContext(), "You have signed out", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "You have logout!", Toast.LENGTH_SHORT).show()
         }
 
+        val header = binding.navView.getHeaderView(0)
+        val userName = header.findViewById<TextView>(R.id.nav_username)
+        userName.text = PrettyManager.u.getUserName()
     }
 
 }

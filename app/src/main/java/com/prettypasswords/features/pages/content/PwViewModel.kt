@@ -12,7 +12,7 @@ class PwViewModel: ViewModel() {
 
     private val _pwList by lazy {
         val liveData = MutableLiveData<MutableList<Password>>()
-        liveData.postValue(PrettyManager.decrypt())
+        liveData.postValue(PrettyManager.getDecryptedContent())
         return@lazy liveData
     }
     val pwList: LiveData<MutableList<Password>> = _pwList

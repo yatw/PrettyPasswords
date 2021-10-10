@@ -31,12 +31,6 @@
                 android:name="position"
                 app:argType="integer" />
         </fragment>
-        <action
-            android:id="@+id/action_global_codeFragment"
-            app:destination="@id/codeFragment" />
-        <action
-            android:id="@+id/action_global_wikiFragment"
-            app:destination="@id/wikiFragment" />
     </navigation>
     <fragment
         android:id="@+id/codeFragment"

@@ -104,9 +104,6 @@ class PwListFragment: Fragment() {
     // inner = Non Static Nested classes
     inner class PasswordListAdapter(val context: Context): RecyclerView.Adapter<PasswordListAdapter.PwViewHolder>() {
 
-//        var editClickListener: ItemClickListener? = null
-//        var cardClickListener: StickClickListener? = null
-
         private var dataSet = listOf<Password>()
 
         fun updateData(pwList: List<Password>){
