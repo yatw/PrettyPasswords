@@ -42,7 +42,6 @@ class HomeFragment: Fragment() {
         val navHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_home) as NavHostFragment
         val navController = navHostFragment.navController
         binding.drawerLayout.nav_view.setupWithNavController(navController)
-        binding.navView.setupWithNavController(navController)
 
         // bind the toolbar with navigation graph
         val appBarConfiguration = AppBarConfiguration(
