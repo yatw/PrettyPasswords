@@ -6,7 +6,7 @@
         <import type="android.view.View"/>
         <variable
             name="vm"
-            type="com.prettypasswords.features.pages.content.ProfileViewModel" />
+            type="com.yatw.prettypasswords.features.pages.content.ProfileViewModel" />
     </data>
 
     <ScrollView

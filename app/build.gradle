@@ -7,7 +7,7 @@ android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion "30.0.3"
     defaultConfig {
-        applicationId "com.prettypasswords"
+        applicationId "com.yatw.prettypasswords"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
@@ -41,7 +41,6 @@ android {
                            'src/main/res/layouts/fragments',
                            'src/main/res/layouts/components',
                            'src/main/res/layouts/popups'
-
             ]
         }
     }

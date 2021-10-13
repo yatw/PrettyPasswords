@@ -6,18 +6,18 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.prettypasswords.features.pages.content.ProfileFragment"
+        android:name="com.yatw.prettypasswords.features.pages.content.ProfileFragment"
         android:label="Profile" />
     <fragment
         android:id="@+id/backupFragment"
-        android:name="com.prettypasswords.features.pages.content.BackupFragment"
+        android:name="com.yatw.prettypasswords.features.pages.content.BackupFragment"
         android:label="Back up data" />
 
     <navigation android:id="@+id/nav_password"
         app:startDestination="@id/pwListFragment">
         <fragment
             android:id="@+id/pwListFragment"
-            android:name="com.prettypasswords.features.pages.content.PwListFragment"
+            android:name="com.yatw.prettypasswords.features.pages.content.PwListFragment"
             android:label="Passwords">
             <action
                 android:id="@+id/action_pwListFragment_to_pwEditFragment"
@@ -25,7 +25,7 @@
         </fragment>
         <fragment
             android:id="@+id/pwEditFragment"
-            android:name="com.prettypasswords.features.pages.content.PwEditFragment"
+            android:name="com.yatw.prettypasswords.features.pages.content.PwEditFragment"
             android:label="Edit Password">
             <argument
                 android:name="position"
@@ -34,11 +34,11 @@
     </navigation>
     <fragment
         android:id="@+id/codeFragment"
-        android:name="com.prettypasswords.features.pages.content.CodeFragment"
+        android:name="com.yatw.prettypasswords.features.pages.content.CodeFragment"
         android:label="Source Code" />
     <fragment
         android:id="@+id/wikiFragment"
-        android:name="com.prettypasswords.features.pages.content.WikiFragment"
+        android:name="com.yatw.prettypasswords.features.pages.content.WikiFragment"
         android:label="How this work" />
 
 </navigation>
