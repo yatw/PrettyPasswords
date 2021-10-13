@@ -34,12 +34,13 @@ android {
         }
     }
 
+    /*
+       leaving this as example of how to add different srcSet
+     */
     sourceSets {
         main {
             res.srcDirs = ['src/main/res',
-                           'src/main/res/layouts/activities',
                            'src/main/res/layouts/fragments',
-                           'src/main/res/layouts/components',
                            'src/main/res/layouts/popups'
             ]
         }
