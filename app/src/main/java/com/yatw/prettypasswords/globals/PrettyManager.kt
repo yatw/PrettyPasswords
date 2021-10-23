@@ -88,10 +88,10 @@ object PrettyManager {
         return false
     }
 
-    // if during change password, re-encrypt everything using the new credential, otherwise use the current encrypted content
+    // if during change password, re-encrypt everything using the new credential,
+    // if not change password, use the current encrypted content
     fun getEncryptedContent(c: Credential? = null): JSONObject{
         val credential = c?: u.credential?: throw IllegalStateException("credential is null")
-
 
         val content = JSONObject()
         content.put("credential", credential.toJson())
@@ -168,6 +168,7 @@ object PrettyManager {
 
     // called when user login success
     // if login success, the sak will be valid
+    // b64ePws updated from restoreCredential() or updated when change profile password
     fun getDecryptedContent(): ArrayList<Password>{
         val credential = u.credential?: throw IllegalStateException("credential is null")
         return decryptPws(b64ePws, credential.getSak())
@@ -207,6 +208,7 @@ object PrettyManager {
         val createSuccess = f.createCryptoFile(context,
             fileName = f.getCryptoFileName(context, credentialToSave.userName),
                     eContent = getEncryptedContent(credentialToSave))
+
         return createSuccess
     }
 

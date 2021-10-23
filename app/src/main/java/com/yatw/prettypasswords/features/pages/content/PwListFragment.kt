@@ -28,6 +28,7 @@ import com.yatw.prettypasswords.databinding.FragmentPwListBinding
 import com.yatw.prettypasswords.databinding.ItemEntryBinding
 import com.yatw.prettypasswords.model.Password
 import com.yatw.prettypasswords.view.popups.AddEntry
+import timber.log.Timber
 
 
 class PwListFragment: Fragment() {
@@ -78,28 +79,6 @@ class PwListFragment: Fragment() {
             binding.noPw.visibility = View.GONE
         }
     }
-
-    private var doubleBackToExitPressedOnce = false
-    private fun handleBackPress(){
-        if (doubleBackToExitPressedOnce) {
-
-            // Back to home
-            // https://stackoverflow.com/a/52568072/5777189
-            val intent = Intent(Intent.ACTION_MAIN)
-            intent.addCategory(Intent.CATEGORY_HOME)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
-            return
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(requireContext(), "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
-
-        Handler(Looper.getMainLooper()).postDelayed(Runnable {
-            doubleBackToExitPressedOnce = false
-        }, 2000)
-    }
-
 
     // inner = Non Static Nested classes
     inner class PasswordListAdapter(val context: Context): RecyclerView.Adapter<PasswordListAdapter.PwViewHolder>() {
@@ -215,6 +194,27 @@ class PwListFragment: Fragment() {
                 findNavController().navigate(action)
             }
         }
+    }
 
+
+    private var doubleBackToExitPressedOnce = false
+    private fun handleBackPress(){
+        if (doubleBackToExitPressedOnce) {
+
+            // Back to home
+            // https://stackoverflow.com/a/52568072/5777189
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addCategory(Intent.CATEGORY_HOME)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(requireContext(), "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+            doubleBackToExitPressedOnce = false
+        }, 2000)
     }
 }

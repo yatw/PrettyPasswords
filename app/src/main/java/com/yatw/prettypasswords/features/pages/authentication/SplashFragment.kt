@@ -34,7 +34,7 @@ class SplashFragment: Fragment() {
 
             if (credential != null && credential.hasSk()) {  // have credential and already login
                 Handler(Looper.getMainLooper()).postDelayed({
-                    findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+                    findNavController().navigate(R.id.action_splashFragment_to_homeActivity)
                 }, 800)
             }else{
                 Handler(Looper.getMainLooper()).postDelayed({

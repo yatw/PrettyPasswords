@@ -1,46 +1,49 @@
-package com.yatw.prettypasswords.features.pages.content
+package com.yatw.prettypasswords.features.pages
 
 import android.os.Bundle
-import android.view.*
+import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.enums.PopupAnimation
 import com.yatw.prettypasswords.R
-import com.yatw.prettypasswords.databinding.FragmentHomeBinding
+import com.yatw.prettypasswords.databinding.ActivityHomeBinding
 import com.yatw.prettypasswords.globals.PrettyManager
 import com.yatw.prettypasswords.view.popups.QuickMessage
-import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.activity_home.view.*
 
 
-class HomeFragment: Fragment() {
+class HomeActivity : AppCompatActivity() {
 
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: ActivityHomeBinding
+    private lateinit var navController: NavController
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val header = binding.navView.getHeaderView(0)
+        val userName = header.findViewById<TextView>(R.id.nav_username)
+        userName.text = PrettyManager.u.getUserName()
 
         // bind the drawer with the navigation graph
 
-        // I used  findNavController() doesn't work, see
+        // findNavController() never worked for me, see
         //https://stackoverflow.com/questions/65375389/how-to-set-bottomnavigationview-inside-fragment
-        val navHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_home) as NavHostFragment
-        val navController = navHostFragment.navController
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_home) as NavHostFragment
+        navController = navHostFragment.navController
+
+
+        // Don't set up drawer layout with navController, unable to handle system back click close drawer
         binding.drawerLayout.nav_view.setupWithNavController(navController)
 
         // bind the toolbar with navigation graph
@@ -55,20 +58,21 @@ class HomeFragment: Fragment() {
             // You need this line to handle the navigation
             val handled = NavigationUI.onNavDestinationSelected(item, navController)
             when (item.itemId) {
+
                 R.id.btn_faq -> {
-                    XPopup.Builder(context)
+                    XPopup.Builder(this)
                         .offsetX(100)
                         .offsetY(200)
                         .popupAnimation(PopupAnimation.TranslateAlphaFromRight)
-                        .asCustom(QuickMessage(requireContext(), "Wasn't expecting any FAQ, \nthanks for clicking anyway"))
+                        .asCustom(QuickMessage(this, "Wasn't expecting any FAQ, \nthanks for clicking anyway"))
                         .show()
                 }
                 R.id.btn_bug -> {
-                    XPopup.Builder(context)
+                    XPopup.Builder(this)
                         .offsetX(100)
                         .offsetY(400)
                         .popupAnimation(PopupAnimation.TranslateFromBottom)
-                        .asCustom(QuickMessage(requireContext(), "It's not a bug, it's a feature !!"))
+                        .asCustom(QuickMessage(this, "It's not a bug, it's a feature !!"))
                         .show()
                 }
 
@@ -79,14 +83,23 @@ class HomeFragment: Fragment() {
         }
 
         binding.btnLogout.setOnClickListener {
-            PrettyManager.u.logout(requireContext())
-            findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
-            Toast.makeText(requireContext(), "You have logout!", Toast.LENGTH_SHORT).show()
+            PrettyManager.u.logout(this)
+            Toast.makeText(this, "You have logout!", Toast.LENGTH_SHORT).show()
+            finish()
         }
+    }
 
-        val header = binding.navView.getHeaderView(0)
-        val userName = header.findViewById<TextView>(R.id.nav_username)
-        userName.text = PrettyManager.u.getUserName()
+
+    override fun onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)){
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            return
+        }
+        if (navController.previousBackStackEntry != null){
+            navController.navigateUp()
+            return
+        }
+        super.onBackPressed() // need this to invoke PwListFragment's onBackPressedDispatcher.addCallback
     }
 
 }

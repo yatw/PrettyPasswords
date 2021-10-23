@@ -65,7 +65,7 @@ class SignInFragment: Fragment() {
 
                 if (PrettyManager.u.loginByPassword(requireActivity(), masterPassword)){
                     Toast.makeText(activity, "Login Success", Toast.LENGTH_SHORT).show()
-                    requireActivity().findNavController(R.id.main_nav_host).navigate(R.id.action_signInFragment_to_homeFragment)
+                    requireActivity().findNavController(R.id.main_nav_host).navigate(R.id.action_signInFragment_to_homeActivity)
                 }else{
                     showAlert(activity, "Incorrect Credential", "")
                 }

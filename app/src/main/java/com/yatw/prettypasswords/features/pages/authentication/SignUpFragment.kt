@@ -74,7 +74,7 @@ class SignUpFragment: Fragment() {
 
                 PrettyManager.createUser(requireActivity().applicationContext, userName, masterPassword)
                 Toast.makeText(context, "User $userName created", Toast.LENGTH_SHORT).show()
-                requireActivity().findNavController(R.id.main_nav_host).navigate(R.id.action_signUpFragment_to_homeFragment)
+                requireActivity().findNavController(R.id.main_nav_host).navigate(R.id.action_signUpFragment_to_homeActivity)
             }
         })
 
